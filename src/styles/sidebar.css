@@ -1,0 +1,10 @@
+.sidebar-icon-only  .sidebar{
+    min-width: calc(25% - 226px);
+}
+.sidebar{
+    min-height: calc(100%);
+
+}
+nav#sidebar .nav-item.nav-profile {
+    margin-top: 30px;
+}

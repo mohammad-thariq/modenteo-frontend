@@ -1,0 +1,27 @@
+/* src/ColorPalette.css */
+.color-palette {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Arial, sans-serif;
+  }
+  
+  .colors {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .color {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .color.selected {
+    border: 2px solid #D14F41;
+    transform: scale(1.1);
+  }
+  

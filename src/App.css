@@ -1,0 +1,24 @@
+.btn-gradient-primary{
+  background: #da627d;
+}
+.btn-gradient-primary:hover{
+  background: #da627d;
+}
+.auth-link {
+  color: #da627d !important;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+a.homelink {
+  margin-left: 5px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #fff;
+}

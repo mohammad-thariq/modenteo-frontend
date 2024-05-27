@@ -1,0 +1,153 @@
+.register-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.register-left {
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-wrapper {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  background: #fff;
+  padding: 60px 40px;
+  border-radius: 20px;
+  width: 560px;
+}
+
+.card-welcome {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1px;
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+.card-signin {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 1px;
+  color: #da627d;
+  margin: 0px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.register-form>label {
+  margin: 0 !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1px;
+  color: #495057;
+}
+
+.register-form>input {
+  height: 40px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 300;
+  background-color: #fafafa;
+  border: 1px solid #ebebeb;
+  border-radius: 0;
+  margin-bottom: 0 !important;
+  padding: 0.875rem 1rem !important;
+  transition: all 0.3s;
+  box-shadow: none;
+  border-radius: 5px;
+}
+
+.singup-connect {
+  margin: 0 !important;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 1px;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-content>span {
+  color: #da627d;
+  cursor: pointer;
+}
+
+.register-right {
+  width: 30%;
+  background-color: #da627d;
+  position: relative;
+}
+
+.register-right>img {
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-content-sb {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.gap-rem {
+  gap: 0.8rem !important;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.errorMessage {
+  margin-top: 5px !important;
+  color: red;
+  font-size: 12px;
+}
+
+
+@media screen and (max-width:700px) {
+  .register-right {
+    display: none;
+  }
+
+  .input-register {
+    display: block;
+  }
+  .register-wrapper{
+    height: unset;
+  }
+  .singup-connect {
+    display: block !important;
+  }
+
+  .register-wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .register-left {
+    width: 100%;
+  }
+
+  .card-wrapper {
+    margin: 12px;
+  }
+}

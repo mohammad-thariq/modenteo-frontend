@@ -1,0 +1,94 @@
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.badge-gradient-active {
+  background: linear-gradient(to right, #84d9d2, #07cdae);
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.badge-gradient-inactive {
+  background: linear-gradient(to right, #ffbf96, #fe7096);
+  color: #ffffff;
+  text-transform: capitalize;
+}
+
+.header-category {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+/* The Modal (background) */
+.modal {
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  padding-top: 100px;
+  /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: black;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: fixed;
+  right: 30px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.row.form-modal .form-control, .row.form-modal .form-group {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+
+.error{
+  color: red;
+}
+.btn-primary{
+  z-index: 0;
+}
+
+.modal-header {
+  border-bottom: none;
+}

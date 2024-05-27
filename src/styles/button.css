@@ -1,0 +1,17 @@
+.btn-wrapper {
+  font-weight: 400;
+  color: #67748e;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 10px 26px;
+  font-size: 16px;
+  border-radius: 2rem;
+  margin-bottom: 10px;
+  transition: all 0.15s ease-in;
+}

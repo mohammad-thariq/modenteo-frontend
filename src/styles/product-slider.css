@@ -1,0 +1,78 @@
+.product-slider {
+  width: 100%;
+}
+.sectitle{
+    text-transform: capitalize;
+    font-weight: 700;
+    color: rgb(218, 98, 125);
+    text-align: center;
+    font-size: 35px !important;
+}
+.subtitle {
+  text-align: center;
+}
+.slider-container ,.mobile-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide-item {
+  flex: 0 0 25%; /* Display 4 images in a row */
+  padding: 5px;
+}
+
+.slide-item img {
+  width: 100%;
+  height: auto;
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: none; 
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.prev-btn {
+  left: 0;
+}
+
+.next-btn {
+  right: 0;
+}
+
+/* Show buttons on hover */
+.slider-container:hover .prev-btn,
+.slider-container:hover .next-btn {
+  display: block;
+}
+
+.mobile-slider:hover .prev-btn,
+.mobile-slider:hover .next-btn {
+  display: block;
+}
+
+.mobile-slider .slides {
+  display: block;
+}
+.mobile-slider .prev-btn,
+.mobile-slider .next-btn {
+  display: block;
+}

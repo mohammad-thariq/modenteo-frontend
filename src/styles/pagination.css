@@ -1,0 +1,36 @@
+/* Pagination css */
+.pagination-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  list-style: none;
+}
+
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link:hover {
+  color: #da627d;
+}
+
+.page-link {
+  padding: 5px 10px;
+  cursor: pointer;
+  color: #da627d;
+}
+
+.page-item.active .page-link {
+  background-color: #da627d !important;
+  border-color: #da627d !important;
+}
+
+td.actions-order svg {
+  margin-left: 5px;
+  margin-right: 5px;
+}

@@ -1,0 +1,32 @@
+.no-record-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #777;
+}
+
+.no-record-animation {
+    width: 100px;
+    height: 100px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    animation: bounce 1s ease infinite alternate;
+}
+
+.no-record-message {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-10px);
+    }
+}
