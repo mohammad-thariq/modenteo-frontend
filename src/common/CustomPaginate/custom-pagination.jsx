@@ -46,7 +46,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
           <a
             className="page-link page-link-prev"
-            href="#"
+            href="/"
             aria-label="Previous"
             tabIndex={currentPage === 1 ? -1 : 0}
             aria-disabled={currentPage === 1}
@@ -63,7 +63,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
             <li className="page-item">
               <a
                 className="page-link"
-                href="#"
+                href="/"
                 onClick={(e) => handlePageClick(e, 1)}
               >
                 1
@@ -101,7 +101,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
             <li className="page-item">
               <a
                 className="page-link"
-                href="#"
+                href="/"
                 onClick={(e) => handlePageClick(e, totalPages)}
               >
                 {totalPages}
@@ -116,7 +116,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
         >
           <a
             className="page-link page-link-next"
-            href="#"
+            href="/"
             aria-label="Next"
             tabIndex={currentPage === totalPages ? -1 : 0}
             aria-disabled={currentPage === totalPages}

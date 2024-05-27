@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { Reload } from "../../helper/base";
-import { EmailAvatar, NameAvatar } from "../Avatar/avatar";
+import { NameAvatar } from "../Avatar/avatar";
 
 const Header = () => {
   const [isClassAdded, setIsClassAdded] = useState(true);
@@ -12,7 +12,7 @@ const Header = () => {
     LocalStorageHelper?.removeItem(localStorageConst.USER);
     LocalStorageHelper?.removeItem(localStorageConst.EXPIREIN);
     LocalStorageHelper?.removeItem(localStorageConst.REMEMBER);
-    Reload()
+    Reload();
   };
   let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
 
@@ -72,7 +72,6 @@ const Header = () => {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-
               <NameAvatar name={userDetails?.name} />
               {/*  */}
               {/* <span className="availability-status online"></span> */}
@@ -85,7 +84,9 @@ const Header = () => {
                 />
               </div> */}
               <div className="nav-profile-text">
-                <p className="mb-1 text-black">{userDetails?.name || "Modenteo"}</p>
+                <p className="mb-1 text-black">
+                  {userDetails?.name || "Modenteo"}
+                </p>
               </div>
             </a>
           </li>

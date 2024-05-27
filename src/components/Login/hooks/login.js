@@ -10,12 +10,11 @@ const { login } = new AuthorizationApi();
 
 export const handleLogin = async (data) => {
   const res = await login(data);
-  console.log(res, 'resr');
-  if (res?.code == "ERR_NETWORK") {
+  console.log(res, "resr");
+  if (res?.code === "ERR_NETWORK") {
     ToastifyFailed(`${res?.message}`);
     return res;
-  }
-  else if (res?.response?.data?.error) {
+  } else if (res?.response?.data?.error) {
     ToastifyFailed(`${res?.response?.data?.error}`);
     return res;
   } else {
@@ -29,6 +28,6 @@ export const handleLogin = async (data) => {
     ToastifySuccess(`Welcome Back ${user.name}`);
     setTimeout(() => {
       Redirect("/");
-    }, 100)
+    }, 100);
   }
 };

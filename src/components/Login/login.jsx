@@ -39,7 +39,7 @@ const Login = () => {
             initialValues={{ email: "", password: "" }}
             validationSchema={schema}
             onSubmit={async (values, actions) => {
-              let loginRes = await handleLogin({
+              await handleLogin({
                 email: values.email,
                 password: values.password,
                 type: "user",

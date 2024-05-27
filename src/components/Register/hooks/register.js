@@ -8,11 +8,10 @@ const { register } = new AuthorizationApi();
 
 export const handleRegister = async (data) => {
   const res = await register(data);
-  if (res?.code == "ERR_NETWORK") {
+  if (res?.code === "ERR_NETWORK") {
     ToastifyFailed(`${res?.message}`);
     return res;
-  }
-  else if (res?.response?.data?.error) {
+  } else if (res?.response?.data?.error) {
     ToastifyFailed(`${res?.response?.data?.error}`);
     return res;
   } else {
