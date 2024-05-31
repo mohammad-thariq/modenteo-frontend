@@ -8,7 +8,7 @@ export class ManageCategoriesApi {
     };
 
     productMenuCategory = async () => {
-        const res = await _axios("get", `/menu-categories`);
+        const res = await _axios("get", `/menu/categories`);
         return res;
     };
 
