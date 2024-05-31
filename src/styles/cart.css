@@ -1429,3 +1429,12 @@ td.quantity-col .btn {
 .cart-product-quantity input.form-control {
     height: 39px;
 }
+.empty-cart {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.empty-cart .continue-shopping {
+    width: 280px;
+}
