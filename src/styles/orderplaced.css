@@ -1,0 +1,28 @@
+.order-placed .thank-you-icon {
+    margin-bottom: 20px;
+  }
+  
+  .order-placed .center-btn {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .order-placed .center-btn .btn:hover{
+    color: white;
+  }
+  .order-placed .center-btn .btn {
+    width: 250px; 
+    border-radius: 8px;
+  }
+  .thank-you-icon{
+    display: flex;
+    justify-content: center;
+  }
+  .thank-you-icon ion-icon{
+    height: 80px;
+    width: 80px;
+  }
+  .center-btn{
+    gap: 5px;
+    display: flex;
+    justify-content: center;
+  }

@@ -23,6 +23,7 @@ import {
   ProfilePage,
   ChildCategoryPage,
   CheckoutPage,
+  OrderPlacedPage,
 } from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
@@ -82,6 +83,14 @@ const App = () => {
               element={
                 <Base>
                   <CheckoutPage />
+                </Base>
+              }
+            />
+            <Route
+              path="/order-sucess"
+              element={
+                <Base>
+                  <OrderPlacedPage />
                 </Base>
               }
             />

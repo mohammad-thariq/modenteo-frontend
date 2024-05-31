@@ -13,4 +13,5 @@ import MainCategory from "./Category/MainCategory/maincategory";
 import SubCategory from "./Category/SubCategory/subcategory";
 import ChildCategory from "./Category/ChildCategory/childcategory";
 import Checkout from "./Checkout/checkout";
-export { Login, Checkout, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }
+import OrderPlaced from "./OrderPlaced/orderplaced";
+export { OrderPlaced, Login, Checkout, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }

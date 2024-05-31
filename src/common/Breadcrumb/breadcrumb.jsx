@@ -22,7 +22,7 @@ const Breadcrumb = () => {
                         const isLast = index === paths.length - 1;
                         return (
                             <li key={index} className={`breadcrumb-item ${isLast ? 'active' : ''}`} aria-current={isLast ? 'page' : undefined}>
-                                <Link to={pathTo}>{path}</Link>
+                                <Link to={pathTo}>{path.replace(/-/g, " ")}</Link>
                                 {!isLast && <IonIcon icon={chevronForwardOutline} />}
                             </li>
                         );

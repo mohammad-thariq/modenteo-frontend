@@ -13,9 +13,11 @@ import ProductPage from "./Product/product";
 import ProfilePage from "./Profile/profile";
 import WishlistPage from "./Wishlist/wishlist";
 import { MainCategoryPage, SubCategoryPage, ChildCategoryPage } from "./Category/category";
+import OrderPlacedPage from "./OrderPlaced/orderplaced";
 export {
   LoginPage,
   HomePage,
+  OrderPlacedPage,
   RegistrationPage,
   ForgotPasswordPage,
   BaseAccount,
