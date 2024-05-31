@@ -15,21 +15,26 @@ const WebsiteHeader = () => {
   const isLoggedIn = userDetails ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
   const {
-    productMenuCategory
+    productMenuCategory, productMenuSubCategory
   } = new ManageCategoriesApi();
 
   const { data } = useQuery('menu-categories', productMenuCategory);
+  const { data: subCat } = useQuery('menu-sub-categories', productMenuSubCategory);
 
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
       setcategories(data?.response)
     }
-  }, [data])
+    if (subCat && subCat.response && Array.isArray(subCat.response)) {
+      setsubcategories(subCat?.response)
+    }
+  }, [data, subCat])
   const [categories, setcategories] = useState([]);
+  const [subcategories, setsubcategories] = useState([]);
 
   const toggleAccordion = (id) => {
-    setcategories(
-      categories.map((acc) => {
+    setsubcategories(
+      subcategories.map((acc) => {
         if (acc.id === id) {
           return { ...acc, isOpen: !acc.isOpen };
         }
@@ -112,7 +117,7 @@ const WebsiteHeader = () => {
                 Categories
               </a>
               <div className="dropdown-panel">
-                {categories.length > 0 && categories.map((cat,key) => {
+                {categories.length > 0 && categories.map((cat, key) => {
                   return (
                     <ul className="dropdown-panel-list" key={key}>
                       <li className="menu-title">
@@ -143,13 +148,13 @@ const WebsiteHeader = () => {
 
               </div>
             </li>
-            {categories.length > 0 && categories.map((cat) => {
+            {subcategories.length > 0 && subcategories.map((cat) => {
               return (
                 <li className="menu-category">
                   <a className="menu-title" href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
                   <ul className="dropdown-list">
                     {
-                      cat?.subCategory.map((subcat) => {
+                      cat?.childCategory.map((subcat) => {
                         return (
                           <li className="dropdown-item">
                             <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
@@ -199,7 +204,7 @@ const WebsiteHeader = () => {
             </a>
           </li>
 
-          {categories.length > 0 && categories.map((cat) => {
+          {subcategories.length > 0 && subcategories.map((cat) => {
             return (
               <li key={cat?.id} className="menu-category">
                 <button className={cat?.isOpen ? "accordion-menu active" : "accordion-menu"} onClick={() => toggleAccordion(cat?.id)}>
@@ -209,9 +214,9 @@ const WebsiteHeader = () => {
                     <IonIcon className="remove-icon" icon={removeOutline} />
                   </div>
                 </button>
-                {cat?.subCategory.length > 0 && (
+                {cat?.childCategory.length > 0 && (
                   <ul className={cat?.isOpen ? "submenu-category-list active" : "submenu-category-list"}>
-                    {cat?.subCategory.map((subcat, index) => {
+                    {cat?.childCategory.map((subcat, index) => {
                       return (
                         <li key={index} className="submenu-category">
                           <a href="/" className="submenu-title">
