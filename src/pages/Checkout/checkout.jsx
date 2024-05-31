@@ -1,5 +1,6 @@
 import React from "react";
-const CheckoutPage =()=>{
-    return (<p>CheckoutPage</p>)
+import { Checkout } from "../../components";
+const CheckoutPage = () => {
+    return (<Checkout />)
 }
 export default CheckoutPage;

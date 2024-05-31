@@ -22,6 +22,7 @@ import {
   WishlistPage,
   ProfilePage,
   ChildCategoryPage,
+  CheckoutPage,
 } from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
@@ -68,6 +69,30 @@ const App = () => {
                 </BaseAccount>
               }
             />
+            <Route
+              path="/wishlist"
+              element={
+                <Base>
+                  <WishlistPage />
+                </Base>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <Base>
+                  <CheckoutPage />
+                </Base>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <Base>
+                  <CartPage />
+                </Base>
+              }
+            />
           </>
         )}
         <Route
@@ -95,14 +120,7 @@ const App = () => {
             </Base>
           }
         />
-        <Route
-          path="/wishlist"
-          element={
-            <Base>
-              <WishlistPage />
-            </Base>
-          }
-        />
+
         <Route
           path="/product/:id"
           element={
@@ -111,14 +129,7 @@ const App = () => {
             </Base>
           }
         />
-        <Route
-          path="/cart"
-          element={
-            <Base>
-              <CartPage />
-            </Base>
-          }
-        />
+
         {!isLoggedIn && (
           <>
             <Route path="/login" element={<LoginPage />} />

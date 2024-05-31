@@ -1088,10 +1088,6 @@ button {
     text-transform: none;
 }
 
-[type=submit],
-button {
-    -webkit-appearance: button;
-}
 
 [type=submit]:not(:disabled),
 button:not(:disabled) {

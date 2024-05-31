@@ -12,4 +12,5 @@ import Profile from "./Profile/profile";
 import MainCategory from "./Category/MainCategory/maincategory";
 import SubCategory from "./Category/SubCategory/subcategory";
 import ChildCategory from "./Category/ChildCategory/childcategory";
-export { Login, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }
+import Checkout from "./Checkout/checkout";
+export { Login, Checkout, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }

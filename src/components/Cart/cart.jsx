@@ -159,7 +159,7 @@ const Cart = () => {
                       </tr>
                     </tbody>
                   </table>
-                  <Link to="checkout.html" className="btn btn-outline-primary-2 btn-order btn-block">
+                  <Link to="/checkout" className="btn btn-outline-primary-2 btn-order btn-block">
                     PROCEED TO CHECKOUT
                   </Link>
                 </div>
