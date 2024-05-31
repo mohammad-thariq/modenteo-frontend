@@ -1438,3 +1438,6 @@ td.quantity-col .btn {
 .empty-cart .continue-shopping {
     width: 280px;
 }
+.btn-decrement, .btn-increment{
+    border: none !important;
+}
