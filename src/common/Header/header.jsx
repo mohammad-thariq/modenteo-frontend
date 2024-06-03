@@ -7,7 +7,7 @@ import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ManageCategoriesApi } from "../../service";
 import { useQuery } from "react-query";
-import { BACKEND_BASE_URL } from "../../constants/url";
+import { BACKEND_IMG_URL } from "../../constants/url";
 const WebsiteHeader = () => {
   const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
@@ -145,7 +145,7 @@ const WebsiteHeader = () => {
                       <li className="panel-list-item img">
                         <a href={"/category/" + cat?.categorySlug}>
                           <img
-                            src={BACKEND_BASE_URL + cat?.image}
+                            src={BACKEND_IMG_URL + cat?.image}
                             alt={cat?.categoryName}
                             width="250"
                             height="119"
