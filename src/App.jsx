@@ -114,6 +114,15 @@ const App = () => {
         />
         <Route
           exact
+          path="/category/new/:id"
+          element={
+            <Base>
+              <ChildCategoryPage />
+            </Base>
+          }
+        />
+        <Route
+          exact
           path="/category/:cat/:id"
           element={
             <Base>

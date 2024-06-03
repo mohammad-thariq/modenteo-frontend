@@ -15,12 +15,17 @@ const WebsiteHeader = () => {
   const isLoggedIn = userDetails ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
   const {
-    productMenuCategory, productMenuSubCategory
+    productMenuCategory, productMenuSubCategory, productMenuNew, productMenuSeasons
   } = new ManageCategoriesApi();
 
   const { data } = useQuery('menu-categories', productMenuCategory);
   const { data: subCat } = useQuery('menu-sub-categories', productMenuSubCategory);
-
+  const { data: seasons } = useQuery('menu-seasons', productMenuSeasons);
+  const { data: newCollections } = useQuery('menu-new-collections', productMenuNew);
+  const [categories, setcategories] = useState([]);
+  const [subcategories, setsubcategories] = useState([]);
+  const [seasoncollections, setSeasonalCollections] = useState([]);
+  const [newcollectionsmenu, setNewCollections] = useState([]);
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
       setcategories(data?.response)
@@ -28,9 +33,14 @@ const WebsiteHeader = () => {
     if (subCat && subCat.response && Array.isArray(subCat.response)) {
       setsubcategories(subCat?.response)
     }
-  }, [data, subCat])
-  const [categories, setcategories] = useState([]);
-  const [subcategories, setsubcategories] = useState([]);
+    if (seasons && seasons.response && Array.isArray(seasons.response)) {
+      setSeasonalCollections(seasons?.response)
+    }
+    if (newCollections && newCollections.response && Array.isArray(newCollections.response)) {
+      setNewCollections(newCollections?.response)
+    }
+  }, [data, subCat, seasons, newCollections])
+
 
   const toggleAccordion = (id) => {
     setsubcategories(
@@ -166,15 +176,38 @@ const WebsiteHeader = () => {
                 </li>
               )
             })}
+
             <li className="menu-category">
               <a href="/" className="menu-title">
                 New
               </a>
+              <ul className="dropdown-list">
+                {
+                  newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu) => {
+                    return (
+                      <li className="dropdown-item">
+                        <a href={"/category/new/" + menu?.slug}>{menu?.name}</a>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
             </li>
             <li className="menu-category">
               <a href="/" className="menu-title">
                 Season
               </a>
+              <ul className="dropdown-list">
+                {
+                  seasoncollections.length > 0 && seasoncollections.map((menu) => {
+                    return (
+                      <li className="dropdown-item">
+                        <a href={"/category/" + menu?.slug}>{menu?.name}</a>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
             </li>
 
           </ul>

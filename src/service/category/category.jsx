@@ -17,11 +17,19 @@ export class ManageCategoriesApi {
         return res;
     };
 
+    productMenuSeasons = async () => {
+        const res = await _axios("get", `/menu/seasons`);
+        return res;
+    };
+    productMenuNew = async () => {
+        const res = await _axios("get", `/menu/new-collections`);
+        return res;
+    };
     categorySubcategory = async (id) => {
         const res = await _axios("get", `/category/subcategory/` + id);
         return res;
     };
-    
+
 
     productSubCategory = async () => {
         const res = await _axios(
