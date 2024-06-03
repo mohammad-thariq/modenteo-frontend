@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
-import { checkmarkCircleOutline, cartOutline } from "ionicons/icons";
+import { checkmarkCircleOutline } from "ionicons/icons";
 import { Breadcrumb } from "../../common";
 import "../../styles/orderplaced.css";
 

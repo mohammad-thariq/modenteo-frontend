@@ -146,7 +146,7 @@ const WebsiteHeader = () => {
                         <a href={"/category/" + cat?.categorySlug}>
                           <img
                             src={BACKEND_BASE_URL + cat?.image}
-                            alt="headphone collection"
+                            alt={cat?.categoryName}
                             width="250"
                             height="119"
                           />
