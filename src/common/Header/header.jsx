@@ -7,6 +7,7 @@ import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ManageCategoriesApi } from "../../service";
 import { useQuery } from "react-query";
+import { getNextJsOptimizedUrl } from "../../helper/image";
 import { BACKEND_IMG_URL } from "../../constants/url";
 const WebsiteHeader = () => {
   const navigate = useNavigate();
@@ -52,6 +53,8 @@ const WebsiteHeader = () => {
       })
     );
   };
+
+
   const wishlistBtn = (<button className="action-btn" onClick={() => { isLoggedIn ? navigate("/wishlist") : navigate("/login"); }}><IonIcon icon={heartOutline} /><span className="count">0</span></button>);
   const searchBtn = (<div className="header-search-container"><input type="search" name="search" className="search-field" placeholder="Enter your product name..." /><button className="search-btn"><IonIcon icon={searchOutline} /></button></div>);
   const personOutlineBtn = (<button className="action-btn" onClick={() => { isLoggedIn ? navigate("/dashboard") : navigate("/login"); }}><IonIcon icon={personOutline} /></button>);
@@ -129,14 +132,14 @@ const WebsiteHeader = () => {
               <div className="dropdown-panel">
                 {categories.length > 0 && categories.map((cat, key) => {
                   return (
-                    <ul className="dropdown-panel-list" key={key}>
+                    <ul className="dropdown-panel-list" key={key + 1}>
                       <li className="menu-title">
                         <a href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
                       </li>
                       {
-                        cat?.subCategory.map((subcat) => {
+                        cat?.subCategory.map((subcat, k) => {
                           return (
-                            <li className="panel-list-item">
+                            <li className="panel-list-item" key={k + 1}>
                               <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
                             </li>
                           )
@@ -145,7 +148,7 @@ const WebsiteHeader = () => {
                       <li className="panel-list-item img">
                         <a href={"/category/" + cat?.categorySlug}>
                           <img
-                            src={BACKEND_IMG_URL + cat?.image}
+                            src={getNextJsOptimizedUrl(BACKEND_IMG_URL + cat?.image, 96, 75)}
                             alt={cat?.categoryName}
                             width="250"
                             height="119"
@@ -164,9 +167,9 @@ const WebsiteHeader = () => {
                   <a className="menu-title" href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
                   <ul className="dropdown-list">
                     {
-                      cat?.childCategory.map((subcat) => {
+                      cat?.childCategory.map((subcat, key) => {
                         return (
-                          <li className="dropdown-item">
+                          <li className="dropdown-item" key={key + 1}>
                             <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
                           </li>
                         )
@@ -183,9 +186,9 @@ const WebsiteHeader = () => {
               </a>
               <ul className="dropdown-list">
                 {
-                  newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu) => {
+                  newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu, key) => {
                     return (
-                      <li className="dropdown-item">
+                      <li className="dropdown-item" key={key + 1}>
                         <a href={"/category/new/" + menu?.slug}>{menu?.name}</a>
                       </li>
                     )
@@ -199,9 +202,9 @@ const WebsiteHeader = () => {
               </a>
               <ul className="dropdown-list">
                 {
-                  seasoncollections.length > 0 && seasoncollections.map((menu) => {
+                  seasoncollections.length > 0 && seasoncollections.map((menu, key) => {
                     return (
-                      <li className="dropdown-item">
+                      <li className="dropdown-item" key={key + 1}>
                         <a href={"/category/" + menu?.slug}>{menu?.name}</a>
                       </li>
                     )
