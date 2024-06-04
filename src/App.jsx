@@ -23,7 +23,7 @@ import {
   ProfilePage,
   ChildCategoryPage,
   CheckoutPage,
-  OrderPlacedPage,
+  OrderPlacedPage, SeasonsPage, NewListingPage
 } from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
@@ -109,6 +109,22 @@ const App = () => {
           element={
             <Base>
               <MainCategoryPage />
+            </Base>
+          }
+        />
+        <Route
+          path="/new"
+          element={
+            <Base>
+              <NewListingPage />
+            </Base>
+          }
+        />
+        <Route
+          path="/seasons"
+          element={
+            <Base>
+              <SeasonsPage />
             </Base>
           }
         />

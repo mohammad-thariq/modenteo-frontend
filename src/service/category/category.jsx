@@ -12,10 +12,6 @@ export class ManageCategoriesApi {
         return res;
     };
 
-    productMenuSubCategory = async () => {
-        const res = await _axios("get", `/menu/sub-categories/child-categories`);
-        return res;
-    };
 
     productMenuSeasons = async () => {
         const res = await _axios("get", `/menu/seasons`);

@@ -1,3 +1,4 @@
 import { ManageCategoriesApi } from "./category/category";
 import { AuthorizationApi } from "./auth/auth";
-export { ManageCategoriesApi, AuthorizationApi }
+import { ManageMenusApi } from "./menu/menu";
+export { ManageCategoriesApi, ManageMenusApi, AuthorizationApi }

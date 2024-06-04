@@ -16,36 +16,32 @@ const WebsiteHeader = () => {
   const isLoggedIn = userDetails ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
   const {
-    productMenuCategory, productMenuSubCategory, productMenuNew, productMenuSeasons
+    productMenuCategory, productMenuNew, productMenuSeasons
   } = new ManageCategoriesApi();
 
   const { data } = useQuery('menu-categories', productMenuCategory);
-  const { data: subCat } = useQuery('menu-sub-categories', productMenuSubCategory);
   const { data: seasons } = useQuery('menu-seasons', productMenuSeasons);
   const { data: newCollections } = useQuery('menu-new-collections', productMenuNew);
   const [categories, setcategories] = useState([]);
-  const [subcategories, setsubcategories] = useState([]);
   const [seasoncollections, setSeasonalCollections] = useState([]);
   const [newcollectionsmenu, setNewCollections] = useState([]);
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
       setcategories(data?.response)
     }
-    if (subCat && subCat.response && Array.isArray(subCat.response)) {
-      setsubcategories(subCat?.response)
-    }
+
     if (seasons && seasons.response && Array.isArray(seasons.response)) {
       setSeasonalCollections(seasons?.response)
     }
     if (newCollections && newCollections.response && Array.isArray(newCollections.response)) {
       setNewCollections(newCollections?.response)
     }
-  }, [data, subCat, seasons, newCollections])
+  }, [data, seasons, newCollections])
 
 
   const toggleAccordion = (id) => {
-    setsubcategories(
-      subcategories.map((acc) => {
+    setcategories(
+      categories.map((acc) => {
         if (acc.id === id) {
           return { ...acc, isOpen: !acc.isOpen };
         }
@@ -129,45 +125,14 @@ const WebsiteHeader = () => {
               <a href="/categories" className="menu-title">
                 Categories
               </a>
-              <div className="dropdown-panel">
-                {categories.length > 0 && categories.map((cat, key) => {
-                  return (
-                    <ul className="dropdown-panel-list" key={key + 1}>
-                      <li className="menu-title">
-                        <a href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
-                      </li>
-                      {
-                        cat?.subCategory.map((subcat, k) => {
-                          return (
-                            <li className="panel-list-item" key={k + 1}>
-                              <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
-                            </li>
-                          )
-                        })
-                      }
-                      <li className="panel-list-item img">
-                        <a href={"/category/" + cat?.categorySlug}>
-                          <img
-                            src={getNextJsOptimizedUrl(BACKEND_IMG_URL + cat?.image, 96, 75)}
-                            alt={cat?.categoryName}
-                            width="250"
-                            height="119"
-                          />
-                        </a>
-                      </li>
-                    </ul>
-                  )
-                })}
-
-              </div>
             </li>
-            {subcategories.length > 0 && subcategories.map((cat) => {
+            {categories.length > 0 && categories.map((cat) => {
               return (
                 <li className="menu-category">
                   <a className="menu-title" href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
                   <ul className="dropdown-list">
                     {
-                      cat?.childCategory.map((subcat, key) => {
+                      cat?.subCategory.map((subcat, key) => {
                         return (
                           <li className="dropdown-item" key={key + 1}>
                             <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
@@ -181,10 +146,10 @@ const WebsiteHeader = () => {
             })}
 
             <li className="menu-category">
-              <a href="/" className="menu-title">
+              <a href="/new" className="menu-title">
                 New
               </a>
-              <ul className="dropdown-list">
+              {newcollectionsmenu.length > 0 && <ul className="dropdown-list">
                 {
                   newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu, key) => {
                     return (
@@ -194,13 +159,13 @@ const WebsiteHeader = () => {
                     )
                   })
                 }
-              </ul>
+              </ul>}
             </li>
             <li className="menu-category">
-              <a href="/" className="menu-title">
+              <a href="/seasons" className="menu-title">
                 Season
               </a>
-              <ul className="dropdown-list">
+              {seasoncollections.length > 0 && <ul className="dropdown-list">
                 {
                   seasoncollections.length > 0 && seasoncollections.map((menu, key) => {
                     return (
@@ -210,7 +175,7 @@ const WebsiteHeader = () => {
                     )
                   })
                 }
-              </ul>
+              </ul>}
             </li>
 
           </ul>
@@ -239,8 +204,12 @@ const WebsiteHeader = () => {
               Home
             </a>
           </li>
-
-          {subcategories.length > 0 && subcategories.map((cat) => {
+          <li className="menu-category">
+            <a href="/categories" className="menu-title">
+              Categories
+            </a>
+          </li>
+          {categories.length > 0 && categories.map((cat) => {
             return (
               <li key={cat?.id} className="menu-category">
                 <button className={cat?.isOpen ? "accordion-menu active" : "accordion-menu"} onClick={() => toggleAccordion(cat?.id)}>
@@ -250,9 +219,9 @@ const WebsiteHeader = () => {
                     <IonIcon className="remove-icon" icon={removeOutline} />
                   </div>
                 </button>
-                {cat?.childCategory.length > 0 && (
+                {cat?.subCategory.length > 0 && (
                   <ul className={cat?.isOpen ? "submenu-category-list active" : "submenu-category-list"}>
-                    {cat?.childCategory.map((subcat, index) => {
+                    {cat?.subCategory.map((subcat, index) => {
                       return (
                         <li key={index} className="submenu-category">
                           <a href="/" className="submenu-title">
@@ -266,6 +235,16 @@ const WebsiteHeader = () => {
               </li>
             );
           })}
+          <li className="menu-category">
+            <a href="/new" className="menu-title">
+              New
+            </a>
+          </li>
+          <li className="menu-category">
+            <a href="/seasons" className="menu-title">
+              Seasons
+            </a>
+          </li>
         </ul>
 
         <div className="menu-bottom">
