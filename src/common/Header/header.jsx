@@ -154,7 +154,7 @@ const WebsiteHeader = () => {
                   newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu, key) => {
                     return (
                       <li className="dropdown-item" key={key + 1}>
-                        <a href={"/category/new/" + menu?.slug}>{menu?.name}</a>
+                        <a href={"/new/" + menu?.slug}>{menu?.name}</a>
                       </li>
                     )
                   })
@@ -170,7 +170,7 @@ const WebsiteHeader = () => {
                   seasoncollections.length > 0 && seasoncollections.map((menu, key) => {
                     return (
                       <li className="dropdown-item" key={key + 1}>
-                        <a href={"/category/" + menu?.slug}>{menu?.name}</a>
+                        <a href={"/collection/" + menu?.slug}>{menu?.name}</a>
                       </li>
                     )
                   })

@@ -22,7 +22,7 @@ const Seasons = () => {
     }
 
     // Ensure data is not null or undefined and contains the 'categories' property
-    if (!data || !data.categories || !Array.isArray(data.categories)) {
+    if (!data || !data.collections || !Array.isArray(data.collections)) {
         return <NoRecordFound />;
     }
 
@@ -30,13 +30,13 @@ const Seasons = () => {
         <section className="cat-outer-section">
             <div className="container">
                 <div className="row">
-                    {data.categories.map(item => (
+                    {data.collections.map(item => (
                         <div key={item.slug} className="col-sm-6 col-md-6 col-lg-4">
                             <div className="category-section-blocks">
-                                <Link to={BASE_URL + "category/" + item.slug} className="cat-list-img">
+                                <Link to={BASE_URL + "collection/" + item.slug} className="cat-list-img">
                                     <img src={getNextJsOptimizedUrl(BACKEND_IMG_URL + item.image, 96, 75)} alt={item.name} />
                                 </Link>
-                                <Link to={BASE_URL + "category/" + item.slug}>{item.name}</Link>
+                                <Link to={BASE_URL + "collection/" + item.slug}>{item.name}</Link>
                             </div>
                         </div>
                     ))}

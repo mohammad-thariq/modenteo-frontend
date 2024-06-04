@@ -15,10 +15,10 @@ import WishlistPage from "./Wishlist/wishlist";
 import { MainCategoryPage, SubCategoryPage, ChildCategoryPage } from "./Category/category";
 import OrderPlacedPage from "./OrderPlaced/orderplaced";
 import SeasonsPage from "./Seasons/seasons";
-import NewListingPage from "./NewListing/newlisting";
+import NewCollectionsPage from "./NewCollections/newcollections";
 export {
   SeasonsPage,
-  NewListingPage,
+  NewCollectionsPage,
   LoginPage,
   HomePage,
   OrderPlacedPage,

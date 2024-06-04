@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../../../styles/category.css';
 import { ManageCategoriesApi } from '../../../service';
 import { useQuery } from "react-query";
-import {  BASE_URL ,BACKEND_IMG_URL} from '../../../constants/url';
+import { BASE_URL, BACKEND_IMG_URL } from '../../../constants/url';
 import { Loading, NoRecordFound } from '../../../common';
 import { useParams } from 'react-router-dom';
 import { getNextJsOptimizedUrl } from '../../../helper/image';
