@@ -14,19 +14,20 @@ import {
 import { useNavigate } from "react-router-dom";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
-import { ManageCategoriesApi } from "../../service";
+import { ManageCategoriesApi, ManageCartApi, ManageWishlistApi } from "../../service";
 import { useQuery } from "react-query";
-// import { getNextJsOptimizedUrl } from "../../helper/image";
-// import { BACKEND_IMG_URL } from "../../constants/url";
+const { getCart } = new ManageCartApi();
+const { getWishlist } = new ManageWishlistApi();
+const fetchCart = (userID) => () => getCart(userID);
+const fetchWishlist = (userID) => () => getWishlist(userID);
 const WebsiteHeader = () => {
   const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
-  let userDetails = LocalStorageHelper?.getItem(localStorageConst?.JWTUSER);
-  const isLoggedIn = userDetails ? true : false;
+  let userToken = LocalStorageHelper?.getItem(localStorageConst?.JWTUSER);
+  let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
+  const isLoggedIn = userToken ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
-  const { productMenuCategory, productMenuNew, productMenuSeasons } =
-    new ManageCategoriesApi();
-
+  const { productMenuCategory, productMenuNew, productMenuSeasons } = new ManageCategoriesApi();
   const { data } = useQuery("menu-categories", productMenuCategory);
   const { data: seasons } = useQuery("menu-seasons", productMenuSeasons);
   const { data: newCollections } = useQuery(
@@ -36,6 +37,22 @@ const WebsiteHeader = () => {
   const [categories, setcategories] = useState([]);
   const [seasoncollections, setSeasonalCollections] = useState([]);
   const [newcollectionsmenu, setNewCollections] = useState([]);
+  const { data: cartData } = useQuery('cart', fetchCart(userDetails?.id),{ enabled: userDetails != null ? true : false });
+  const { data: wishlistData } = useQuery('wishlist', fetchWishlist(userDetails?.id), { enabled: userDetails != null ? true : false });
+
+
+  const [cartItems, setCartItems] = useState([]);
+  const [wishlistItems, setwishlistItems] = useState([]);
+
+  useEffect(() => {
+    if (cartData?.data && Array.isArray(cartData?.data)) {
+      setCartItems(cartData?.data);
+    }
+    if (wishlistData?.data && Array.isArray(wishlistData?.data)) {
+      setwishlistItems(wishlistData?.data);
+    }
+  }, [cartData, wishlistData])
+
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
       setcategories(data?.response);
@@ -72,7 +89,7 @@ const WebsiteHeader = () => {
       }}
     >
       <IonIcon icon={heartOutline} />
-      <span className="count">0</span>
+      <span className="count">{wishlistItems.length}</span>
     </button>
   );
   const searchBtn = (
@@ -106,7 +123,7 @@ const WebsiteHeader = () => {
       }}
     >
       <IonIcon icon={bagHandleOutline} />
-      <span className="count">0</span>
+      <span className="count">{cartItems.length}</span>
     </button>
   );
   useEffect(() => {

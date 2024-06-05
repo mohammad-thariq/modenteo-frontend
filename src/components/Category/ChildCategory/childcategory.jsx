@@ -17,7 +17,7 @@ const ChildCategory = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const totalPages = Math.ceil(data?.data.length / itemsPerPage);
+    const totalPages = data ? Math.ceil(data?.data.length / itemsPerPage):0;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

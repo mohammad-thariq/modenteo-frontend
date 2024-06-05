@@ -3,4 +3,5 @@ import { AuthorizationApi } from "./auth/auth";
 import { ManageMenusApi } from "./menu/menu";
 import { ManageProductsApi } from "./products/products";
 import { ManageCartApi } from "./cart/cart";
-export { ManageCartApi,ManageCategoriesApi, ManageMenusApi, AuthorizationApi, ManageProductsApi }
+import { ManageWishlistApi } from "./wishlist/wishlist";
+export { ManageWishlistApi, ManageCartApi, ManageCategoriesApi, ManageMenusApi, AuthorizationApi, ManageProductsApi }

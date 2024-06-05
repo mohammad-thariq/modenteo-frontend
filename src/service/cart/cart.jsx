@@ -8,7 +8,7 @@ export class ManageCartApi {
 
 
     addCart = async (data) => {
-        console.log(data,'datadata')
+        console.log(data, 'datadata')
 
         const res = await _axios(
             "post",
@@ -29,10 +29,10 @@ export class ManageCartApi {
         return res;
     };
 
-    deleteCart = async (data) => {
-        const res = await _axios("delete", `/cart/delete/${data.id}`);
+    deleteCart = async (id) => {
+        const res = await _axios("delete", `/cart/delete/${id}`);
         return res;
     };
-    
+
 
 }

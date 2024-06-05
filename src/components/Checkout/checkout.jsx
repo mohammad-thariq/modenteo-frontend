@@ -1,41 +1,49 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { closeOutline, cartOutline, refreshOutline } from "ionicons/icons";
-import { Breadcrumb } from "../../common";
+import { Breadcrumb, Loading, Error } from "../../common";
 import "../../styles/checkout.css";
+import { ManageCartApi } from "../../service";
+import { LocalStorageHelper } from "../../utils/localStorage";
+import { localStorageConst } from "../../constants/localStorage";
+import { useQuery } from "react-query";
+const { getCart } = new ManageCartApi();
+const fetchCart = (userID) => () => getCart(userID);
+
 
 const Checkout = () => {
-    const [cartItems, setCartItems] = useState([
-        {
-            id: 1,
-            name: "Beige knitted elastic runner shoes",
-            price: 84.0,
-            quantity: 1,
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-2.jpg",
-        },
-        {
-            id: 2,
-            name: "Blue utility pinafore denim dress",
-            price: 76.0,
-            quantity: 1,
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-4.jpg",
-        },
-    ]);
+    let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
 
+    const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
+    const [cartItems, setCartItems] = useState([]);
+
+    useEffect(() => {
+        if (cartData?.data && Array.isArray(cartData?.data)) {
+            setCartItems(cartData?.data);
+        }
+    }, [cartData])
     const handleRemove = (id) => {
         setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
     };
 
     const calculateTotal = () => {
-        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+        return cartItems.reduce((total, item) => total + (item.offer_price <= 0 ? item.price : item.offer_price) * item.quantity, 0).toFixed(2);
     };
-
     const handleSubmit = (event) => {
         event.preventDefault();
         // Implement your form submission logic here
         console.log("Checkout form submitted");
     };
+
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        return <Error message={error.message} onRetry={refetch} />
+    }
+
 
     return (
         <div className="cart page-content">
@@ -73,7 +81,7 @@ const Checkout = () => {
                                                     </td>
                                                     <td className="price-col">${item.price.toFixed(2)}</td>
                                                     <td className="quantity-col">{item.quantity}</td>
-                                                    <td className="total-col">${(item.price * item.quantity).toFixed(2)}</td>
+                                                    <td className="total-col">${(item.offer_price <= 0 ? item.price : item.offer_price)}</td>
                                                     <td className="remove-col">
                                                         <button className="btn-remove" onClick={() => handleRemove(item.id)}>
                                                             <IonIcon icon={closeOutline} />

@@ -1,15 +1,15 @@
 import React from 'react';
 import '../../styles/product.css'; // Import the CSS file for styling
 import { IonIcon } from '@ionic/react';
-import { heartOutline, cartOutline } from 'ionicons/icons';
+import { heartOutline, cartOutline, heartDislike } from 'ionicons/icons';
 import { FaStar } from 'react-icons/fa'; // Using react-icons for star icons
 import { BASE_URL } from '../../constants/url';
 import { useMutation, useQuery } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
-import { ManageCartApi } from '../../service';
+import { ManageCartApi, ManageWishlistApi } from '../../service';
 import { LocalStorageHelper } from '../../utils/localStorage';
 import { localStorageConst } from '../../constants/localStorage';
-import { Loading, Error } from '../../common';
+import { Redirect } from '../../helper/base';
 const StarRating = ({ rating, reviews }) => {
     const totalStars = 5;
 
@@ -32,46 +32,86 @@ const StarRating = ({ rating, reviews }) => {
     );
 };
 const { getCart, addCart } = new ManageCartApi();
+const { getWishlist, addWishlist, deleteWishlist } = new ManageWishlistApi();
 const fetchCart = (userID) => () => getCart(userID);
+const fetchWishlist = (userID) => () => getWishlist(userID);
 
 const ProductCard = ({ data }) => {
     let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
+    const { data: cartData, refetch } = useQuery('cart', fetchCart(userDetails?.id), { enabled: userDetails != null ? true : false });
+    const { data: wishlistData, refetch: refetchWishlist } = useQuery('wishlist', fetchWishlist(userDetails?.id), { enabled: userDetails != null ? true : false });
 
-    const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
-    console.log(cartData, 'cartData')
+
     const { mutate: createCart } = useMutation(addCart, {
         onSuccess: (data) => {
-            ToastifySuccess(data?.message);
-            console.log(data, 'onSuccess');
+            ToastifySuccess("Product Added to Cart");
+            refetch();
+
         },
         onError: (error) => {
-            console.log(error, 'onError');
             ToastifyFailed(error?.message);
         },
     });
 
-    const handleAddToWishlist = () => {
-        // Logic for adding to Wishlist
-        console.log('Add to Wishlist');
-    };
+    function checkCartExists(productId) {
+        if (cartData?.data !== undefined) {
+            return cartData?.data.some(item => item.product_id === productId);
+        } else {
+            return false;
+        }
+    }
+    function checkWishslistExists(productId) {
+        if (wishlistData?.data !== undefined) {
+            return wishlistData?.data.some(item => item.product_id === productId && item.user_id === userDetails?.id);
+        } else {
+            return false;
+        }
+    }
 
     const handleAddToCart = (data) => {
         if (userDetails) {
-            console.log(userDetails, 'userDetails')
-            let cartData = { product_id: data?.id, user_id: userDetails?.id, quantity: 1 };
+            let cartData = { product_id: data.id, user_id: userDetails?.id, quantity: 1 };
             createCart(cartData);
-            refetch();
         } else {
-            ToastifyFailed('User not logged in');
+            ToastifyFailed('Please log in to add products to your cart');
         }
     };
-    if (isLoading) {
-        return <Loading />;
-    }
 
-    if (isError) {
-        return <Error message={error.message} onRetry={refetch} />
-    }
+    const { mutate: createWishlist } = useMutation(addWishlist, {
+        onSuccess: (data) => {
+            ToastifySuccess("Product Added to Wishlist");
+            refetchWishlist();
+
+        },
+        onError: (error) => {
+            ToastifyFailed(error?.message);
+        },
+    });
+    const { mutate: removeWishlist } = useMutation(deleteWishlist, {
+        onSuccess: (data) => {
+            ToastifySuccess("Wishlist Removed");
+            refetchWishlist();
+
+        },
+        onError: (error) => {
+            ToastifyFailed(error?.message);
+        },
+    });
+    const handleAddToWishlist = (data) => {
+        if (userDetails) {
+            let wishlistData = { product_id: data.id, user_id: userDetails?.id };
+            createWishlist(wishlistData);
+        } else {
+            ToastifyFailed('Please log in to add products to your wishlist');
+        }
+    };
+
+    const handleRemoveWishlist = (data) => {
+        let getwishlist = wishlistData?.data.find(item => item.product_id === data?.id && item.user_id === userDetails?.id);
+        if (getwishlist) {
+            removeWishlist(getwishlist?.id);
+        }
+    };
 
     return (
         <div className="product product-7">
@@ -84,17 +124,24 @@ const ProductCard = ({ data }) => {
                         alt={data?.name} className="product-image" />
                 </a>
                 <div className="product-action-vertical">
-                    <button className="btn-product-icon btn-wishlist btn-expandable" onClick={handleAddToWishlist}>
+                    {checkWishslistExists(data.id) ? <button className="btn-product-icon btn-wishlist" onClick={() => { handleRemoveWishlist(data) }}>
+                        <IonIcon icon={heartDislike} />
+                        <span>View wishlist</span>
+                    </button> : <button className="btn-product-icon btn-wishlist" onClick={() => handleAddToWishlist(data)}>
                         <IonIcon icon={heartOutline} />
                         <span>Add to wishlist</span>
-                    </button>
+                    </button>}
                 </div>
 
                 <div className="product-action">
-                    <button className="btn-product btn-cart" onClick={() => handleAddToCart(data)}>
+                    {checkCartExists(data.id) ? <button className="btn-product btn-cart" onClick={() => Redirect('/cart')}>
                         <IonIcon icon={cartOutline} />
-                        <span className='add-to-cart-btn'>Add to cart</span>
-                    </button>
+                        <span className='add-to-cart-btn'>View cart</span>
+                    </button> :
+                        <button className="btn-product btn-cart" onClick={() => handleAddToCart(data)}>
+                            <IonIcon icon={cartOutline} />
+                            <span className='add-to-cart-btn'>Add to cart</span>
+                        </button>}
                 </div>
             </figure>
 

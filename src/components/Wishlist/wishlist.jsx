@@ -1,52 +1,74 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IonIcon } from '@ionic/react';
 import { Breadcrumb } from '../../common';
-import {
-    cartOutline,
-    closeOutline,
-    logoFacebook,
-    logoTwitter,
-    logoInstagram,
-    logoYoutube,
-    logoWhatsapp,
-    heartDislikeOutline,refreshOutline
-} from 'ionicons/icons';
+import { cartOutline, closeOutline, logoFacebook, logoTwitter, logoInstagram, logoYoutube, logoWhatsapp, heartDislikeOutline, refreshOutline } from 'ionicons/icons';
+import { useMutation, useQuery } from "react-query";
+import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import '../../styles/wishlist.css';
+import { ManageWishlistApi, ManageCartApi } from '../../service';
+import { LocalStorageHelper } from '../../utils/localStorage';
+import { localStorageConst } from '../../constants/localStorage';
+import { Redirect } from '../../helper/base';
+const { getWishlist, deleteWishlist } = new ManageWishlistApi();
+const fetchWishlist = (userID) => () => getWishlist(userID);
+const { getCart, addCart } = new ManageCartApi();
+
+const fetchCart = (userID) => () => getCart(userID);
 
 const Wishlist = () => {
-    const [wishlistItems, setWishlistItems] = useState([
-        {
-            id: 1,
-            image: process.env.PUBLIC_URL + '/assets/home/images/products/clothes-2.jpg',
-            title: 'Beige knitted elastic runner shoes',
-            price: 84.0,
-            stockStatus: 'In stock',
-        },
-        {
-            id: 2,
-            image: process.env.PUBLIC_URL + '/assets/home/images/products/clothes-3.jpg',
-            title: 'Blue utility pinafore denim dress',
-            price: 76.0,
-            stockStatus: 'In stock',
-        },
-        {
-            id: 3,
-            image: process.env.PUBLIC_URL + '/assets/home/images/products/clothes-4.jpg',
-            title: 'Orange saddle lock front chain cross body bag',
-            price: 52.0,
-            stockStatus: 'Out of stock',
-        },
-    ]);
+    let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
+    const { data: cartData, refetch } = useQuery('cart', fetchCart(userDetails?.id), { enabled: userDetails != null ? true : false });
 
+    const { data: wishlistData, refetch: refetchWishlist } = useQuery('wishlist', fetchWishlist(userDetails?.id), { enabled: userDetails != null ? true : false });
+    const [wishlistItems, setWishlistItems] = useState([]);
+
+    useEffect(() => {
+        if (wishlistData?.data && Array.isArray(wishlistData?.data)) {
+            setWishlistItems(wishlistData?.data);
+        }
+    }, [wishlistData])
+
+    const { mutate: createCart } = useMutation(addCart, {
+        onSuccess: () => {
+            ToastifySuccess("Product Added to Cart");
+            refetch();
+
+        },
+        onError: (error) => {
+            ToastifyFailed(error?.message);
+        },
+    });
+
+    const { mutate: removeWishlist } = useMutation(deleteWishlist, {
+        onSuccess: () => {
+            ToastifySuccess("Wishlist Removed");
+            refetchWishlist();
+
+        },
+        onError: (error) => {
+            ToastifyFailed(error?.message);
+        },
+    });
     const handleAddToCart = (id) => {
-        // Implement your logic to add the item to the cart here
-        console.log(`Item with id ${id} added to cart`);
+        if (userDetails) {
+            let cartData = { product_id: id, user_id: userDetails?.id, quantity: 1 };
+            createCart(cartData);
+        } else {
+            ToastifyFailed('Please log in to add products to your cart');
+        }
     };
 
     const handleRemove = (id) => {
-        setWishlistItems(wishlistItems.filter((item) => item.id !== id));
+        removeWishlist(id);
     };
+    function checkCartExists(productId) {
+        if (cartData?.data !== undefined) {
+            return cartData?.data.some(item => item.product_id === productId);
+        } else {
+            return false;
+        }
+    }
 
     return (
         <div className="cart page-content">
@@ -75,24 +97,26 @@ const Wishlist = () => {
                                                     </Link>
                                                 </figure>
                                                 <h3 className="product-title">
-                                                    <Link to="#">{item.title}</Link>
+                                                    <Link to="#">{item.name}</Link>
                                                 </h3>
                                             </div>
                                         </td>
-                                        <td className="price-col">${item.price.toFixed(2)}</td>
+                                        <td className="price-col">${(item.offer_price <= 0 ? item.price.toFixed(2) : item.offer_price.toFixed(2))}</td>
                                         <td className="stock-col">
-                                            <span className={item.stockStatus === 'In stock' ? 'in-stock' : 'out-of-stock'}>
-                                                {item.stockStatus}
+                                            <span className={item.stock_quantity > 0 ? 'in-stock' : 'out-of-stock'}>
+                                                {item.stock_quantity > 0 ? 'In Stock' : 'Out of Stock'}
                                             </span>
                                         </td>
                                         <td className="action-col">
-                                            {item.stockStatus === 'In stock' ? (
-                                                <button
-                                                    className="btn btn-cart btn-block btn-outline-primary-2"
-                                                    onClick={() => handleAddToCart(item.id)}
-                                                >
-                                                    <IonIcon icon={cartOutline} /> Add to Cart
-                                                </button>
+                                            {item.stock_quantity > 0 ? (
+                                                checkCartExists(item?.product_id) ?
+                                                    <button className="btn btn-cart btn-block btn-outline-primary-2" onClick={() => Redirect('/cart')} >
+                                                        <IonIcon icon={cartOutline} /> View Cart
+                                                    </button>
+                                                    :
+                                                    <button className="btn btn-cart btn-block btn-outline-primary-2" onClick={() => handleAddToCart(item.product_id)} >
+                                                        <IonIcon icon={cartOutline} /> Add to Cart
+                                                    </button>
                                             ) : (
                                                 <button className="btn btn-cart btn-block btn-outline-primary-2 disabled">
                                                     Out of Stock
