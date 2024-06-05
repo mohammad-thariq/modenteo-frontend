@@ -37,7 +37,7 @@ const WebsiteHeader = () => {
   const [categories, setcategories] = useState([]);
   const [seasoncollections, setSeasonalCollections] = useState([]);
   const [newcollectionsmenu, setNewCollections] = useState([]);
-  const { data: cartData } = useQuery('cart', fetchCart(userDetails?.id),{ enabled: userDetails != null ? true : false });
+  const { data: cartData } = useQuery('cart', fetchCart(userDetails?.id), { enabled: userDetails != null ? true : false });
   const { data: wishlistData } = useQuery('wishlist', fetchWishlist(userDetails?.id), { enabled: userDetails != null ? true : false });
 
 
@@ -250,7 +250,7 @@ const WebsiteHeader = () => {
                     newcollectionsmenu.map((menu, key) => {
                       return (
                         <li className="dropdown-item" key={key + 1}>
-                          <a href={"/new/" + menu?.slug}>{menu?.name}</a>
+                          <a href={"/products?slug=" + menu?.slug}>{menu?.name}</a>
                         </li>
                       );
                     })}
@@ -267,7 +267,7 @@ const WebsiteHeader = () => {
                     seasoncollections.map((menu, key) => {
                       return (
                         <li className="dropdown-item" key={key + 1}>
-                          <a href={"/collection/" + menu?.slug}>{menu?.name}</a>
+                          <a href={"/products?slug=" + menu?.slug}>{menu?.name}</a>
                         </li>
                       );
                     })}

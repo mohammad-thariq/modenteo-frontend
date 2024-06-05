@@ -6,18 +6,20 @@ import { CustomPagination, Loading, Error, NoRecordFound } from '../../../common
 import Filter from '../../Filter/filter';
 import FilterGrid from '../../FilterGrid/filter-grid';
 import { useQuery } from "react-query";
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 const { subcategoryProducts } = new ManageProductsApi();
 const fetchSubcategoryProducts = (cat, subcat) => () => subcategoryProducts(cat, subcat);
 
 const ChildCategory = () => {
-
+    const [searchParams] = useSearchParams();
+    const slug = searchParams.get('slug');
+    console.log(slug,'slug')
     const { id, cat } = useParams();
-    const { data, isLoading, isError, error, refetch } = useQuery('subcategory-product', fetchSubcategoryProducts(cat, id));
+    const { data, isLoading, isError, error, refetch } = useQuery('subcategory-product', fetchSubcategoryProducts(cat, id), { enabled: id != null ? true : false });
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const totalPages = data ? Math.ceil(data?.data.length / itemsPerPage):0;
+    const totalPages = data ? Math.ceil(data?.data.length / itemsPerPage) : 0;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);

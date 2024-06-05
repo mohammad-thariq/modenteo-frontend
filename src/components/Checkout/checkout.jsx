@@ -70,12 +70,12 @@ const Checkout = () => {
                                                     <td className="product-col">
                                                         <div className="product">
                                                             <figure className="product-media">
-                                                                <Link to="#">
+                                                            <Link to={"/product/" + item?.slug}>
                                                                     <img src={item.image} alt="Product" />
                                                                 </Link>
                                                             </figure>
                                                             <h3 className="product-title">
-                                                                <Link to="#">{item.name}</Link>
+                                                            <Link to={"/product/" + item?.slug}>{item.name}</Link>
                                                             </h3>
                                                         </div>
                                                     </td>

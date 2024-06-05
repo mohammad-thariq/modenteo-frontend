@@ -3,7 +3,6 @@ import '../../styles/product.css'; // Import the CSS file for styling
 import { IonIcon } from '@ionic/react';
 import { heartOutline, cartOutline, heartDislike } from 'ionicons/icons';
 import { FaStar } from 'react-icons/fa'; // Using react-icons for star icons
-import { BASE_URL } from '../../constants/url';
 import { useMutation, useQuery } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import { ManageCartApi, ManageWishlistApi } from '../../service';
@@ -119,7 +118,7 @@ const ProductCard = ({ data }) => {
                 {data?.type === 'new' ? <span className="product-label label-new">New</span> : data?.type === 'top' ?
                     <span className="product-label label-top">Top</span> : data?.type === 'out' ?
                         <span className="product-label label-out">Out of Stock</span> : <></>}
-                <a href={BASE_URL + "product/" + data?.slug}>
+                <a href={"/product/" + data?.slug}>
                     <img src={process.env.PUBLIC_URL + "/assets/home/images/products/1.jpg"}
                         alt={data?.name} className="product-image" />
                 </a>
@@ -147,7 +146,7 @@ const ProductCard = ({ data }) => {
 
             <div className="product-body">
                 <h3 className="product-title">
-                    <a href={BASE_URL + "product/" + data?.slug}>{data?.name}</a>
+                    <a href={"/product/" + data?.slug}>{data?.name}</a>
                 </h3>
                 <div className="product-price">
                     <span className={data?.offer_price !== 0 && data?.offer_price !== null ? 'defaultPrice strikeout' : 'defaultPrice'}>${data?.price}</span>

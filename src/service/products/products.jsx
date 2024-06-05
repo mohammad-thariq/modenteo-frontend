@@ -7,6 +7,9 @@ export class ManageProductsApi {
         return res;
     };
 
-
+    productbySlug = async (slug) => {
+        const res = await _axios("get", `/products-slug/` + slug);
+        return res;
+    };
 
 }

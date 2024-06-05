@@ -128,24 +128,6 @@ const App = () => {
             </Base>
           }
         />
-         <Route
-          exact
-          path="/collection/:id"
-          element={
-            <Base>
-              <NewCollectionsPage />
-            </Base>
-          }
-        />
-        <Route
-          exact
-          path="/new/:id"
-          element={
-            <Base>
-              <NewCollectionsPage />
-            </Base>
-          }
-        />
         <Route
           exact
           path="/category/:cat/:id"
@@ -164,6 +146,14 @@ const App = () => {
           }
         />
 
+        <Route
+          path="/products"
+          element={
+            <Base>
+              <ChildCategoryPage />
+            </Base>
+          }
+        />
         <Route
           path="/product/:id"
           element={

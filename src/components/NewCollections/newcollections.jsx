@@ -29,12 +29,12 @@ const NewCollections = () => {
             <div key={item.slug} className="col-sm-6 col-md-6 col-lg-4">
               <div className="category-section-blocks">
                 <Link
-                  to={BASE_URL + "new/" + item.slug}
+                  to={BASE_URL + "products?slug=" + item.slug}
                   className="cat-list-img"
                 >
                   <img src={item.image} alt={item.name} />
                 </Link>
-                <Link to={BASE_URL + "new/" + item.slug}>{item.name}</Link>
+                <Link to={BASE_URL + "products?slug=" + item.slug}>{item.name}</Link>
               </div>
             </div>
           ))}

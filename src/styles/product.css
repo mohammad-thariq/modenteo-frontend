@@ -107,3 +107,6 @@
   span.add-to-cart-btn {
     margin-left: 10px;
 }
+.product-details-action.cart-screen .btn-product:hover span {
+  color: #fff !important;
+}

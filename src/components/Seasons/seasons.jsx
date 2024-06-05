@@ -33,10 +33,10 @@ const Seasons = () => {
                     {data.collections.map(item => (
                         <div key={item.slug} className="col-sm-6 col-md-6 col-lg-4">
                             <div className="category-section-blocks">
-                                <Link to={BASE_URL + "collection/" + item.slug} className="cat-list-img">
+                                <Link to={BASE_URL + "products?slug=" + item.slug} className="cat-list-img">
                                     <img src={getNextJsOptimizedUrl(BACKEND_IMG_URL + item.image, 96, 75)} alt={item.name} />
                                 </Link>
-                                <Link to={BASE_URL + "collection/" + item.slug}>{item.name}</Link>
+                                <Link to={BASE_URL + "products?slug=" + item.slug}>{item.name}</Link>
                             </div>
                         </div>
                     ))}
