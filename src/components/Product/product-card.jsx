@@ -4,12 +4,12 @@ import { IonIcon } from '@ionic/react';
 import { heartOutline, cartOutline } from 'ionicons/icons';
 import { FaStar } from 'react-icons/fa'; // Using react-icons for star icons
 import { BASE_URL } from '../../constants/url';
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import { ManageCartApi } from '../../service';
 import { LocalStorageHelper } from '../../utils/localStorage';
 import { localStorageConst } from '../../constants/localStorage';
-
+import { Loading, Error } from '../../common';
 const StarRating = ({ rating, reviews }) => {
     const totalStars = 5;
 
@@ -31,9 +31,14 @@ const StarRating = ({ rating, reviews }) => {
         </div>
     );
 };
+const { getCart, addCart } = new ManageCartApi();
+const fetchCart = (userID) => () => getCart(userID);
 
 const ProductCard = ({ data }) => {
-    const { addCart } = new ManageCartApi();
+    let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
+
+    const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
+    console.log(cartData, 'cartData')
     const { mutate: createCart } = useMutation(addCart, {
         onSuccess: (data) => {
             ToastifySuccess(data?.message);
@@ -51,15 +56,22 @@ const ProductCard = ({ data }) => {
     };
 
     const handleAddToCart = (data) => {
-        let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
         if (userDetails) {
-            console.log(userDetails,'userDetails')
+            console.log(userDetails, 'userDetails')
             let cartData = { product_id: data?.id, user_id: userDetails?.id, quantity: 1 };
             createCart(cartData);
+            refetch();
         } else {
             ToastifyFailed('User not logged in');
         }
     };
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        return <Error message={error.message} onRetry={refetch} />
+    }
 
     return (
         <div className="product product-7">

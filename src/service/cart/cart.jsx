@@ -1,6 +1,11 @@
 import { _axios } from "../../helper/axios";
 
 export class ManageCartApi {
+    getCart = async (id) => {
+        const res = await _axios("get", `/cart/${id}`);
+        return res;
+    };
+
 
     addCart = async (data) => {
         console.log(data,'datadata')
@@ -28,7 +33,6 @@ export class ManageCartApi {
         const res = await _axios("delete", `/cart/delete/${data.id}`);
         return res;
     };
-
-
+    
 
 }
