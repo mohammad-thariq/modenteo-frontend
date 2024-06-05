@@ -53,7 +53,8 @@ const ProductCard = ({ data }) => {
     const handleAddToCart = (data) => {
         let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
         if (userDetails) {
-            createCart({ product_id: data?.id, user_id: userDetails?.id });
+            let cartData = { product_id: data?.id, user_id: userDetails?.id, quantity: 1 };
+            createCart(cartData);
         } else {
             ToastifyFailed('User not logged in');
         }
