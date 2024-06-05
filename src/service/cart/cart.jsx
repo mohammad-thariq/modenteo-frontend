@@ -2,7 +2,8 @@ import { _axios } from "../../helper/axios";
 
 export class ManageCartApi {
 
-    addCart = async ({ data }) => {
+    addCart = async (data) => {
+        console.log(data,'datadata')
 
         const res = await _axios(
             "post",

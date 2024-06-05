@@ -33,7 +33,7 @@ const StarRating = ({ rating, reviews }) => {
 };
 
 const ProductCard = ({ data }) => {
-    const { addCart } = ManageCartApi;
+    const { addCart } = new ManageCartApi();
     const { mutate: createCart } = useMutation(addCart, {
         onSuccess: (data) => {
             ToastifySuccess(data?.message);
@@ -53,6 +53,7 @@ const ProductCard = ({ data }) => {
     const handleAddToCart = (data) => {
         let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
         if (userDetails) {
+            console.log(userDetails,'userDetails')
             let cartData = { product_id: data?.id, user_id: userDetails?.id, quantity: 1 };
             createCart(cartData);
         } else {
