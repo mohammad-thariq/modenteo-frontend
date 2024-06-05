@@ -1,43 +1,57 @@
 import React, { useEffect, useState } from "react";
 import { Social } from "../Social/social";
 import { IonIcon } from "@ionic/react";
-import { searchOutline, personOutline, heartOutline, bagHandleOutline, closeOutline, menuOutline, addOutline, removeOutline, } from "ionicons/icons";
+import {
+  searchOutline,
+  personOutline,
+  heartOutline,
+  bagHandleOutline,
+  closeOutline,
+  menuOutline,
+  addOutline,
+  removeOutline,
+} from "ionicons/icons";
 import { useNavigate } from "react-router-dom";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ManageCategoriesApi } from "../../service";
 import { useQuery } from "react-query";
-import { getNextJsOptimizedUrl } from "../../helper/image";
-import { BACKEND_IMG_URL } from "../../constants/url";
+// import { getNextJsOptimizedUrl } from "../../helper/image";
+// import { BACKEND_IMG_URL } from "../../constants/url";
 const WebsiteHeader = () => {
   const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
   let userDetails = LocalStorageHelper?.getItem(localStorageConst?.JWTUSER);
   const isLoggedIn = userDetails ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
-  const {
-    productMenuCategory, productMenuNew, productMenuSeasons
-  } = new ManageCategoriesApi();
+  const { productMenuCategory, productMenuNew, productMenuSeasons } =
+    new ManageCategoriesApi();
 
-  const { data } = useQuery('menu-categories', productMenuCategory);
-  const { data: seasons } = useQuery('menu-seasons', productMenuSeasons);
-  const { data: newCollections } = useQuery('menu-new-collections', productMenuNew);
+  const { data } = useQuery("menu-categories", productMenuCategory);
+  const { data: seasons } = useQuery("menu-seasons", productMenuSeasons);
+  const { data: newCollections } = useQuery(
+    "menu-new-collections",
+    productMenuNew
+  );
   const [categories, setcategories] = useState([]);
   const [seasoncollections, setSeasonalCollections] = useState([]);
   const [newcollectionsmenu, setNewCollections] = useState([]);
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
-      setcategories(data?.response)
+      setcategories(data?.response);
     }
 
     if (seasons && seasons.response && Array.isArray(seasons.response)) {
-      setSeasonalCollections(seasons?.response)
+      setSeasonalCollections(seasons?.response);
     }
-    if (newCollections && newCollections.response && Array.isArray(newCollections.response)) {
-      setNewCollections(newCollections?.response)
+    if (
+      newCollections &&
+      newCollections.response &&
+      Array.isArray(newCollections.response)
+    ) {
+      setNewCollections(newCollections?.response);
     }
-  }, [data, seasons, newCollections])
-
+  }, [data, seasons, newCollections]);
 
   const toggleAccordion = (id) => {
     setcategories(
@@ -50,11 +64,51 @@ const WebsiteHeader = () => {
     );
   };
 
-
-  const wishlistBtn = (<button className="action-btn" onClick={() => { isLoggedIn ? navigate("/wishlist") : navigate("/login"); }}><IonIcon icon={heartOutline} /><span className="count">0</span></button>);
-  const searchBtn = (<div className="header-search-container"><input type="search" name="search" className="search-field" placeholder="Enter your product name..." /><button className="search-btn"><IonIcon icon={searchOutline} /></button></div>);
-  const personOutlineBtn = (<button className="action-btn" onClick={() => { isLoggedIn ? navigate("/dashboard") : navigate("/login"); }}><IonIcon icon={personOutline} /></button>);
-  const cartBtn = (<button className="action-btn" onClick={() => { isLoggedIn ? navigate("/cart") : navigate("/login"); }}><IonIcon icon={bagHandleOutline} /><span className="count">0</span></button>);
+  const wishlistBtn = (
+    <button
+      className="action-btn"
+      onClick={() => {
+        isLoggedIn ? navigate("/wishlist") : navigate("/login");
+      }}
+    >
+      <IonIcon icon={heartOutline} />
+      <span className="count">0</span>
+    </button>
+  );
+  const searchBtn = (
+    <div className="header-search-container">
+      <input
+        type="search"
+        name="search"
+        className="search-field"
+        placeholder="Enter your product name..."
+      />
+      <button className="search-btn">
+        <IonIcon icon={searchOutline} />
+      </button>
+    </div>
+  );
+  const personOutlineBtn = (
+    <button
+      className="action-btn"
+      onClick={() => {
+        isLoggedIn ? navigate("/dashboard") : navigate("/login");
+      }}
+    >
+      <IonIcon icon={personOutline} />
+    </button>
+  );
+  const cartBtn = (
+    <button
+      className="action-btn"
+      onClick={() => {
+        isLoggedIn ? navigate("/cart") : navigate("/login");
+      }}
+    >
+      <IonIcon icon={bagHandleOutline} />
+      <span className="count">0</span>
+    </button>
+  );
   useEffect(() => {
     const header = document.getElementById("myHeader");
     const sticky = header.offsetTop;
@@ -102,18 +156,29 @@ const WebsiteHeader = () => {
       <div className="header-main">
         <div className="container">
           <a href="/" className="header-logo">
-            <img src={process.env.PUBLIC_URL + "/assets/images/modenteologo.jpeg"} alt="Modenteo" width="180" height="36" />
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/modenteologo.jpeg"}
+              alt="Modenteo"
+              width="180"
+              height="36"
+            />
           </a>
           <div className="header-user-actions">
             {searchBtn}
             {wishlistBtn}
             {cartBtn}
             {personOutlineBtn}
-
           </div>
         </div>
       </div>
-      <nav id="myHeader" className={isSticky ? "desktop-navigation-menu sticky" : "desktop-navigation-menu"}>
+      <nav
+        id="myHeader"
+        className={
+          isSticky
+            ? "desktop-navigation-menu sticky"
+            : "desktop-navigation-menu"
+        }
+      >
         <div className="container">
           <ul className="desktop-menu-category-list">
             <li className="menu-category">
@@ -126,74 +191,100 @@ const WebsiteHeader = () => {
                 Categories
               </a>
             </li>
-            {categories.length > 0 && categories.map((cat) => {
-              return (
-                <li className="menu-category">
-                  <a className="menu-title" href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
-                  <ul className="dropdown-list">
-                    {
-                      cat?.subCategory.map((subcat, key) => {
+            {categories.length > 0 &&
+              categories.map((cat) => {
+                return (
+                  <li className="menu-category">
+                    <a
+                      className="menu-title"
+                      href={"/category/" + cat?.categorySlug}
+                    >
+                      {cat?.categoryName}
+                    </a>
+                    <ul className="dropdown-list">
+                      {cat?.subCategory.map((subcat, key) => {
                         return (
                           <li className="dropdown-item" key={key + 1}>
-                            <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
+                            <a
+                              href={
+                                "/category/" +
+                                cat?.categorySlug +
+                                "/" +
+                                subcat?.slug
+                              }
+                            >
+                              {subcat?.name}
+                            </a>
                           </li>
-                        )
-                      })
-                    }
-                  </ul>
-                </li>
-              )
-            })}
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              })}
 
             <li className="menu-category">
               <a href="/new" className="menu-title">
                 New
               </a>
-              {newcollectionsmenu.length > 0 && <ul className="dropdown-list">
-                {
-                  newcollectionsmenu.length > 0 && newcollectionsmenu.map((menu, key) => {
-                    return (
-                      <li className="dropdown-item" key={key + 1}>
-                        <a href={"/new/" + menu?.slug}>{menu?.name}</a>
-                      </li>
-                    )
-                  })
-                }
-              </ul>}
+              {newcollectionsmenu.length > 0 && (
+                <ul className="dropdown-list">
+                  {newcollectionsmenu.length > 0 &&
+                    newcollectionsmenu.map((menu, key) => {
+                      return (
+                        <li className="dropdown-item" key={key + 1}>
+                          <a href={"/new/" + menu?.slug}>{menu?.name}</a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              )}
             </li>
             <li className="menu-category">
               <a href="/seasons" className="menu-title">
                 Season
               </a>
-              {seasoncollections.length > 0 && <ul className="dropdown-list">
-                {
-                  seasoncollections.length > 0 && seasoncollections.map((menu, key) => {
-                    return (
-                      <li className="dropdown-item" key={key + 1}>
-                        <a href={"/collection/" + menu?.slug}>{menu?.name}</a>
-                      </li>
-                    )
-                  })
-                }
-              </ul>}
+              {seasoncollections.length > 0 && (
+                <ul className="dropdown-list">
+                  {seasoncollections.length > 0 &&
+                    seasoncollections.map((menu, key) => {
+                      return (
+                        <li className="dropdown-item" key={key + 1}>
+                          <a href={"/collection/" + menu?.slug}>{menu?.name}</a>
+                        </li>
+                      );
+                    })}
+                </ul>
+              )}
             </li>
-
           </ul>
         </div>
       </nav>
 
       <div className="mobile-bottom-navigation">
-        <button className="action-btn" onClick={() => setismobileMenu(!ismobileMenu)}>
+        <button
+          className="action-btn"
+          onClick={() => setismobileMenu(!ismobileMenu)}
+        >
           <IonIcon icon={menuOutline} />
         </button>
         {cartBtn}
         {wishlistBtn}
         {personOutlineBtn}
       </div>
-      <nav className={ismobileMenu ? "mobile-navigation-menu has-scrollbar active" : "mobile-navigation-menu has-scrollbar"}>
+      <nav
+        className={
+          ismobileMenu
+            ? "mobile-navigation-menu has-scrollbar active"
+            : "mobile-navigation-menu has-scrollbar"
+        }
+      >
         <div className="menu-top">
           <h2 className="menu-title">Menu</h2>
-          <button className="menu-close-btn" onClick={() => setismobileMenu(!ismobileMenu)}>
+          <button
+            className="menu-close-btn"
+            onClick={() => setismobileMenu(!ismobileMenu)}
+          >
             <IonIcon icon={closeOutline} />
           </button>
         </div>
@@ -209,32 +300,44 @@ const WebsiteHeader = () => {
               Categories
             </a>
           </li>
-          {categories.length > 0 && categories.map((cat) => {
-            return (
-              <li key={cat?.id} className="menu-category">
-                <button className={cat?.isOpen ? "accordion-menu active" : "accordion-menu"} onClick={() => toggleAccordion(cat?.id)}>
-                  <p className="menu-title">{cat?.categoryName}</p>
-                  <div>
-                    <IonIcon className="add-icon" icon={addOutline} />
-                    <IonIcon className="remove-icon" icon={removeOutline} />
-                  </div>
-                </button>
-                {cat?.subCategory.length > 0 && (
-                  <ul className={cat?.isOpen ? "submenu-category-list active" : "submenu-category-list"}>
-                    {cat?.subCategory.map((subcat, index) => {
-                      return (
-                        <li key={index} className="submenu-category">
-                          <a href="/" className="submenu-title">
-                            {subcat?.name}
-                          </a>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-              </li>
-            );
-          })}
+          {categories.length > 0 &&
+            categories.map((cat) => {
+              return (
+                <li key={cat?.id} className="menu-category">
+                  <button
+                    className={
+                      cat?.isOpen ? "accordion-menu active" : "accordion-menu"
+                    }
+                    onClick={() => toggleAccordion(cat?.id)}
+                  >
+                    <p className="menu-title">{cat?.categoryName}</p>
+                    <div>
+                      <IonIcon className="add-icon" icon={addOutline} />
+                      <IonIcon className="remove-icon" icon={removeOutline} />
+                    </div>
+                  </button>
+                  {cat?.subCategory.length > 0 && (
+                    <ul
+                      className={
+                        cat?.isOpen
+                          ? "submenu-category-list active"
+                          : "submenu-category-list"
+                      }
+                    >
+                      {cat?.subCategory.map((subcat, index) => {
+                        return (
+                          <li key={index} className="submenu-category">
+                            <a href="/" className="submenu-title">
+                              {subcat?.name}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
           <li className="menu-category">
             <a href="/new" className="menu-title">
               New
