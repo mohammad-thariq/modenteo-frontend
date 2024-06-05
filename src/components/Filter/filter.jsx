@@ -8,6 +8,7 @@ const Filter = () => {
   const [selectedColor, setSelectedColor] = useState("");
 
   const toggleAccordion = (index) => {
+    console.log('tog')
     setActiveIndex(activeIndex === index ? null : index);
   };
 
@@ -20,14 +21,14 @@ const Filter = () => {
   ) => (
     <div className="widget widget-collapsible">
       <h3 className="widget-title">
-        <a
-          href={() => toggleAccordion(index)}
+        <span
+          onClick={() => toggleAccordion(index)}
           aria-expanded={activeIndex === index}
           aria-controls={`widget-${index}`}
           className={activeIndex === index ? "" : "collapsed"}
         >
           {title}
-        </a>
+        </span>
       </h3>
 
       <div
@@ -139,13 +140,12 @@ const Filter = () => {
       <div className="sidebar-product sidebar-shop">
         <div className="widget widget-clean">
           <label>Filters:</label>
-          <a
-            href="/"
+          <span
             onClick={() => clearAll()}
             className="sidebar-filter-clear"
           >
             Clean All
-          </a>
+          </span>
         </div>
 
         {renderAccordionItem(

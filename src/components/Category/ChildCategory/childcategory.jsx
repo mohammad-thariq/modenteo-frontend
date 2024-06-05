@@ -5,7 +5,7 @@ import { ManageProductsApi } from '../../../service';
 import { CustomPagination, Loading, Error, NoRecordFound } from '../../../common'
 import Filter from '../../Filter/filter';
 import FilterGrid from '../../FilterGrid/filter-grid';
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { useParams } from 'react-router-dom';
 const { subcategoryProducts } = new ManageProductsApi();
 const fetchSubcategoryProducts = (cat, subcat) => () => subcategoryProducts(cat, subcat);
@@ -14,53 +14,9 @@ const ChildCategory = () => {
 
     const { id, cat } = useParams();
     const { data, isLoading, isError, error, refetch } = useQuery('subcategory-product', fetchSubcategoryProducts(cat, id));
-    console.log(data?.data, 'datadata')
-    const productImages = [
-        {
-            name: "Shoe",
-            slug: "shoe",
-            type: 'out',
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/1.jpg",
-        },
-        {
-            name: "Jacket",
-            type: 'new',
-            slug: "jacket",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/2.jpg",
-        }, {
-            name: "T-shirt",
-            type: 'top',
-            slug: "tshirt",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/3.jpg",
-        },
-        {
-            name: "Cap",
-            slug: "cap",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/4.jpg",
-        }, {
-            name: "Hoodie",
-            slug: "hoodie",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-1.jpg",
-        },
-        {
-            name: "Crop top",
-            slug: "crop-top",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-2.jpg",
-        },
-        {
-            name: "Skirt",
-            slug: "skirt",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-3.jpg",
-        }, {
-            name: "Traditional Skirt",
-            slug: "traditional-skirt",
-            image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-4.jpg",
-        },
-    ];
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    console.log(cat, id)
     const totalPages = Math.ceil(data?.data.length / itemsPerPage);
 
     const handlePageChange = (page) => {
@@ -82,8 +38,7 @@ const ChildCategory = () => {
         return <Error message={error.message} onRetry={refetch} />
     }
 
-    // Ensure data is not null or undefined and contains the 'categories' property
-    if (!data || !data.data || !Array.isArray(data.data)) {
+    if (!data || !data.data || !Array.isArray(data.data) || data.data.length <= 0) {
         return <NoRecordFound />;
     }
 
@@ -98,7 +53,7 @@ const ChildCategory = () => {
                             <div className='row justify-content-center'>
 
                                 {getPaginatedData().map((data, key) => {
-                                    return (<div className="col-6 col-md-4 col-lg-4 col-xl-3">
+                                    return (<div key={key} className="col-6 col-md-4 col-lg-4 col-xl-3">
                                         <ProductCard key={key} data={data} />
                                     </div>)
                                 })}

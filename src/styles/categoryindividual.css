@@ -71,6 +71,7 @@
 }
 
 .product-price {
+    gap: 5px;
     display: flex;
     align-items: center;
     flex-flow: wrap;
@@ -1255,4 +1256,7 @@ a:hover {
 .custom-checkbox input {
     height: 20px;
     width: 20px;
+}
+span.defaultPrice.strikeout {
+    text-decoration: line-through;
 }
