@@ -9,7 +9,7 @@ import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { useQuery, useMutation } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
-const { getCart, deleteCart } = new ManageCartApi();
+const { getCart, deleteCart, updateCart } = new ManageCartApi();
 const fetchCart = (userID) => () => getCart(userID);
 
 const Cart = () => {
@@ -34,20 +34,18 @@ const Cart = () => {
       ToastifyFailed(error?.message);
     },
   });
-  const handleIncrement = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-      )
-    );
-  };
+  const { mutate: cartUpdate } = useMutation(updateCart, {
+    onSuccess: (data) => {
+      ToastifySuccess("Quantity Updated");
+      refetch();
 
-  const handleDecrement = (id) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item
-      )
-    );
+    },
+    onError: (error) => {
+      ToastifyFailed(error?.message);
+    },
+  });
+  const handleCart = (id, qty) => {
+    cartUpdate({ id: id, quantity: qty });
   };
 
   const handleRemove = (id) => {
@@ -107,7 +105,7 @@ const Cart = () => {
                                     style={{ minWidth: 26 }}
                                     className="btn btn-decrement btn-spinner"
                                     type="button"
-                                    onClick={() => handleDecrement(item.id)}
+                                    onClick={() => handleCart(item?.id, item?.quantity - 1)}
                                   >
                                     <IonIcon icon={removeOutline} />
                                   </button>
@@ -117,14 +115,15 @@ const Cart = () => {
                                   style={{ textAlign: "center" }}
                                   className="form-control"
                                   value={item.quantity}
-                                  readOnly
+                                  onChange={(e) => handleCart(item?.id, e.target.value)}
+
                                 />
                                 <div className="input-group-append">
                                   <button
                                     style={{ minWidth: 26 }}
                                     className="btn btn-increment btn-spinner"
                                     type="button"
-                                    onClick={() => handleIncrement(item.id)}
+                                    onClick={() => handleCart(item?.id, item?.quantity + 1)}
                                   >
                                     <IonIcon icon={addOutline} />
                                   </button>
@@ -142,12 +141,12 @@ const Cart = () => {
                       ))}
                     </tbody>
                   </table>
-                  <div className="cart-bottom">
+                  {/* <div className="cart-bottom">
                     <Link to="#" className="btn btn-outline-dark-2">
                       <span>UPDATE CART</span>
                       <IonIcon icon={refreshOutline} />
                     </Link>
-                  </div>
+                  </div> */}
                 </>
               ) : (
                 <div className="empty-cart">

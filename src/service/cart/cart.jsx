@@ -23,8 +23,7 @@ export class ManageCartApi {
         const res = await _axios(
             "patch",
             `/cart/update/${data.id}`,
-            { ...data },
-            "multipart/form-data"
+            data
         );
         return res;
     };
