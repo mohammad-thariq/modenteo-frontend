@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../../styles/categoryindividual.css';
 import ProductCard from '../../Product/product-card';
-import { CustomPagination } from '../../../common'
+import { ManageProductsApi } from '../../../service';
+import { CustomPagination, Loading, Error, NoRecordFound } from '../../../common'
 import Filter from '../../Filter/filter';
 import FilterGrid from '../../FilterGrid/filter-grid';
+import { useMutation, useQuery } from "react-query";
+import { useParams } from 'react-router-dom';
+const { subcategoryProducts } = new ManageProductsApi();
+const fetchSubcategoryProducts = (cat, subcat) => () => subcategoryProducts(cat, subcat);
+
 const ChildCategory = () => {
+
+    const { id, cat } = useParams();
+    const { data, isLoading, isError, error, refetch } = useQuery('subcategory-product', fetchSubcategoryProducts(cat, id));
+    console.log(data?.data, 'datadata')
     const productImages = [
         {
             name: "Shoe",
@@ -50,7 +60,8 @@ const ChildCategory = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const totalPages = Math.ceil(productImages.length / itemsPerPage);
+    console.log(cat, id)
+    const totalPages = Math.ceil(data?.data.length / itemsPerPage);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -58,14 +69,31 @@ const ChildCategory = () => {
     const getPaginatedData = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return productImages.slice(startIndex, endIndex);
+        return data?.data.slice(startIndex, endIndex);
     };
+    useEffect(() => {
+
+    }, [data?.data])
+    if (isLoading) {
+        return <Loading />;
+    }
+
+    if (isError) {
+        return <Error message={error.message} onRetry={refetch} />
+    }
+
+    // Ensure data is not null or undefined and contains the 'categories' property
+    if (!data || !data.data || !Array.isArray(data.data)) {
+        return <NoRecordFound />;
+    }
+
+
     return (
         <section className="cat-outer-section">
             <div className="container">
                 <div className='row'>
                     <div className='col-lg-9'>
-                        <FilterGrid itemsPerPageCount={getPaginatedData().length} totalCount={productImages.length} />
+                        <FilterGrid itemsPerPageCount={getPaginatedData().length} totalCount={data?.data.length} />
                         <div className='products mb-3'>
                             <div className='row justify-content-center'>
 
