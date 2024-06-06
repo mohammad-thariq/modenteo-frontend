@@ -14,15 +14,22 @@ const fetchProducts = (slug) => () => productsbySlug(slug);
 const ChildCategory = () => {
     const [searchParams] = useSearchParams();
     const slug = searchParams.get('slug');
-    console.log(slug, 'slug')
     const { id, cat } = useParams();
     const { data, isLoading, isError, error, refetch } = useQuery('subcategory-product', fetchSubcategoryProducts(cat, id), { enabled: id != null ? true : false });
     const { data: collectionProducts, isLoading: isLoadingProducts, isError: isErrorProducts, } = useQuery('slug-product', fetchProducts(slug), { enabled: slug != null ? true : false });
-    console.log(collectionProducts,'collectionProducts')
     const [currentPage, setCurrentPage] = useState(1);
+    const [productList, setproductList] = useState([]);
     const itemsPerPage = 6;
+    useEffect(() => {
+        if (data?.data) {
+            setproductList(data?.data);
+        }
+        if (collectionProducts?.data) {
+            setproductList(collectionProducts?.data);
+        }
+    }, [collectionProducts, data])
 
-    const totalPages = data ? Math.ceil(data?.data.length / itemsPerPage) : 0;
+    const totalPages = productList ? Math.ceil(productList.length / itemsPerPage) : 0;
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -30,20 +37,18 @@ const ChildCategory = () => {
     const getPaginatedData = () => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        return data?.data.slice(startIndex, endIndex);
+        return productList.slice(startIndex, endIndex);
     };
-    useEffect(() => {
 
-    }, [data?.data])
     if (isLoading || isLoadingProducts) {
-        return <Loading />;
+        return <Loading />;  
     }
 
     if (isError || isErrorProducts) {
         return <Error message={error.message} onRetry={refetch} />
     }
 
-    if ((!data || !data.data || !Array.isArray(data.data) || data.data.length <= 0)  ) {
+    if (productList.length <= 0) {
         return <NoRecordFound />;
     }
 
