@@ -12,6 +12,7 @@ import OrdersPage from "./Orders/orders";
 import ProductPage from "./Product/product";
 import ProfilePage from "./Profile/profile";
 import WishlistPage from "./Wishlist/wishlist";
+import ProductListingPage from "./ProductListing/prodcutlisting";
 import { MainCategoryPage, SubCategoryPage, ChildCategoryPage } from "./Category/category";
 import OrderPlacedPage from "./OrderPlaced/orderplaced";
 import SeasonsPage from "./Seasons/seasons";
@@ -29,6 +30,7 @@ export {
   CartPage,
   MainCategoryPage,
   SubCategoryPage,
+  ProductListingPage,
   ChildCategoryPage,
   BillingPage,
   CheckoutPage,

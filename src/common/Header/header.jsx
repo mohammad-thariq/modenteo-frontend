@@ -203,11 +203,11 @@ const WebsiteHeader = () => {
                 Home
               </a>
             </li>
-            <li className="menu-category">
+            {/* <li className="menu-category">
               <a href="/categories" className="menu-title">
                 Categories
               </a>
-            </li>
+            </li> */}
             {categories.length > 0 &&
               categories.map((cat) => {
                 return (
@@ -312,11 +312,11 @@ const WebsiteHeader = () => {
               Home
             </a>
           </li>
-          <li className="menu-category">
+          {/* <li className="menu-category">
             <a href="/categories" className="menu-title">
               Categories
             </a>
-          </li>
+          </li> */}
           {categories.length > 0 &&
             categories.map((cat) => {
               return (
