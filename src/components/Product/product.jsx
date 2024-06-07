@@ -52,10 +52,11 @@ const Product = () => {
             <div className="container">
                 <div className="product-details-top">
                     <div className="row">
+                    
                         <ProductGallery images={productImages} />
                         <ProductDetails data={productDetails} />
                     </div>
-                    <ProductDetailsTab data={productDetails}/>
+                    <ProductDetailsTab data={productDetails} />
                 </div>
                 <h2 className='sectitle'>Similar Products</h2>
                 <div className="product-slider ">
