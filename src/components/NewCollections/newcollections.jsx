@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import "../../styles/category.css";
 import { ManageCategoriesApi } from "../../service";
 import { useQuery } from "react-query";
-import { BASE_URL } from "../../constants/url";
 import { Loading, NoRecordFound } from "../../common";
 // import { useParams } from "react-router-dom";
+import { baseURL } from "../../config";
 const { productMenuNew } = new ManageCategoriesApi();
 
 const NewCollections = () => {
@@ -29,12 +29,12 @@ const NewCollections = () => {
             <div key={item.slug} className="col-sm-6 col-md-6 col-lg-4">
               <div className="category-section-blocks">
                 <Link
-                  to={BASE_URL + "products?slug=" + item.slug}
+                  to={baseURL + "products?slug=" + item.slug}
                   className="cat-list-img"
                 >
                   <img src={item.image} alt={item.name} />
                 </Link>
-                <Link to={BASE_URL + "products?slug=" + item.slug}>{item.name}</Link>
+                <Link to={baseURL + "products?slug=" + item.slug}>{item.name}</Link>
               </div>
             </div>
           ))}
