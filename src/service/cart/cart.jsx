@@ -8,8 +8,6 @@ export class ManageCartApi {
 
 
     addCart = async (data) => {
-        console.log(data, 'datadata')
-
         const res = await _axios(
             "post",
             `/cart/create`,

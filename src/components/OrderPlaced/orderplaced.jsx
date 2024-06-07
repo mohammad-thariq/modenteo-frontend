@@ -4,8 +4,15 @@ import { IonIcon } from "@ionic/react";
 import { checkmarkCircleOutline } from "ionicons/icons";
 import { Breadcrumb } from "../../common";
 import "../../styles/orderplaced.css";
+import { useLocation } from 'react-router-dom';
 
 const OrderPlaced = () => {
+    const location = useLocation();
+    const currentUrl = location.href || window.location.href;
+    const splitUrl = currentUrl.split('#');
+    const orderId = splitUrl[1];
+  
+
     return (
         <div className="page-content">
             <Breadcrumb />
@@ -17,7 +24,7 @@ const OrderPlaced = () => {
                                 <IonIcon icon={checkmarkCircleOutline} size="large" color="success" />
                             </div>
                             <h2>Thank You!</h2>
-                            <p>Your order has been placed successfully.</p>
+                            <p>Your order #{orderId} has been placed successfully.</p>
                             <div className="center-btn">
                                 <Link to="/" className="btn btn-outline-primary-2">
                                     <span>CONTINUE SHOPPING</span>

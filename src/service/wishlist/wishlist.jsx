@@ -8,8 +8,6 @@ export class ManageWishlistApi {
 
 
     addWishlist = async (data) => {
-        console.log(data,'datadata')
-
         const res = await _axios(
             "post",
             `/wishlist/create`,

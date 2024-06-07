@@ -7,8 +7,9 @@ import "../../styles/checkout.css";
 import { ManageCartApi, ManageOrderApi } from "../../service";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
-import { useQuery,useMutation } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import { ToastifyFailed } from "../../common/Toastify";
+import { Redirect } from "../../helper/base";
 const { getCart } = new ManageCartApi();
 const { createOrder } = new ManageOrderApi();
 const fetchCart = (userID) => () => getCart(userID);
@@ -21,7 +22,8 @@ const Checkout = () => {
     const { mutate: createOrderMutate } =
         useMutation(createOrder, {
             onSuccess: (data, variables, context) => {
-                console.log("success")
+
+                Redirect('/order-sucess?id=' + data?.orderNumber);
             },
             onError: (data, variables, context) => {
 
@@ -54,7 +56,7 @@ const Checkout = () => {
         return <Error message={error.message} onRetry={refetch} />
     }
     const placeOrder = () => {
-        
+
         let data = {
             "user_id": 34, "billing_id": 1, "payment_status": 1, "order_status": 1, "total_amount": calculateTotal(), "shipping_method": "", "shipping_cost": 0, "discount_amount": 10, "mode_of_payment": "COD", "transection_id": 1,
             "products": cartData?.data
