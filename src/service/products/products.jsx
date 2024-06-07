@@ -11,6 +11,13 @@ export class ManageProductsApi {
         const res = await _axios("get", `/products-slug/` + slug);
         return res;
     };
+
+    
+    productsbyMainCategory = async (cat) => {
+        const res = await _axios("get", `/category-products/` + cat);
+        return res;
+    };
+    
     productsbySlug = async (slug) => {
         const res = await _axios("get", `/collection-product/` + slug);
         return res;

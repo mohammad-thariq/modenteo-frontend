@@ -15,7 +15,8 @@ import {
   Base,
   CartPage,
   MainCategoryPage,
-  SubCategoryPage,
+  // SubCategoryPage,
+  ProductListingPage,
   DashboardPage,
   OrdersPage,
   ProductPage,
@@ -141,7 +142,8 @@ const App = () => {
           path="/category/:id"
           element={
             <Base>
-              <SubCategoryPage />
+              {/* <SubCategoryPage /> */}
+              <ProductListingPage />
             </Base>
           }
         />

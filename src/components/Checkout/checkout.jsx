@@ -1,23 +1,33 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 import { closeOutline, cartOutline, refreshOutline } from "ionicons/icons";
 import { Breadcrumb, Loading, Error } from "../../common";
 import "../../styles/checkout.css";
-import { ManageCartApi } from "../../service";
+import { ManageCartApi, ManageOrderApi } from "../../service";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
-import { useQuery } from "react-query";
+import { useQuery,useMutation } from "react-query";
+import { ToastifyFailed } from "../../common/Toastify";
 const { getCart } = new ManageCartApi();
+const { createOrder } = new ManageOrderApi();
 const fetchCart = (userID) => () => getCart(userID);
-
 
 const Checkout = () => {
     let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
 
     const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
     const [cartItems, setCartItems] = useState([]);
+    const { mutate: createOrderMutate } =
+        useMutation(createOrder, {
+            onSuccess: (data, variables, context) => {
+                console.log("success")
+            },
+            onError: (data, variables, context) => {
 
+                ToastifyFailed(data?.message);
+            },
+        });
     useEffect(() => {
         if (cartData?.data && Array.isArray(cartData?.data)) {
             setCartItems(cartData?.data);
@@ -43,7 +53,15 @@ const Checkout = () => {
     if (isError) {
         return <Error message={error.message} onRetry={refetch} />
     }
-
+    const placeOrder = () => {
+        
+        let data = {
+            "user_id": 34, "billing_id": 1, "payment_status": 1, "order_status": 1, "total_amount": calculateTotal(), "shipping_method": "", "shipping_cost": 0, "discount_amount": 10, "mode_of_payment": "COD", "transection_id": 1,
+            "products": cartData?.data
+        }
+        createOrderMutate(data);
+        // console.log(data, "dat")
+    }
 
     return (
         <div className="cart page-content">
@@ -70,12 +88,12 @@ const Checkout = () => {
                                                     <td className="product-col">
                                                         <div className="product">
                                                             <figure className="product-media">
-                                                            <Link to={"/product/" + item?.slug}>
+                                                                <Link to={"/product/" + item?.slug}>
                                                                     <img src={item.image} alt="Product" />
                                                                 </Link>
                                                             </figure>
                                                             <h3 className="product-title">
-                                                            <Link to={"/product/" + item?.slug}>{item.name}</Link>
+                                                                <Link to={"/product/" + item?.slug}>{item.name}</Link>
                                                             </h3>
                                                         </div>
                                                     </td>
@@ -144,9 +162,9 @@ const Checkout = () => {
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                                <Link to="/payment" className="btn btn-outline-primary-2 btn-order btn-block">
+                                                <button onClick={() => placeOrder()} className="btn btn-outline-primary-2 btn-order btn-block">
                                                     PROCEED TO PAYMENT
-                                                </Link>
+                                                </button>
                                             </div>
                                             <Link to="/" className="btn btn-outline-dark-2 btn-block mb-3">
                                                 <span>CONTINUE SHOPPING</span>
