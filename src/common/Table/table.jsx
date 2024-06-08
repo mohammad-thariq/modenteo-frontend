@@ -18,6 +18,42 @@ const OrderTable = ({ data, type }) => {
         }
         return ordertype;
     }
+    const getStatus = (status) => {
+        let statusClass;
+        switch (status) {
+            case 0:
+                statusClass = 'warning';
+                break;
+            case 1:
+                statusClass = 'info';
+                break;
+            case 2:
+                statusClass = 'success';
+                break;
+            default:
+                statusClass = 'info';
+        }
+        return statusClass;
+    }
+    const getStatusName = (status) => {
+        let statusName;
+        switch (status) {
+            case 0:
+                statusName = 'Pending';
+                break;
+            case 1:
+                statusName = 'In-Progress';
+                break;
+            case 2:
+                statusName = 'Success';
+                break;
+            default:
+                statusName = 'Pending';
+        }
+        return statusName;
+    }
+
+
     return (
         <div>
             <h4 className="card-title">{getOrdertype(type)}</h4>
@@ -35,15 +71,15 @@ const OrderTable = ({ data, type }) => {
                 <tbody>
                     {data.map((item, index) => (
                         <tr key={index}>
-                            <td> {item.orderNumber} </td>
-                            <td>₹ {item.amount} </td>
+                            <td> {item.order_id} </td>
+                            <td>₹ {item.total_amount} </td>
                             <td>
-                                <label className={`badge badge-gradient-${item.statusClass}`}>{item.status}</label>
+                                <label className={`badge badge-gradient-${getStatus(item.order_status)}`}>{getStatusName(item.order_status)}</label>
                             </td>
                             <td>
-                                <label className="badge badge-gradient-success">{item.paymentStatus}</label>
+                                <label className="badge badge-gradient-success">{item.payment_status}</label>
                             </td>
-                            <td> {item.orderedDate} </td>
+                            <td> {item.ordered_date} </td>
                             <td className='actions-order'>
                                 <BsEyeFill />
                             </td>
@@ -55,4 +91,4 @@ const OrderTable = ({ data, type }) => {
     );
 };
 
-export  { OrderTable };
+export { OrderTable };

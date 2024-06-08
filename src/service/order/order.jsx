@@ -9,5 +9,11 @@ export class ManageOrderApi {
         );
         return res;
     };
+    getOrder = async (data) => {
+        console.log(data)
+        const res = await _axios("get", `/orders/user/${data?.user_id}?page=${data?.page}&limit=${data?.limit}`);
+
+        return res;
+    };
 
 }

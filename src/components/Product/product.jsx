@@ -70,7 +70,7 @@ const Product = () => {
                     </div>
                     <ProductDetailsTab data={productDetails} />
                 </div>
-                <h2 className='sectitle'>Similar Products</h2>
+                {similarPRD.length> 0 && <h2 className='sectitle'>Similar Products</h2>}
                 <div className="product-slider ">
                     <ProductSlider images={similarPRD} />
                 </div>

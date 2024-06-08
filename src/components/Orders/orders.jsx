@@ -1,59 +1,45 @@
 // HomePage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OrderTable, CustomPagination } from '../../common';
 import { getPaginatedData, itemsPerPage } from '../../utils/paginateddata';
+import { LocalStorageHelper } from '../../utils/localStorage';
+import { localStorageConst } from '../../constants/localStorage';
+import { ManageOrderApi } from '../../service';
+import { useMutation } from 'react-query';
 const Orders = () => {
+    const { getOrder } = new ManageOrderApi();
+    let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
 
-    const orderData = [
-        {
-            user: "User 1",
-            img: "assets/images/faces/face1.jpg",
-            orderNumber: "#ORD123",
-            status: "DONE",
-            statusClass: "success",
-            paymentStatus: "DONE",
-            amount: '100',
-            orderedDate: "Dec 5, 2017"
-        },
-        {
-            user: "User 2",
-            img: "assets/images/faces/face3.jpg",
-            orderNumber: "#ORD123",
-            status: "ON-HOLD",
-            amount: '200',
-            statusClass: "info",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
-        },
-        {
-            user: "User 3",
-            img: "assets/images/faces/face3.jpg",
-            orderNumber: "#ORD123",
-            amount: '1000',
-            status: "REJECTED",
-            statusClass: "danger",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
-        },
-        {
-            user: "User 4",
-            img: "assets/images/faces/face4.jpg",
-            amount: '4800',
-            orderNumber: "#ORD123",
-            status: "PROCESS",
-            statusClass: "warning",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
-        },
-        // Add more data items as needed
-    ];
+    const [orderItems, setorderItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [limit, setLimit] = useState(1);
 
-    const totalPages = Math.ceil(orderData.length / itemsPerPage);
+
+    const { mutate: getOrders } = useMutation(getOrder, {
+        onSuccess: (data) => {
+            console.log(data, 'datat')
+            setorderItems(data?.order)
+        },
+        onError: (error) => {
+            console.log(error?.message);
+        },
+    });
+    useEffect(() => {
+        let data = { page: currentPage, limit: limit, user_id: userDetails?.id };
+        getOrders(data)
+
+        // if (orderData?.data && Array.isArray(orderData?.data)) {
+        //     setorderItems(orderData?.data);
+        // }
+    }, [])
+
+
+    const totalPages = Math.ceil(orderItems.length / itemsPerPage);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
+
 
     return (
         <div className="content-wrapper">
@@ -62,7 +48,7 @@ const Orders = () => {
                     <div className="card">
                         <div className="card-body">
                             <div className="table-responsive">
-                                <OrderTable type="all" data={getPaginatedData(orderData, currentPage)} />
+                                <OrderTable type="all" data={getPaginatedData(orderItems, currentPage)} />
                                 <CustomPagination
                                     currentPage={currentPage}
                                     totalPages={totalPages}
