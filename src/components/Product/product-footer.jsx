@@ -1,29 +1,21 @@
 import React from "react";
-import { IonIcon } from "@ionic/react";
-import {
-  logoFacebook,
-  logoTwitter,
-  logoInstagram,
-  logoPinterest,
-} from "ionicons/icons";
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton, FacebookIcon, TwitterIcon, WhatsappIcon } from 'react-share';
 
-const ProductDetailsFooter = () => {
+const ProductDetailsFooter = ({ product }) => {
+  let prdUrl = window.location.href;
   return (
     <div className="product-details-footer">
       <div className="social-icons social-icons-sm">
         <span className="social-label">Share:</span>
-        <a href="/" className="social-icon" title="Facebook" target="_blank">
-          <IonIcon icon={logoFacebook} />
-        </a>
-        <a href="/" className="social-icon" title="Twitter" target="_blank">
-          <IonIcon icon={logoTwitter} />
-        </a>
-        <a href="/" className="social-icon" title="Instagram" target="_blank">
-          <IonIcon icon={logoInstagram} />
-        </a>
-        <a href="/" className="social-icon" title="Pinterest" target="_blank">
-          <IonIcon icon={logoPinterest} />
-        </a>
+        <FacebookShareButton url={prdUrl} quote={product.name}>
+          <FacebookIcon size={32} round />
+        </FacebookShareButton>
+        <TwitterShareButton url={prdUrl} title={product.name}>
+          <TwitterIcon size={32} round />
+        </TwitterShareButton>
+        <WhatsappShareButton url={prdUrl} title={product.name}>
+          <WhatsappIcon size={32} round />
+        </WhatsappShareButton>
       </div>
     </div>
   );

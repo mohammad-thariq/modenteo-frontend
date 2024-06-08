@@ -2,12 +2,12 @@ import React from 'react';
 import WebsiteBanner from '../../components/Banner/banner';
 import CustomerBenefits from '../../components/CustomerBenefits/customer-benefits';
 import Collections from '../../components/Collections/collections';
-import ProductSlider from '../../components/Slider/product-slider';
 import Fashion from '../../components/Fashion/fashion';
 import Popular from '../../components/Popular/popular';
 import CategoryCollection from '../../components/Collections/category-collection';
 import BannerCategory from '../../components/Banner/banner-category';
 import { SectionTitle } from '../../common';
+import ProductCard from '../../components/Product/product-card';
 const HomePage = () => {
     const images = [
         process.env.PUBLIC_URL + "/assets/home/images/banner-1.jpg",
@@ -92,7 +92,21 @@ const HomePage = () => {
 
             <div className="our-collections pt-5 pb-5">
                 <SectionTitle title="Our Collections" subtitle="Check out most promising product bought by our buyers" />
-                <ProductSlider images={productImages} />
+                <div className="container">
+                    <div className='row'>
+                        <div className='col-lg-12'>
+                            <div className='products mb-3'>
+                                <div className='row justify-content-center'>
+                                    {productImages.map((data, key) => {
+                                        return (<div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
+                                            <ProductCard key={key} data={data} />
+                                        </div>)
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className='pt-5 pb-5'>
                 <Popular />

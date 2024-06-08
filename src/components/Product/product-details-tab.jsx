@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { DangerousHTML } from "../../common";
 
 const ProductDetailsTab = ({ data }) => {
   const [activeTab, setActiveTab] = useState("product-desc-tab");
@@ -77,7 +78,7 @@ const ProductDetailsTab = ({ data }) => {
           <div className="product-desc-content">
             <h3>Information</h3>
             <p>
-              {data?.long_description}
+              <DangerousHTML html={data?.long_description}/>
             </p>
           </div>
         </div>

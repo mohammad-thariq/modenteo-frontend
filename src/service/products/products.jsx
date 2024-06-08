@@ -12,14 +12,18 @@ export class ManageProductsApi {
         return res;
     };
 
-    
+
     productsbyMainCategory = async (cat) => {
         const res = await _axios("get", `/category-products/` + cat);
         return res;
     };
-    
+
     productsbySlug = async (slug) => {
         const res = await _axios("get", `/collection-product/` + slug);
+        return res;
+    };
+    similarProducts = async (subcat) => {
+        const res = await _axios("get", `/similar-products/` + subcat);
         return res;
     };
 }

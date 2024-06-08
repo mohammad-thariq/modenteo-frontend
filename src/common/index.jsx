@@ -16,4 +16,5 @@ import NoRecordFound from "./NoRecordFound/norecordfound";
 import { EmailAvatar, NameAvatar } from "./Avatar/avatar";
 import ColorPalette from "./ColorPalette/colorpalette";
 import SectionTitle from "./SectionTitle/sectiontitle";
-export { ColorPalette,SectionTitle, NoRecordFound, Error, Loading, Social, SideBar, NameAvatar, EmailAvatar, ScrollToTopButton, Menu, WebsiteBanner, WebsiteFooter, WebsiteHeader, Header, Footer, SocialFooter, Breadcrumb, CustomPagination, OrderTable }
+import DangerousHTML from "./DangerousHTML/dangeroushtml";
+export { DangerousHTML, ColorPalette, SectionTitle, NoRecordFound, Error, Loading, Social, SideBar, NameAvatar, EmailAvatar, ScrollToTopButton, Menu, WebsiteBanner, WebsiteFooter, WebsiteHeader, Header, Footer, SocialFooter, Breadcrumb, CustomPagination, OrderTable }

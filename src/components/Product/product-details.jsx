@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductDetailsFooter from "./product-footer";
 import { IonIcon } from "@ionic/react";
-import { heartOutline, star, starOutline, cartOutline, heartDislike } from "ionicons/icons";
+import { heartOutline, cartOutline, heartDislike } from "ionicons/icons";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
@@ -116,18 +116,6 @@ const ProductDetails = ({ data }) => {
     <div className="col-md-6">
       <div className="product-details">
         <h1 className="product-title">{data?.name}</h1>
-
-        <div className="ratings-container">
-          <div className="ratings">
-            <IonIcon icon={star} />
-            <IonIcon icon={star} />
-            <IonIcon icon={star} />
-            <IonIcon icon={star} />
-            <IonIcon icon={starOutline} />
-          </div>
-          <a className="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
-        </div>
-
         <div className="product-price">${data?.price}</div>
 
         <div className="product-content">
@@ -174,7 +162,7 @@ const ProductDetails = ({ data }) => {
           </div>
         )}
       </div>
-      <ProductDetailsFooter />
+      <ProductDetailsFooter product={data} />
     </div>
   );
 };

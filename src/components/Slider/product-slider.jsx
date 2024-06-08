@@ -57,31 +57,33 @@ const ProductSlider = ({ images }) => {
         <div className="slides">
           {images.slice(currentIndex, currentIndex + 4).map((image, index) => (
             <div key={index} className="slide-item">
-              {/* <img src={image} alt={`Product ${index + 1}`} /> */}
               <ProductCard data={image} />
             </div>
           ))}
         </div>
-        <button className="prev-btn" onClick={prevSlide}>
-          <FaChevronLeft />
-        </button>
-        <button className="next-btn" onClick={nextSlide}>
-          <FaChevronRight />
-        </button>
+        {images.length > 4 && <>
+          <button className="prev-btn" onClick={prevSlide}>
+            <FaChevronLeft />
+          </button>
+          <button className="next-btn" onClick={nextSlide}>
+            <FaChevronRight />
+          </button>
+        </>}
       </div>) : (
       <div className="mobile-slider">
         <div className="slides">
           <div className="slide-item">
             <ProductCard data={images[currentIndexmobile]} />
-            {/* <img src={images[currentIndexmobile]} alt={`Product ${currentIndexmobile + 1}`} /> */}
           </div>
         </div>
-        <button className="prev-btn" onClick={prevSlidemobile}>
-          <FaChevronLeft />
-        </button>
-        <button className="next-btn" onClick={nextSlidemobile}>
-          <FaChevronRight />
-        </button>
+        {images.length > 4 && <>
+          <button className="prev-btn" onClick={prevSlidemobile}>
+            <FaChevronLeft />
+          </button>
+          <button className="next-btn" onClick={nextSlidemobile}>
+            <FaChevronRight />
+          </button>
+        </>}
       </div>
     )
 

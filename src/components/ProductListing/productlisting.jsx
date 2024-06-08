@@ -56,7 +56,7 @@ const ProductListing = () => {
                             <div className='row justify-content-center'>
 
                                 {getPaginatedData().map((data, key) => {
-                                    return (<div key={key} className="col-6 col-md-4 col-lg-4 col-xl-3">
+                                    return (<div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
                                         <ProductCard key={key} data={data} />
                                     </div>)
                                 })}

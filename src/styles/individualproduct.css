@@ -940,6 +940,7 @@
     display: flex;
     align-items: center;
     flex-flow: row wrap;
+    gap: 5px;
 }
 
 .social-icon {
