@@ -7,6 +7,7 @@ const ProductGallerySlideshow = ({ images, index, modal }) => {
    
     const closeModal = () => {
         document.body.style.overflow = 'auto';
+        document.body.style.height = 'auto';
         document.getElementById("myHeader").style.display = "block";
         document.getElementById("galleryslideshowMyModal").style.display = "none";
 
@@ -28,6 +29,7 @@ const ProductGallerySlideshow = ({ images, index, modal }) => {
         document.getElementById("myHeader").style.display = "none";
         showSlides(index);
         document.body.style.overflow = 'hidden';
+        document.body.style.height = '100vh';
     }, [modal]);
 
     return (
