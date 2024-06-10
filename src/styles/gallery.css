@@ -135,7 +135,7 @@ img.galleryslideshowHoverShadow {
     object-fit: contain;
 }
 
-a.galleryslideshowPrev {
+span.galleryslideshowPrev {
     position: absolute;
     left: 10%;
 }

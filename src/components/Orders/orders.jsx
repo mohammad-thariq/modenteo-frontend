@@ -12,7 +12,8 @@ const Orders = () => {
 
     const [orderItems, setorderItems] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [limit, setLimit] = useState(1);
+    // const [limit, setLimit] = useState(1);
+    const limit = 5;
 
 
     const { mutate: getOrders } = useMutation(getOrder, {
@@ -27,10 +28,6 @@ const Orders = () => {
     useEffect(() => {
         let data = { page: currentPage, limit: limit, user_id: userDetails?.id };
         getOrders(data)
-
-        // if (orderData?.data && Array.isArray(orderData?.data)) {
-        //     setorderItems(orderData?.data);
-        // }
     }, [])
 
 

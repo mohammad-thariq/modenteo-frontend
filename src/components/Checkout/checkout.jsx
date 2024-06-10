@@ -41,6 +41,9 @@ const Checkout = () => {
     };
 
 
+    const calculateTotal = () => {
+        return cartItems.reduce((total, item) => total + (item.offer_price <= 0 ? item.price : item.offer_price) * item.quantity, 0).toFixed(2);
+    };
     if (isLoading) {
         return <Loading />;
     }
@@ -48,7 +51,15 @@ const Checkout = () => {
     if (isError) {
         return <Error message={error.message} onRetry={refetch} />
     }
+    const placeOrder = () => {
 
+        let data = {
+            "user_id": 34, "billing_id": 1, "payment_status": 1, "order_status": 1, "total_amount": calculateTotal(), "shipping_method": "", "shipping_cost": 0, "discount_amount": 10, "mode_of_payment": "COD", "transection_id": 1,
+            "products": cartData?.data
+        }
+        createOrderMutate(data);
+        // console.log(data, "dat")
+    }
     return (
         <div className="cart page-content">
             <Breadcrumb />
@@ -96,6 +107,9 @@ const Checkout = () => {
                                         </tbody>
                                     </table>
                                     <Address />
+                                    <button onClick={() => placeOrder()} className="btn btn-outline-primary-2 btn-order btn-block">
+                                        PROCEED TO PAYMENT
+                                    </button>
 
                                 </>
                             ) : (

@@ -42,13 +42,7 @@ const Product = () => {
     const [productDetails, setproductDetails] = useState({});
     const [productsSimilar, setproductsSimilar] = useState([]);
     const { data } = useQuery('product', fetchProductbySlug(id), { enabled: id != null ? true : false });
-    useEffect(() => {
-        if (data && data?.products) {
-            setproductDetails(data?.products);
-            getSimilarProducts(data?.products?.sub_category_id);
-
-        }
-    }, [data]);
+   
     const { mutate: getSimilarProducts } = useMutation(similarProducts, {
         onSuccess: (data) => {
             setproductsSimilar(data?.products);
@@ -58,6 +52,13 @@ const Product = () => {
             console.log(error?.message);
         },
     });
+    useEffect(() => {
+        if (data && data?.products) {
+            setproductDetails(data?.products);
+            getSimilarProducts(data?.products?.sub_category_id);
+
+        }
+    }, [data, getSimilarProducts]);
     let similarPRD = productsSimilar.filter(product => product?.id !== productDetails?.id);
     return (
         <section className="cat-outer-section">

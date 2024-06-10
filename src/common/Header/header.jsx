@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Social } from "../Social/social";
 import { IonIcon } from "@ionic/react";
 import {
-  searchOutline,
   personOutline,
   heartOutline,
   bagHandleOutline,
@@ -92,19 +91,19 @@ const WebsiteHeader = () => {
       <span className="count">{wishlistItems.length}</span>
     </button>
   );
-  const searchBtn = (
-    <div className="header-search-container">
-      <input
-        type="search"
-        name="search"
-        className="search-field"
-        placeholder="Enter your product name..."
-      />
-      <button className="search-btn">
-        <IonIcon icon={searchOutline} />
-      </button>
-    </div>
-  );
+  // const searchBtn = (
+  //   <div className="header-search-container">
+  //     <input
+  //       type="search"
+  //       name="search"
+  //       className="search-field"
+  //       placeholder="Enter your product name..."
+  //     />
+  //     <button className="search-btn">
+  //       <IonIcon icon={searchOutline} />
+  //     </button>
+  //   </div>
+  // );
   const personOutlineBtn = (
     <button
       className="action-btn"
@@ -181,7 +180,7 @@ const WebsiteHeader = () => {
             />
           </a>
           <div className="header-user-actions">
-            {searchBtn}
+            {/* {searchBtn} */}
             {wishlistBtn}
             {cartBtn}
             {personOutlineBtn}
