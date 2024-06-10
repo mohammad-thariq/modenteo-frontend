@@ -72,9 +72,13 @@ const Address = ({
   };
 
   const handleAddress = async (data) => {
+    const deliveryAddress = {
+      ...data,
+      type: "delivery_address"
+    }
     const res = currentAddress
       ? await updateAddress({ ...data, id: currentAddress.id })
-      : await addressCreate(data);
+      : await addressCreate(deliveryAddress);
 
     if (res?.code === "ERR_NETWORK") {
       ToastifyFailed(`${res?.message}`);
