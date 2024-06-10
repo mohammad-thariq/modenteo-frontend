@@ -15,7 +15,6 @@ const Orders = () => {
     // const [limit, setLimit] = useState(1);
     const limit = 5;
 
-
     const { mutate: getOrders } = useMutation(getOrder, {
         onSuccess: (data) => {
             console.log(data, 'datat')

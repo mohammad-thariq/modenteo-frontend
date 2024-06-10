@@ -1,3 +1,6 @@
 .checkout-form .form-control{
     margin-bottom: 0px;
 }
+.payment-btn {
+    width: fit-content !important;
+}

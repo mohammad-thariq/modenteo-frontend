@@ -17,7 +17,8 @@ const fetchCart = (userID) => () => getCart(userID);
 
 const Checkout = () => {
     let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
-
+    const [selectedBillingAddress, setSelectedBillingAddress] = useState(null);
+    const [selectedShippingAddress, setSelectedShippingAddress] = useState(null);
     const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
     const [cartItems, setCartItems] = useState([]);
     const { mutate: createOrderMutate } =
@@ -52,13 +53,19 @@ const Checkout = () => {
         return <Error message={error.message} onRetry={refetch} />
     }
     const placeOrder = () => {
-
-        let data = {
-            "user_id": 34, "billing_id": 1, "payment_status": 1, "order_status": 1, "total_amount": calculateTotal(), "shipping_method": "", "shipping_cost": 0, "discount_amount": 10, "mode_of_payment": "COD", "transection_id": 1,
-            "products": cartData?.data
+        console.log(selectedBillingAddress, 'selectedBillingAddress');
+        console.log(selectedShippingAddress, 'selectedShippingAddress');
+        if (selectedBillingAddress == null || selectedShippingAddress == null) {
+            ToastifyFailed("Choose Shipping & Billing details to proceed checkout");
+        } else {
+            let data = {
+                "user_id": userDetails?.id, "billing_id": selectedBillingAddress, "shipping_id": selectedShippingAddress, "payment_status": 0, "order_status": 0, "total_amount": calculateTotal(), "shipping_method": "", "shipping_cost": 0, "discount_amount": 0, "mode_of_payment": "COD", "transection_id": 0,
+                "products": cartData?.data
+            }
+            createOrderMutate(data);
+            // console.log(data, "dat")
         }
-        createOrderMutate(data);
-        // console.log(data, "dat")
+
     }
     return (
         <div className="cart page-content">
@@ -106,10 +113,34 @@ const Checkout = () => {
                                             ))}
                                         </tbody>
                                     </table>
-                                    <Address />
-                                    <button onClick={() => placeOrder()} className="btn btn-outline-primary-2 btn-order btn-block">
-                                        PROCEED TO PAYMENT
-                                    </button>
+                                    <div className="row">
+                                        <div className="col-lg-9">
+                                            <Address selectedBillingAddress={selectedBillingAddress} selectedShippingAddress={selectedShippingAddress} setSelectedBillingAddress={setSelectedBillingAddress} setSelectedShippingAddress={setSelectedShippingAddress} />
+                                        </div>
+                                        <aside className="col-lg-3">
+                                            <div className="summary summary-cart">
+                                                <h3 className="summary-title">Cart Total</h3>
+                                                <table className="table table-summary">
+                                                    <tbody>
+                                                        <tr className="summary-subtotal">
+                                                            <td>Subtotal:</td>
+                                                            <td>${calculateTotal()}</td>
+                                                        </tr>
+                                                        <tr className="summary-total">
+                                                            <td>Total:</td>
+                                                            <td>${calculateTotal()}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button onClick={() => placeOrder()} className="btn btn-outline-primary-2 btn-order btn-block">
+                                                    PROCEED TO PAYMENT
+                                                </button>
+                                            </div>
+                                            <Link to="/" className="btn btn-outline-dark-2 btn-block mb-3">
+                                                <span>CONTINUE SHOPPING</span>
+                                            </Link>
+                                        </aside>
+                                    </div>
 
                                 </>
                             ) : (

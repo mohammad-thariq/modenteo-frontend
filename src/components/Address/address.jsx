@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../styles/address.css';
 import { Button } from '../../common/Button';
 import { Formik } from "formik";
@@ -7,13 +7,34 @@ import { LocalStorageHelper } from '../../utils/localStorage';
 import { localStorageConst } from '../../constants/localStorage';
 import { AddressApi } from '../../service';
 import { ToastifyFailed, ToastifySuccess } from '../../common/Toastify';
-import { Reload } from '../../helper/base';
-const Address = () => {
+import { useMutation } from 'react-query';
+import { Card, CardContent, CardActions, Typography, IconButton, Radio } from "@mui/material";
+import { IonIcon } from '@ionic/react';
+import { pencilSharp, trashSharp } from 'ionicons/icons';
+
+const Address = ({ setSelectedBillingAddress, setSelectedShippingAddress,selectedBillingAddress,selectedShippingAddress }) => {
     let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
-    const { address } = new AddressApi();
+    const { address, addressCreate, deleteAddress, updateAddress } = new AddressApi();
+    const [addressList, setaddressList] = useState([]);
+   
+    const [currentAddress, setCurrentAddress] = useState(null);
+    const [type, setType] = useState("delivery_address");
+    const { mutate: getAddress } = useMutation(address, {
+        onSuccess: (data) => {
+            setaddressList(data?.user_address);
+        },
+        onError: (error) => {
+            console.log(error?.message);
+        },
+    });
 
+    useEffect(() => {
+        getAddress({ user_id: userDetails?.id });
+    }, []);
 
-    const openModal = () => {
+    const openModal = (type, address = null) => {
+        setType(type)
+        setCurrentAddress(address);
         document.body.style.overflow = 'hidden';
         document.body.style.height = '100vh';
         document.getElementById('billingModal').style.display = 'block';
@@ -23,8 +44,8 @@ const Address = () => {
         document.body.style.overflow = 'auto';
         document.body.style.height = 'auto';
         document.getElementById('billingModal').style.display = 'none';
+        setCurrentAddress(null); // Clear the current address being edited
     };
-
 
     const schema = Yup.object({
         fullName: Yup.string().required("Field is Required"),
@@ -33,7 +54,6 @@ const Address = () => {
         city: Yup.string().required("Field is Required"),
         zipCode: Yup.string().required("Field is Required"),
         phoneNumber: Yup.string().required("Field is Required"),
-
     });
 
     const btnStyle = {
@@ -42,10 +62,11 @@ const Address = () => {
         alignItems: "center",
     };
 
-
-
     const handleAddress = async (data) => {
-        const res = await address(data);
+        const res = currentAddress
+            ? await updateAddress({ ...data, id: currentAddress.id })
+            : await addressCreate(data);
+
         if (res?.code === "ERR_NETWORK") {
             ToastifyFailed(`${res?.message}`);
             return res;
@@ -53,35 +74,121 @@ const Address = () => {
             ToastifyFailed(`${res?.response?.data?.error}`);
             return res;
         } else {
-            ToastifySuccess("Address added successfully");
-            Reload()
+            ToastifySuccess(`Address ${currentAddress ? 'updated' : 'added'} successfully`);
+            getAddress({ user_id: userDetails?.id });
+            closeModal();
         }
     };
 
+    const { mutate: removeAddress } = useMutation(deleteAddress, {
+        onSuccess: () => {
+            ToastifySuccess("Address deleted");
+            getAddress({ user_id: userDetails?.id });
+        },
+        onError: (error) => {
+            ToastifyFailed(error?.message);
+        },
+    });
+
+    const onEdit = (item) => {
+        openModal("", item);
+    };
+
+    const onDelete = (item) => {
+        removeAddress(item);
+    };
 
     return (
         <div>
             <div className="billing-details">
-                <h4>Delivery & Shipping Details</h4>
-                <button onClick={openModal} className="billing-add-address-button">
+                <h4>Billing Details</h4>
+                <button onClick={() => openModal()} className="billing-add-address-button">
                     + Add New Address
                 </button>
             </div>
+            {addressList.map((item, key) => (
+                item?.type == 'delivery_address' &&
+                <Card className="address-card" key={key} style={{ marginBottom: "16px" }}>
+                    <CardContent>
+                        <Typography variant="h6">{item?.fullName}</Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {item?.streetAddress}, {item?.city},
+                            {item?.state} {item?.zipCode},
+                            {item?.country}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            Contact - {item?.phoneNumber}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Radio
+                            checked={selectedBillingAddress === item.id}
+                            onChange={() => setSelectedBillingAddress(item.id)}
+                            value={item.id}
+                            name="billingAddress"
+                            inputProps={{ 'aria-label': item.fullName }}
+                        />
+                        {/* <IconButton aria-label="edit" onClick={() => onEdit(item)}>
+                            <IonIcon icon={pencilSharp} />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => onDelete(item?.id)}>
+                            <IonIcon icon={trashSharp} />
+                        </IconButton> */}
+                    </CardActions>
+                </Card>
+            ))}
+
+            <div className="shipping-details">
+                <h4>Shipping Details</h4>
+                <button onClick={() => openModal('shipping_address')} className="billing-add-address-button">
+                    + Add New Address
+                </button>
+            </div>
+            {addressList.map((item, key) => (
+                item?.type == 'shipping_address' &&
+                <Card className="address-card" key={key} style={{ marginBottom: "16px" }}>
+                    <CardContent>
+                        <Typography variant="h6">{item?.fullName}</Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {item?.streetAddress}, {item?.city},
+                            {item?.state} {item?.zipCode},
+                            {item?.country}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            Contact - {item?.phoneNumber}
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Radio
+                            checked={selectedShippingAddress === item.id}
+                            onChange={() => setSelectedShippingAddress(item.id)}
+                            value={item.id}
+                            name="shippingAddress"
+                            inputProps={{ 'aria-label': item.fullName }}
+                        />
+                        {/* <IconButton aria-label="edit" onClick={() => onEdit(item)}>
+                            <IonIcon icon={pencilSharp} />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={() => onDelete(item?.id)}>
+                            <IonIcon icon={trashSharp} />
+                        </IconButton> */}
+                    </CardActions>
+                </Card>
+            ))}
 
             <div id="billingModal" className="billing-modal">
                 <div className="billing-modal-content">
                     <span className="billing-close" onClick={closeModal}>&times;</span>
-                    <h4>Add Address</h4>
+                    <h4>{currentAddress ? 'Edit Address' : 'Add Address'}</h4>
                     <Formik
                         initialValues={{
-                            fullName: '',
-                            streetAddress: '',
-                            state: '',
-                            city: '',
-                            zipCode: '',
-                            country: '',
-                            phoneNumber: '',
-                            type: '',
+                            fullName: currentAddress?.fullName || '',
+                            streetAddress: currentAddress?.streetAddress || '',
+                            state: currentAddress?.state || '',
+                            city: currentAddress?.city || '',
+                            zipCode: currentAddress?.zipCode || '',
+                            country: currentAddress?.country || '',
+                            phoneNumber: currentAddress?.phoneNumber || '',
                         }}
                         validationSchema={schema}
                         onSubmit={async (values, actions) => {
@@ -94,9 +201,8 @@ const Address = () => {
                                 zipCode: values.zipCode,
                                 country: values.country,
                                 phoneNumber: values.phoneNumber,
-                                type: "delivery_address",
+                                type: type,
                                 is_enable: 0
-                                // rememberMe: rememberMe,
                             });
                             actions.setSubmitting(true);
                         }}
@@ -110,8 +216,7 @@ const Address = () => {
                             handleSubmit,
                             isSubmitting,
                         }) => (
-                            <form>
-
+                            <form onSubmit={handleSubmit}>
                                 <div>
                                     <div className="billing-form">
                                         <label>Full Name</label>
@@ -130,9 +235,25 @@ const Address = () => {
                                             errors.fullName}
                                     </p>
                                 </div>
-
-
                                 <div className='flex align-items-center gap-rem justify-content-sb'>
+                                    <div>
+                                        <div className="billing-form">
+                                            <label>Phone Number</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                name="phoneNumber"
+                                                value={values.phoneNumber}
+                                            />
+                                        </div>
+                                        <p className="errorMessage">
+                                            {errors.phoneNumber &&
+                                                touched.phoneNumber &&
+                                                errors.phoneNumber}
+                                        </p>
+                                    </div>
                                     <div>
                                         <div className="billing-form">
                                             <label>Street Address</label>
@@ -151,6 +272,9 @@ const Address = () => {
                                                 errors.streetAddress}
                                         </p>
                                     </div>
+
+                                </div>
+                                <div className='flex align-items-center gap-rem justify-content-sb'>
                                     <div>
                                         <div className="billing-form">
                                             <label>State</label>
@@ -169,8 +293,6 @@ const Address = () => {
                                                 errors.state}
                                         </p>
                                     </div>
-                                </div>
-                                <div className='flex align-items-center gap-rem justify-content-sb'>
                                     <div>
                                         <div className="billing-form">
                                             <label>City</label>
@@ -187,6 +309,27 @@ const Address = () => {
                                             {errors.city &&
                                                 touched.city &&
                                                 errors.city}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='flex align-items-center gap-rem justify-content-sb'>
+
+                                    <div>
+                                        <div className="billing-form">
+                                            <label>Zip Code</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                name="zipCode"
+                                                value={values.zipCode}
+                                            />
+                                        </div>
+                                        <p className="errorMessage">
+                                            {errors.zipCode &&
+                                                touched.zipCode &&
+                                                errors.zipCode}
                                         </p>
                                     </div>
                                     <div>
@@ -208,50 +351,10 @@ const Address = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className='flex align-items-center gap-rem justify-content-sb'>
-                                    <div>
-                                        <div className="billing-form">
-                                            <label>Zipcode</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                name="zipCode"
-                                                value={values.zipCode}
-                                            />
-                                        </div>
-                                        <p className="errorMessage">
-                                            {errors.zipCode &&
-                                                touched.zipCode &&
-                                                errors.zipCode}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <div className="billing-form">
-                                            <label>Phone Number</label>
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                onChange={handleChange}
-                                                onBlur={handleBlur}
-                                                name="phoneNumber"
-                                                value={values.phoneNumber}
-                                            />
-                                        </div>
-                                        <p className="errorMessage">
-                                            {errors.phoneNumber &&
-                                                touched.phoneNumber &&
-                                                errors.phoneNumber}
-                                        </p>
-                                    </div>
-                                </div>
-
-
                                 <Button
                                     onClick={handleSubmit}
                                     isSubmitting={isSubmitting}
-                                    name="Add Address"
+                                    name="Submit"
                                     bg="#dc395f"
                                     w="150px"
                                     color="#fff"
@@ -265,6 +368,6 @@ const Address = () => {
             </div>
         </div>
     );
-};
+}
 
 export default Address;

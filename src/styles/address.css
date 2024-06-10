@@ -1,6 +1,6 @@
 
 
-.billing-details {
+.billing-details,.shipping-details {
     text-align: left;
     margin: 20px;
     display: flex;
@@ -77,4 +77,8 @@
 
 .billing-form .form-control{
     margin-bottom: 0;
+}
+.address-card {
+    display: flex;
+    justify-content: space-between;
 }

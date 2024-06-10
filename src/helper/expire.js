@@ -6,5 +6,7 @@ export const SetExpireToken = (data) => {
         LocalStorageHelper?.removeItem(localStorageConst.JWTUSER);
         LocalStorageHelper?.removeItem(localStorageConst.USER);
         Reload();
-    } 
+    } else{
+        return true;
+    }
 };

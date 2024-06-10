@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { useQuery } from "react-query";
-import { BrowserRouter as Router, Routes, Route, Navigate, } from "react-router-dom";
-import { LoginPage, HomePage, RegistrationPage, ForgotPasswordPage, BaseAccount, Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, OrdersPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage } from "./pages";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { 
+  LoginPage, HomePage, RegistrationPage, ForgotPasswordPage, BaseAccount, 
+  Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, 
+  OrdersPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, 
+  CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage 
+} from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
 import { AuthorizationApi } from "./service";
 import { SetExpireToken } from "./helper/expire";
+
 const App = () => {
-  const { validateToken } = new AuthorizationApi()
-  const { data } = useQuery(["validate-token"], validateToken)
-  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const { validateToken } = new AuthorizationApi();
+  const { data, isLoading } = useQuery(["validate-token"], validateToken);
+  const [isLoggedIn, setIsLoggedIn] = useState(null); // Initialize with null to represent loading state
 
   useEffect(() => {
-    const userAuthToken = LocalStorageHelper.getItem(
-      localStorageConst.JWTUSER
-    );
+    const userAuthToken = LocalStorageHelper.getItem(localStorageConst.JWTUSER);
     if (userAuthToken) {
-      setisLoggedIn(true)
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
   }, []);
 
   useEffect(() => {
-    const userAuthToken = LocalStorageHelper.getItem(
-      localStorageConst.JWTUSER
-    );
+    const userAuthToken = LocalStorageHelper.getItem(localStorageConst.JWTUSER);
     if (userAuthToken && data) {
-      SetExpireToken(data)
+      SetExpireToken(data);
+      console.log(SetExpireToken(data));
+      setIsLoggedIn(true);
+    } else {
+      let userDetails = LocalStorageHelper?.getItem(localStorageConst?.JWTUSER);
+      console.log(userDetails, 'userDetails');
+      setIsLoggedIn(userDetails ? true : false);
     }
-  }, [data])
+  }, [data]);
+
+  if (isLoading || isLoggedIn === null) {
+    // Display a loading spinner or some placeholder content while loading
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
@@ -140,12 +155,10 @@ const App = () => {
           path="/category/:id"
           element={
             <Base>
-              {/* <SubCategoryPage /> */}
               <ProductListingPage />
             </Base>
           }
         />
-
         <Route
           path="/products"
           element={
@@ -162,7 +175,6 @@ const App = () => {
             </Base>
           }
         />
-
         {!isLoggedIn && (
           <>
             <Route path="/login" element={<LoginPage />} />
