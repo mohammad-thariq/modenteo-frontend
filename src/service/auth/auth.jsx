@@ -13,4 +13,8 @@ export class AuthorizationApi {
     const res = await _axios('get', `/validate-token`)
     return res
   }
+  dashboard = async(id)=>{
+    const res = await _axios("get", `/user/dashboard/${id}`);
+    return res
+  }
 }

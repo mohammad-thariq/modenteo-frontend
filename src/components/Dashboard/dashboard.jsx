@@ -1,58 +1,33 @@
 // HomePage.js
-import React, { useState } from 'react';
-import { OrderTable, CustomPagination } from '../../common';
-import { getPaginatedData, itemsPerPage } from '../../utils/paginateddata';
+import React, { useState,useEffect } from 'react';
+import { OrderTable } from '../../common';
+import { getPaginatedData } from '../../utils/paginateddata';
+import { AuthorizationApi } from '../../service';
+import { useMutation } from 'react-query';
+import { LocalStorageHelper } from '../../utils/localStorage';
+import { localStorageConst } from '../../constants/localStorage';
 const Dashboard = () => {
-
-    const orderData = [
-        {
-            user: "User 1",
-            img: "assets/images/faces/face1.jpg",
-            orderNumber: "#ORD123",
-            status: "DONE",
-            statusClass: "success",
-            paymentStatus: "DONE",
-            amount: '100',
-            orderedDate: "Dec 5, 2017"
+    const { dashboard } = new AuthorizationApi();
+    let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
+    const [orderItems, setorderItems] = useState([]);
+    const [order_count, setorderCount] = useState(0);
+    const [cart_count, setcartCount] = useState(0);
+    const [wishlist_count, setwishlistcount] = useState(0);
+    const { mutate: getDashboard } = useMutation(dashboard, {
+        onSuccess: (data) => {
+            console.log(data, 'datat')
+            setorderItems(data?.orders);
+            setcartCount(data?.cart_count);
+            setorderCount(data?.order_count);
+            setwishlistcount(data?.wishlist_count);
         },
-        {
-            user: "User 2",
-            img: "assets/images/faces/face3.jpg",
-            orderNumber: "#ORD123",
-            status: "ON-HOLD",
-            amount: '200',
-            statusClass: "info",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
+        onError: (error) => {
+            console.log(error?.message);
         },
-        {
-            user: "User 3",
-            img: "assets/images/faces/face3.jpg",
-            orderNumber: "#ORD123",
-            amount: '1000',
-            status: "REJECTED",
-            statusClass: "danger",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
-        },
-        {
-            user: "User 4",
-            img: "assets/images/faces/face4.jpg",
-            amount: '4800',
-            orderNumber: "#ORD123",
-            status: "PROCESS",
-            statusClass: "warning",
-            paymentStatus: "DONE",
-            orderedDate: "Dec 5, 2017"
-        },
-        // Add more data items as needed
-    ];
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(orderData.length / itemsPerPage);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
+    });
+    useEffect(() => {
+        getDashboard(userDetails?.id)
+    }, [])
 
     return (
         <div className="content-wrapper">
@@ -61,9 +36,9 @@ const Dashboard = () => {
                     <div className="card bg-gradient-info card-img-holder text-white">
                         <div className="card-body">
                             <img src={process.env.PUBLIC_URL + "assets/images/dashboard/circle.svg"} className="card-img-absolute" alt="All Orders" />
-                            <h4 className="font-weight-normal mb-3">Toal Orders <i className="fa fa-shopping-basket mdi-24px float-end"></i>
+                            <h4 className="font-weight-normal mb-2">Toal Orders <i className="fa fa-shopping-basket mdi-24px float-end"></i>
                             </h4>
-                            <h2 className="mb-5">45,6334</h2>
+                            <h2 className="mb-1">{order_count}</h2>
                         </div>
                     </div>
                 </div>
@@ -71,9 +46,9 @@ const Dashboard = () => {
                     <div className="card bg-gradient-success card-img-holder text-white">
                         <div className="card-body">
                             <img src={process.env.PUBLIC_URL + "assets/images/dashboard/circle.svg"} className="card-img-absolute" alt="Wishlist" />
-                            <h4 className="font-weight-normal mb-3">Wislist <i className="fa fa-heart mdi-24px float-end"></i>
+                            <h4 className="font-weight-normal mb-2">Wislist <i className="fa fa-heart mdi-24px float-end"></i>
                             </h4>
-                            <h2 className="mb-5">95,5741</h2>
+                            <h2 className="mb-1">{wishlist_count}</h2>
                         </div>
                     </div>
                 </div>
@@ -81,9 +56,9 @@ const Dashboard = () => {
                     <div className="card bg-gradient-danger card-img-holder text-white">
                         <div className="card-body">
                             <img src={process.env.PUBLIC_URL + "assets/images/dashboard/circle.svg"} className="card-img-absolute" alt="Cart" />
-                            <h4 className="font-weight-normal mb-3">Cart<i className="fa fa-shopping-cart mdi-24px float-end"></i>
+                            <h4 className="font-weight-normal mb-2">Cart<i className="fa fa-shopping-cart mdi-24px float-end"></i>
                             </h4>
-                            <h2 className="mb-5">$ 15,0000</h2>
+                            <h2 className="mb-1">{cart_count}</h2>
                         </div>
                     </div>
                 </div>
@@ -93,12 +68,7 @@ const Dashboard = () => {
                     <div className="card">
                         <div className="card-body">
                             <div className="table-responsive">
-                                <OrderTable type="recent" data={getPaginatedData(orderData, currentPage)} />
-                                <CustomPagination
-                                    currentPage={currentPage}
-                                    totalPages={totalPages}
-                                    onPageChange={handlePageChange}
-                                />
+                                <OrderTable type="recent" data={getPaginatedData(orderItems, 1, orderItems.length)} />
                             </div>
                         </div>
                     </div>
