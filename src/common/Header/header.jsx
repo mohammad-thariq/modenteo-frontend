@@ -202,15 +202,10 @@ const WebsiteHeader = () => {
                 Home
               </a>
             </li>
-            {/* <li className="menu-category">
-              <a href="/categories" className="menu-title">
-                Categories
-              </a>
-            </li> */}
             {categories.length > 0 &&
-              categories.map((cat) => {
+              categories.map((cat,key) => {
                 return (
-                  <li className="menu-category">
+                  <li key={key} className="menu-category">
                     <a
                       className="menu-title"
                       href={"/category/" + cat?.categorySlug}

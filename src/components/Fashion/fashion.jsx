@@ -10,7 +10,7 @@ const Fashion = ({ images, header, interval = 3000 }) => {
             <div className="product-slider">
                 <div className="product-images">
                     {images.map((item, index) => (
-                        <img src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)} alt={`Product ${index + 1}`} />
+                        <img key={index} src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)} alt={`Product ${index + 1}`} />
                     ))}
                 </div>
             </div>

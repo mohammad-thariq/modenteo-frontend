@@ -1,10 +1,10 @@
 import React from 'react';
-import '../../styles/product.css'; 
+import '../../styles/product.css';
 import { IonIcon } from '@ionic/react';
 import { heartOutline, heartDislike } from 'ionicons/icons';
 import { useMutation, useQuery } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
-import {  ManageWishlistApi } from '../../service';
+import { ManageWishlistApi } from '../../service';
 import { LocalStorageHelper } from '../../utils/localStorage';
 import { localStorageConst } from '../../constants/localStorage';
 const { getWishlist, addWishlist, deleteWishlist } = new ManageWishlistApi();
