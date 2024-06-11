@@ -86,30 +86,37 @@ const HomePage = () => {
     const getSettingsByType = (type) => {
         return websiteSettings.find(section => section.type === type && section.enabled === 1);
     };
+    const getProducts = (type, value) => {
+
+    }
     const renderSection = (sectionname) => {
-        let data = homeSettings.find(section => section.after_section === sectionname);
-        console.log(data, 'datadata')
-        if (data !== undefined) {
-            return (
-                <div className="our-collections pt-5 pb-5">
-                    <SectionTitle title="Our Collections" subtitle="Check out most promising product bought by our buyers" />
-                    <div className="container">
-                        <div className='row'>
-                            <div className='col-lg-12'>
-                                <div className='products mb-3'>
-                                    <div className='row justify-content-center'>
-                                        {productImages.map((data, key) => {
-                                            return (<div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
-                                                <ProductCard key={key} data={data} />
-                                            </div>)
-                                        })}
+        let data = homeSettings.filter(section => section.after_section === sectionname);
+        if (data.length > 0) {
+            return data.map((item, key) => {
+                let products = getProducts(item?.type,item?.value);
+                console.log(products,'products')
+                return (
+                    <div className="our-collections pt-5" key={key}>
+                        <SectionTitle title={item?.title} subtitle={item?.description} />
+                        <div className="container">
+                            <div className='row'>
+                                <div className='col-lg-12'>
+                                    <div className='products mb-3'>
+                                        <div className='row justify-content-center'>
+                                            {productImages.map((data, key) => {
+                                                return (<div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
+                                                    <ProductCard key={key} data={data} />
+                                                </div>)
+                                            })}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )
+                )
+            })
+
         } else {
             return null;
         }
