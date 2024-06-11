@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import '../../styles/banner.css'
-
+import { imgURL } from '../../config';
+import { getNextJsOptimizedUrl } from '../../helper/image';
 const WebsiteBanner = ({ images }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -31,20 +32,21 @@ const WebsiteBanner = ({ images }) => {
                         <FaChevronRight />
                     </button>
                     <div className="slider-container has-scrollbar">
-                        {images.map((image, index) => (
+                        {images.map((item, index) => (
                             <div key={index} className={index === currentIndex ? 'slider-item active' : "slider-item"}>
-                                <img src={image} alt={index} className="banner-img" />
+                                <img src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)} alt={index} className="banner-img" />
+                                {/* <img src={process.env.PUBLIC_URL + "/assets/home/images/banner-1.jpg"} alt={index} className="banner-img" /> */}
                                 <div className="banner-content">
 
-                                    <p className="banner-subtitle">Trending item</p>
+                                    <p className="banner-subtitle">{item?.title}</p>
 
-                                    <h2 className="banner-title">Women's latest fashion sale</h2>
+                                    <h2 className="banner-title">{item?.sub_title}</h2>
 
                                     <p className="banner-text">
-                                        starting at &#36; <b>20</b>.00
+                                        {item?.description}
                                     </p>
 
-                                    <a href="/" className="banner-btn">Shop now</a>
+                                    <a href={item?.page_url} className="banner-btn">{item?.button_name}</a>
 
                                 </div>
 

@@ -31,11 +31,9 @@ const App = () => {
     const userAuthToken = LocalStorageHelper.getItem(localStorageConst.JWTUSER);
     if (userAuthToken && data) {
       SetExpireToken(data);
-      console.log(SetExpireToken(data));
       setIsLoggedIn(true);
     } else {
       let userDetails = LocalStorageHelper?.getItem(localStorageConst?.JWTUSER);
-      console.log(userDetails, 'userDetails');
       setIsLoggedIn(userDetails ? true : false);
     }
   }, [data]);

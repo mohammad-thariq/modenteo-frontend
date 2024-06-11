@@ -1,53 +1,28 @@
 import React from "react";
-const CustomerBenefits = () => {
+import { imgURL } from "../../config";
+import { getNextJsOptimizedUrl } from "../../helper/image";
+import { SectionTitle } from "../../common";
+const CustomerBenefits = ({ data, header }) => {
     return (
         <div className="category">
+            <SectionTitle title={header?.title} subtitle={header?.description} />
             <div className="container">
                 <div className="category-item-container has-scrollbar">
-                    <div className="category-item">
-                        <div className="category-img-box">
-                            <img src={process.env.PUBLIC_URL +"/assets/images/services/shipping.png"} alt="Free Shipping" width="30"/>
-                        </div>
-                        <div className="category-content-box">
-                            <div className="category-content-flex">
-                                <h3 className="category-item-title">Free Shipping</h3>
+                    {data.map((item, key) => {
+                        return (
+                            <div key={key} className="category-item">
+                                <div className="category-img-box">
+                                    <img src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)} alt={item?.badge} width="30" />
+                                </div>
+                                <div className="category-content-box">
+                                    <div className="category-content-flex">
+                                        <h3 className="category-item-title">{item?.badge}</h3>
+                                    </div>
+                                    <a href="/" className="category-btn">{item?.description}</a>
+                                </div>
                             </div>
-                            <a href="/" className="category-btn">Orders Over $100</a>
-                        </div>
-                    </div>
-                    <div className="category-item">
-                        <div className="category-img-box">
-                            <img src={process.env.PUBLIC_URL +"/assets/images/services/warranty.png"} alt="Warrenty Protection" width="30"/>
-                        </div>
-                        <div className="category-content-box">
-                            <div className="category-content-flex">
-                                <h3 className="category-item-title">Warrenty Protection</h3>
-                            </div>
-                            <a href="/" className="category-btn">Over 2 Years</a>
-                        </div>
-                    </div>
-                    <div className="category-item">
-                        <div className="category-img-box">
-                            <img src={process.env.PUBLIC_URL +"/assets/images/services/returnpolicy.png"} alt="Return Policy" width="30"/>
-                        </div>
-                        <div className="category-content-box">
-                            <div className="category-content-flex">
-                                <h3 className="category-item-title">Return Policy</h3>
-                            </div>
-                            <a href="/" className="category-btn">Easy & Free Return</a>
-                        </div>
-                    </div>
-                    <div className="category-item">
-                        <div className="category-img-box">
-                            <img src={process.env.PUBLIC_URL +"/assets/images/services/support.png"} alt="24/7 Support" width="30"/>
-                        </div>
-                        <div className="category-content-box">
-                            <div className="category-content-flex">
-                                <h3 className="category-item-title">24/7 Support</h3>
-                            </div>
-                            <a href="/" className="category-btn">Dedicated Support</a>
-                        </div>
-                    </div>
+                        )
+                    })}
                 </div>
             </div>
         </div>

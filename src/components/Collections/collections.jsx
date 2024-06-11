@@ -1,24 +1,32 @@
 import React from "react"
-const Collections = () => {
+import { imgURL } from "../../config"
+import { getNextJsOptimizedUrl } from "../../helper/image"
+const Collections = ({ data, header }) => {
     return (
         <div className="container">
-            <div className="testimonials-box">
-                <div className="cta-container">
-                    <img src={process.env.PUBLIC_URL + "/assets/home/images/cta-banner.jpg"} alt="summer collection" className="cta-banner" />
+            {data.map((item, index) => {
+                return (
+                    <div className="testimonials-box" key={index}>
+                        <div className="cta-container">
+                            <img src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)}  alt={item?.title} className="cta-banner" />
 
-                    <a href="/" className="cta-content">
+                            {/* <img src={item?.image} alt={item?.title} className="cta-banner" /> */}
+                            <a href={item?.page_url} className="cta-content">
 
-                        <p className="discount">25% Discount</p>
+                                <p className="discount">{item?.title}</p>
 
-                        <h2 className="cta-title">Summer collection</h2>
+                                <h2 className="cta-title">{item?.sub_title}</h2>
 
-                        <p className="cta-text">Starting @ $10</p>
+                                <p className="cta-text">{item?.description}</p>
 
-                        <button className="cta-btn">Shop now</button>
+                                <button className="cta-btn">{item?.button_name}</button>
 
-                    </a>
-                </div>
-            </div>
+                            </a>
+                        </div>
+                    </div>
+                )
+            })}
+
         </div>
     )
 }

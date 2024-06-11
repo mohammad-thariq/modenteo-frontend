@@ -1,33 +1,28 @@
 import React from 'react';
 import '../../styles/popular.css'
 import { SectionTitle } from '../../common';
-const Popular = () => {
+import { imgURL } from '../../config';
+import { getNextJsOptimizedUrl } from '../../helper/image';
+const Popular = ({ data, header }) => {
     return (
         <div className='container' style={{ marginBottom: "10px" }}>
-            <SectionTitle title="Popular Right Now" subtitle="Getting the best and latest style has never been easier" />
+            <SectionTitle title={header?.title} subtitle={header?.description} />
             <div className="row">
-                <div className="col-md-6 col-lg-6">
-                    <div className="member">
-                        <a href="/women-dashboard">
-                            <img src={process.env.PUBLIC_URL + "/assets/home/images/banner-1.jpg"} className="img-responsive img-thumbnail" alt="Responsive" />
-                        </a>
-                        <div className="name">
-                            <a href="/product-detail"><b>Trending For Women<span></span></b>
-                            </a>
-                            Explore Now!</div>
-                    </div>
-                </div>
-                <div className="col-md-6 col-lg-6">
-                    <div className="member">
-                        <a href="/Men-dashboard">
-                            <img src={process.env.PUBLIC_URL + "/assets/home/images/banner-2.jpg"} className="img-responsive img-thumbnail" alt="Responsive" />
-                        </a>
-                        <div className="name">
-                            <a href="/product-detail"><b>Trending For Men <span></span></b>
-                            </a>
-                            Explore Now!</div>
-                    </div>
-                </div>
+                {data.map((item, key) => {
+                    return (
+                        <div className="col-md-6 col-lg-6" key={key}>
+                            <div className="member">
+                                <a href={item?.page_url}>
+                                    <img src={getNextJsOptimizedUrl(imgURL + item.image, 96, 75)} className="img-responsive img-thumbnail" alt={item?.title}/>
+                                </a>
+                                <div className="name">
+                                    <a href={item?.page_url}><b>{item?.title}<span></span></b>
+                                    </a>
+                                    {item?.description}</div>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
 
