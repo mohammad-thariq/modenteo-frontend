@@ -83,6 +83,7 @@ const HomePage = () => {
         homeSettings.forEach(item => {
             getProducts(item.type, item.value);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [homeSettings]);
 
     const renderSection = (sectionname) => {
