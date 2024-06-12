@@ -1,16 +1,24 @@
-.btn-gradient-primary{
+.btn-gradient-primary {
   background: #da627d;
 }
-.btn-gradient-primary:hover{
+
+.btn-gradient-primary:hover {
   background: #da627d;
 }
+
 .auth-link {
   color: #da627d !important;
 }
-
-body {
-  font-family: 'Poppins', sans-serif;
+@font-face {
+  font-family: 'HelveticaNow';
+  src: url('./fonts/helveticanowtext-bold-demo.ttf') format('truetype');
 }
+body {
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: 'HelveticaNow', Helvetica, sans-serif;
+
+}
+
 a.homelink {
   margin-left: 5px;
 }
