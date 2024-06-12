@@ -86,8 +86,9 @@ function ImageMagnifier({
   );
 }
 
-const ProductGallery = ({ images }) => {
-  const [mainImage, setMainImage] = useState(images[0].image);
+const ProductGallery = ({ data }) => {
+  let gallery = data?.gallery !== undefined ? data?.gallery.split(',') : []
+  const [mainImage, setMainImage] = useState(data?.image);
   const [index, setIndex] = useState(1);
 
   const handleThumbnailClick = (imageUrl, index) => {
@@ -100,11 +101,11 @@ const ProductGallery = ({ images }) => {
       <div className="product-gallery product-gallery-vertical">
         <div className="row">
           <figure className="product-main-image">
-            <ImageMagnifier id="product-zoom" src={mainImage} index={index} images={images} />
+            <ImageMagnifier id="product-zoom" src={mainImage} index={index} images={gallery} />
           </figure>
           <div className="product-image-gallery">
-            {images.map((product, index) => (
-              <img onClick={() => handleThumbnailClick(product.image, index)} className={`product-gallery-item ${mainImage === product.image ? "active" : ""}`} src={product.image} alt={product.name} />
+            {gallery.map((product, index) => (
+              <img onClick={() => handleThumbnailClick(product, index)} className={`product-gallery-item ${mainImage === product ? "active" : ""}`} src={product} alt={data?.short_name} />
             ))}
           </div>
         </div>

@@ -7,33 +7,6 @@ import ProductGallery from "./product-gallery";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { ManageProductsApi } from "../../service";
-const productImages = [
-    {
-        name: "Shoe",
-        slug: "shoe",
-        image: process.env.PUBLIC_URL + "/assets/home/images/products/1.jpg",
-    },
-    {
-        name: "Jacket",
-        slug: "jacket",
-        image: process.env.PUBLIC_URL + "/assets/home/images/products/2.jpg",
-    },
-    {
-        name: "Skirt",
-        slug: "skirt",
-        image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-3.jpg",
-    },
-    {
-        name: "Traditional Skirt",
-        slug: "traditional-skirt",
-        image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-4.jpg",
-    },
-    {
-        name: "Traditional Skirt",
-        slug: "traditional-skirt",
-        image: process.env.PUBLIC_URL + "/assets/home/images/products/clothes-4.jpg",
-    },
-];
 const { productbySlug, similarProducts } = new ManageProductsApi();
 const fetchProductbySlug = (id) => () => productbySlug(id);
 
@@ -66,7 +39,7 @@ const Product = () => {
                 <div className="product-details-top">
                     <div className="row">
 
-                        <ProductGallery images={productImages} />
+                        <ProductGallery data={productDetails} />
                         <ProductDetails data={productDetails} />
                     </div>
                     <ProductDetailsTab data={productDetails} />

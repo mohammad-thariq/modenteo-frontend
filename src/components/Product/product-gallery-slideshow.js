@@ -47,8 +47,8 @@ const ProductGallerySlideshow = ({ images, index, modal }) => {
       <div className="galleryslideshowModalContent">
         <div className="galleryslideshowMySlides">
           <img
-            src={images[slideIndex - 1].image}
-            alt={images[slideIndex - 1].name}
+            src={images[slideIndex - 1]}
+            alt={images[slideIndex - 1]}
             className="galleryslideshowImage"
           />
         </div>
