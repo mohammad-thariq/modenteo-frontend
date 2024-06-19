@@ -32,9 +32,8 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 2rem 0rem;
+  padding: 2rem 5px;
   gap: 4px;
-  width: 215px;
   position: relative;
   transition: all 0.35s ease;
   background-color: #fff;
@@ -46,6 +45,7 @@
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #333333;
+  width: 215px;
   margin-bottom: 0.2rem;
 }
 
