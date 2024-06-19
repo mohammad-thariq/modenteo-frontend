@@ -46,11 +46,11 @@ const Orders = () => {
                   type="all"
                   data={getPaginatedData(orderItems, currentPage)}
                 />
-                <CustomPagination
+{/*                 <CustomPagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
-                />
+                /> */}
               </div>
             </div>
           </div>
