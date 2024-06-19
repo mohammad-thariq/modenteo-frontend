@@ -1,7 +1,7 @@
 // HomePage.js
 import React, { useState, useEffect } from "react";
 import { OrderTable } from "../../common";
-import { getPaginatedData, itemsPerPage } from "../../utils/paginateddata";
+import { getPaginatedData } from "../../utils/paginateddata";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ManageOrderApi } from "../../service";
@@ -26,7 +26,7 @@ const Orders = () => {
     },
   });
   useEffect(() => {
-    let data = { page: 1, limit: 100, user_id: userDetails?.id };
+    let data = { page: 1, limit: limit, user_id: userDetails?.id };
     getOrders(data);
   }, [ getOrders, userDetails?.id]);
 
