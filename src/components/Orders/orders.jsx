@@ -1,6 +1,6 @@
 // HomePage.js
 import React, { useState, useEffect } from "react";
-import { OrderTable, CustomPagination } from "../../common";
+import { OrderTable } from "../../common";
 import { getPaginatedData, itemsPerPage } from "../../utils/paginateddata";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
@@ -11,8 +11,9 @@ const Orders = () => {
   let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
 
   const [orderItems, setorderItems] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
   // const [limit, setLimit] = useState(1);
+  
   const limit = 10;
 
   const { mutate: getOrders } = useMutation(getOrder, {
@@ -25,15 +26,15 @@ const Orders = () => {
     },
   });
   useEffect(() => {
-    let data = { page: currentPage, limit: limit, user_id: userDetails?.id };
+    let data = { page: 1, limit: 100, user_id: userDetails?.id };
     getOrders(data);
-  }, [currentPage, getOrders, userDetails?.id]);
+  }, [ getOrders, userDetails?.id]);
 
-  const totalPages = Math.ceil(orderItems.length / itemsPerPage);
+  // const totalPages = Math.ceil(orderItems.length / itemsPerPage);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
+  // const handlePageChange = (page) => {
+    // setCurrentPage(page);
+  // };
 
   return (
     <div className="content-wrapper">
@@ -44,7 +45,7 @@ const Orders = () => {
               <div className="table-responsive">
                 <OrderTable
                   type="all"
-                  data={getPaginatedData(orderItems, currentPage)}
+                  data={getPaginatedData(orderItems, 1, orderItems.length)}
                 />
 {/*                 <CustomPagination
                   currentPage={currentPage}
