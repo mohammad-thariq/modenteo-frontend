@@ -85,7 +85,7 @@ const ProductCard = ({ data }) => {
           />
         </a>
         <div className="product-action-vertical">
-          {checkWishslistExists(data.id) ? (
+          {checkWishslistExists(data?.id) ? (
             <button
               className="btn-product-icon btn-wishlist"
               onClick={() => {
