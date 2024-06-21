@@ -121,7 +121,7 @@ const ProductCard = ({ data }) => {
           >
             ${data?.price}
           </span>
-         {data?.offer_price!=0 && <span className="offerPrice">${data?.offer_price}</span>}
+         {data?.offer_price!==0 && <span className="offerPrice">${data?.offer_price}</span>}
         </div>
       </div>
     </div>
