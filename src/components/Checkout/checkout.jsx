@@ -25,7 +25,7 @@ const Checkout = () => {
         useMutation(createOrder, {
             onSuccess: (data) => {
 
-                Redirect('/order-sucess?id=' + data?.orderNumber);
+                // Redirect('/order-sucess?id=' + data?.orderNumber);
             },
             onError: (data) => {
 
