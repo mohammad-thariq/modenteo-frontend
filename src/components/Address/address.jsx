@@ -118,7 +118,7 @@ const Address = ({
       <div className="billing-details">
         <h4>Billing Details</h4>
         <button
-          onClick={() => openModal()}
+          onClick={() => openModal('billing_address')}
           className="billing-add-address-button"
         >
           + Add New Address
