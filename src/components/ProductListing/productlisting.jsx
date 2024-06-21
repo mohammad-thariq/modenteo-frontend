@@ -15,7 +15,7 @@ const ProductListing = () => {
     const { data, isLoading, isError, error, refetch } = useQuery('category-product', fetchProducts(id), { enabled: id != null ? true : false });
     const [currentPage, setCurrentPage] = useState(1);
     const [productList, setproductList] = useState([]);
-    const itemsPerPage = 6;
+    const itemsPerPage = 16;
     useEffect(() => {
         if (data?.data) {
             setproductList(data?.data);
