@@ -74,7 +74,7 @@ const Address = ({
   const handleAddress = async (data) => {
     const deliveryAddress = {
       ...data,
-      type: "delivery_address"
+      type: type
     }
     const res = currentAddress
       ? await updateAddress({ ...data, id: currentAddress.id })
