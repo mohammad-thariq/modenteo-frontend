@@ -9,7 +9,7 @@ import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { useQuery, useMutation } from "react-query";
 import { ToastifyFailed } from "../../common/Toastify";
-import { Redirect } from "../../helper/base";
+// import { Redirect } from "../../helper/base";
 import Address from "../Address/address";
 const { getCart } = new ManageCartApi();
 const { createOrder } = new ManageOrderApi();
