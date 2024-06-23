@@ -17,7 +17,7 @@ const Popular = ({ data, header }) => {
                     alt={item?.title}
                   />
                 </a>
-                <div className="name">
+                <div className={data?.length !== key + 1 ? "name popular-description" : "name"}>
                   <a
                     href={item?.page_url}
                     style={{

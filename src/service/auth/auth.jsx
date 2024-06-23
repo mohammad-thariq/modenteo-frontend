@@ -5,6 +5,10 @@ export class AuthorizationApi {
     const res = await _axios("post", "/login", data);
     return res;
   };
+  forgotpassword = async (data) => {
+    const res = await _axios("post", "/forgot-password", data);
+    return res;
+  };
   register = async (data) => {
     const res = await _axios("post", "/register", data);
     return res;

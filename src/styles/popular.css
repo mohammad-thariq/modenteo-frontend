@@ -118,6 +118,7 @@ img {
   bottom: 0px;
   font-size: 18px;
   color: black;
+  padding-top: 1rem;
 }
 
 .member img {
@@ -149,4 +150,8 @@ img {
   .member img {
     height: auto;
   }
+
+.name.popular-description {
+  margin-bottom: 3rem;
+}
 }

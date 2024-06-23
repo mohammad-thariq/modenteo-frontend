@@ -1,69 +1,71 @@
-// HomePage.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonIcon } from '@ionic/react';
 import { mailOutline, callOutline, locationOutline } from 'ionicons/icons';
 import { SocialFooter } from '../Social/social';
+import { ManageCategoriesApi, PagesAPI } from '../../service';
+import { useQuery } from 'react-query';
+
 const WebsiteFooter = () => {
+    const { productMenuSeasons } = new ManageCategoriesApi();
+    const { getPages } = new PagesAPI();
+    const { data: seasons } = useQuery("footer-seasons", productMenuSeasons);
+    const { data: pages } = useQuery("pages", getPages);
+    const [seasonCollections, setSeasonalCollections] = useState([]);
+    const [companyPages, setCompanyPages] = useState([]);
+    const [servicePages, setServicePages] = useState([]);
+
+    useEffect(() => {
+        if (seasons && seasons.response && Array.isArray(seasons.response)) {
+            setSeasonalCollections(seasons.response);
+        }
+        if (pages && pages.pages && Array.isArray(pages.pages)) {
+            const companyPage = [];
+            const servicePage = [];
+            pages.pages.forEach(page => {
+                if (page.page_type === 'company') {
+                    companyPage.push(page);
+                } else if (page.page_type === 'service') {
+                    servicePage.push(page);
+                }
+            });
+            setCompanyPages(companyPage);
+            setServicePages(servicePage);
+        }
+    }, [seasons, pages]);
+
     return (
         <footer>
             <div className="footer-nav">
                 <div className="container">
                     <ul className="footer-nav-list">
                         <li className="footer-nav-item">
-                            <h2 className="nav-title">Popular Categories</h2>
+                            <h2 className="nav-title">Popular Collections</h2>
                         </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Fashion</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Electronic</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Cosmetic</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Health</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Watches</a>
-                        </li>
+                        {seasonCollections.length > 0 && seasonCollections.map((menu, key) => (
+                            <li className="footer-nav-item" key={key}>
+                                <a href={`/products?slug=${menu.slug}`} className="footer-nav-link">{menu.name}</a>
+                            </li>
+                        ))}
                     </ul>
                     <ul className="footer-nav-list">
                         <li className="footer-nav-item">
                             <h2 className="nav-title">Our Company</h2>
                         </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Delivery</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Legal Notice</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Terms and conditions</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">About us</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Secure payment</a>
-                        </li>
+                        {companyPages.length > 0 && companyPages.map((page, key) => (
+                            <li className="footer-nav-item" key={key}>
+                                <a href={`/page/${page.slug}`} className="footer-nav-link">{page.title}</a>
+                            </li>
+                        ))}
                     </ul>
                     <ul className="footer-nav-list">
                         <li className="footer-nav-item">
                             <h2 className="nav-title">Services</h2>
                         </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Prices drop</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">New products</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Best sales</a>
-                        </li>
-                        <li className="footer-nav-item">
-                            <a href="/dashboard" className="footer-nav-link">Contact us</a>
-                        </li>
+                        {servicePages.length > 0 && servicePages.map((page, key) => (
+                            <li className="footer-nav-item" key={key}>
+                                <a href={`/page/${page.slug}`} className="footer-nav-link">{page.title}</a>
+                            </li>
+                        ))}
                     </ul>
 
                     <ul className="footer-nav-list">
@@ -101,7 +103,6 @@ const WebsiteFooter = () => {
                         </li>
                     </ul>
                 </div>
-
             </div>
             <div className="footer-bottom">
                 <div className="container">
@@ -112,6 +113,7 @@ const WebsiteFooter = () => {
                 </div>
             </div>
         </footer>
-    )
+    );
 }
+
 export default WebsiteFooter;

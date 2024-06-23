@@ -17,7 +17,9 @@ import { MainCategoryPage, SubCategoryPage, ChildCategoryPage } from "./Category
 import OrderPlacedPage from "./OrderPlaced/orderplaced";
 import SeasonsPage from "./Seasons/seasons";
 import NewCollectionsPage from "./NewCollections/newcollections";
+import WebPage from "./WebPage/webpage";
 export {
+  WebPage,
   SeasonsPage,
   NewCollectionsPage,
   LoginPage,

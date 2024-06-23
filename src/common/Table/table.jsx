@@ -1,6 +1,7 @@
 import React from "react";
 import "../../styles/pagination.css";
 import { BsEyeFill } from "react-icons/bs";
+import moment from 'moment'
 const OrderTable = ({ data, type }) => {
   const getOrdertype = (type) => {
     let ordertype = "";
@@ -133,7 +134,7 @@ const OrderTable = ({ data, type }) => {
                   {getPaymentStatusName(item.payment_status)}
                 </label>
               </td>
-              <td> {item.ordered_date} </td>
+              <td> {moment(item.ordered_date).format('MMMM Do YYYY, hh:mm a')} </td>
               <td className="actions-order">
                 <BsEyeFill />
               </td>

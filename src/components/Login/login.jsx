@@ -21,8 +21,8 @@ const Login = () => {
     alignItems: "center",
   };
 
-  const handleNavigate = () => {
-    return navigate("/register");
+  const handleNavigate = (type) => {
+    return navigate("/" + type);
   };
   return (
     <div className="login-wrapper">
@@ -102,10 +102,20 @@ const Login = () => {
             )}
           </Formik>
           <p className="singup-connect">
+            Forgot Password? &nbsp;
+            <span
+              style={{ color: "#da627d", cursor: "pointer" }}
+              onClick={() => handleNavigate('forgot-password')}
+            >
+              {" "}
+              Reset
+            </span>
+          </p>
+          <p className="singup-connect">
             I don’t have an account? &nbsp;
             <span
               style={{ color: "#da627d", cursor: "pointer" }}
-              onClick={handleNavigate}
+              onClick={() => handleNavigate('register')}
             >
               {" "}
               Sign up

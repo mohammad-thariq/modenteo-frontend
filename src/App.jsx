@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import { useQuery } from "react-query";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { 
-  LoginPage, HomePage, RegistrationPage, ForgotPasswordPage, BaseAccount, 
-  Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, 
-  OrdersPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, 
-  CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage 
-} from "./pages";
+import { LoginPage, HomePage, RegistrationPage, ForgotPasswordPage, BaseAccount, Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, OrdersPage, WebPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage } from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
 import { AuthorizationApi } from "./service";
@@ -39,32 +34,16 @@ const App = () => {
   }, [data]);
 
   if (isLoading || isLoggedIn === null) {
-    // Display a loading spinner or some placeholder content while loading
     return <div>Loading...</div>;
   }
 
   return (
     <Router>
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <Base>
-              <HomePage />
-            </Base>
-          }
-        />
+        <Route exact path="/" element={<Base><HomePage /></Base>} />
         {isLoggedIn && (
           <>
-            <Route
-              path="/dashboard"
-              element={
-                <BaseAccount>
-                  <DashboardPage />
-                </BaseAccount>
-              }
-            />
+            <Route path="/dashboard" element={<BaseAccount><DashboardPage /></BaseAccount>} />
             <Route
               path="/profile"
               element={
@@ -165,14 +144,8 @@ const App = () => {
             </Base>
           }
         />
-        <Route
-          path="/product/:id"
-          element={
-            <Base>
-              <ProductPage />
-            </Base>
-          }
-        />
+        <Route path="/product/:id" element={<Base><ProductPage /></Base>} />
+        <Route path="/page/:slug" element={<Base><WebPage /></Base>} />
         {!isLoggedIn && (
           <>
             <Route path="/login" element={<LoginPage />} />

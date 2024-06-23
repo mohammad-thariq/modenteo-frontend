@@ -17,4 +17,5 @@ import OrderPlaced from "./OrderPlaced/orderplaced";
 import Seasons from "./Seasons/seasons";
 import NewCollections from "./NewCollections/newcollections";
 import ProductListing from "./ProductListing/productlisting";
-export { ProductListing, Seasons, NewCollections, OrderPlaced, Login, Checkout, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }
+import WebsitePages from "./WebsitePages/websitepages";
+export { WebsitePages,ProductListing, Seasons, NewCollections, OrderPlaced, Login, Checkout, Registration, ForgotPassword, Profile, Cart, Wishlist, Product, MainCategory, SubCategory, ChildCategory, Filter, FilterGrid, Orders, Dashboard }

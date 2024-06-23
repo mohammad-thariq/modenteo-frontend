@@ -1,76 +1,114 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { Social } from '../../common';
+import React from "react";
+import "../../styles/login.css";
+import { Button } from "../../common/Button";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { handleForgotPassword } from "./hooks/forgotpassword";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+    const schema = Yup.object({
+        email: Yup.string()
+            .email("Please Enter valid email")
+            .required("Email is Required"),
+        password: Yup.string().required("New Password is Required"),
+    });
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (email) {
-            toast.success('Password reset link sent to your email', {
-                position: 'top-right',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-            });
-        } else {
-            toast.error('Please enter your email', {
-                position: 'top-right',
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-            });
-        }
+    const btnStyle = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     };
 
+    const handleNavigate = () => {
+        return navigate("/login");
+    };
     return (
-        <div className="main-login">
-            <ToastContainer />
-            <div className="signin-page">
-                <div className="inner-login">
-                    <div className="row">
-                        <div className="col-sm-12 col-md-6 col-lg-6">
-                            <div className="left-login-content">
-                                <div className=""><Link className="items-center justify-center" to="/"><center>                                        <img src="/assets/images/logo3.png" alt="Logo" />
-                                </center></Link></div>
-                                <div className="signin-content">
-                                    <h3>Welcome Back!</h3>
-                                    <p>To keep connected with us please login</p>
-                                    <Link to="/login" className="btn btn-primary text-white">Login</Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-sm-12 col-md-6 col-lg-6">
-                            <div className="register-form-outer">
-                                <h3>Forget Password</h3>
-                                <div className="other-logins">
-                                    <ul className="d-flex">
-                                        <Social />
-                                    </ul>
-                                </div>
+        <div className="login-wrapper">
+            <div className="login-left">
+                <div className="card-wrapper">
+                    <img
+                        src="/assets/images/logo3.png"
+                        alt="modenteologo"
+                        className="mb-4"
+                    />
+                    <p className="card-signin mb-4">Forgot Password</p>
+                    <Formik
+                        initialValues={{ email: "", password: "" }}
+                        validationSchema={schema}
+                        onSubmit={async (values, actions) => {
+                            await handleForgotPassword({
+                                email: values.email,
+                                password: values.password,
+                            });
+                            actions.setSubmitting(true);
+                        }}
+                    >
+                        {({
+                            values,
+                            errors,
+                            touched,
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            isSubmitting,
+                        }) => (
+                            <form>
                                 <div className="login-form">
-                                    <input type="hidden" name="_token" value="HoqOKXu4SkMcnwyX16NXvTqWq60dVBze22fCqNIC" autoComplete="off" />
-                                    <div className="form-group search" style={{ marginTop: '20px' }}>
-                                        <i className="fa fa-envelope"></i>
-                                        <input type="email" className="form-control" id="mail" name="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-                                    </div>
-                                    <button type="button" onClick={(e) => handleSubmit(e)} className="btn btn-primary">Submit</button>
+                                    <label>Email</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        name="email"
+                                        // placeholder="Enter the Email"
+                                        value={values.email}
+                                    />
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+                                <p style={{ marginTop: "5px", color: "red" }}>
+                                    {errors.email && touched.email && errors.email}
+                                </p>
+                                <div className="login-form">
+                                    <label>New Password</label>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        // placeholder="Enter the Password"
+                                        name="password"
+                                        value={values.password}
+                                    />
+                                </div>
+                                <p style={{ marginTop: "5px", color: "red" }}>
+                                    {errors.password && touched.password && errors.password}
+                                </p>
+                                <Button
+                                    onClick={handleSubmit}
+                                    isSubmitting={isSubmitting}
+                                    name="Reset Password"
+                                    bg="#dc395f"
+                                    w="150px"
+                                    color="#fff"
+                                    type="submit"
+                                    style={btnStyle}
+                                />
+                            </form>
+                        )}
+                    </Formik>
+                    <p className="singup-connect">
+                        Already have a account? &nbsp;
+                        <span style={{ color: "#da627d", cursor: "pointer" }} onClick={() => handleNavigate()}>
+                            {" "}
+                            Sign In
+                        </span>
+                    </p>
                 </div>
+            </div>
+            <div className="login-right">
+                <img src="/assets/svg/signin.svg" alt="sigin" />
             </div>
         </div>
     );
