@@ -137,7 +137,7 @@ img.galleryslideshowHoverShadow {
 
 span.galleryslideshowPrev {
     position: absolute;
-    left: 10%;
+    /* left: 10%; */
 }
 
 a.galleryslideshowNext {
@@ -145,5 +145,5 @@ a.galleryslideshowNext {
     right: 10%;
 }
 .galleryslideshowImage{
-    height: 80%;
+    height: 500px;
 }

@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../../styles/gallery.css";
-const ProductGallerySlideshow = ({ images, index, modal }) => {
+const ProductGallerySlideshow = ({ images, index, modal, modalClose }) => {
   const [slideIndex, setSlideIndex] = useState(index);
 
   const closeModal = () => {
+    modalClose();
     document.body.style.overflow = "auto";
     document.body.style.height = "auto";
     document.getElementById("myHeader").style.display = "block";
