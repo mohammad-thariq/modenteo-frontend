@@ -12,7 +12,7 @@ import {
 // import Filter from '../../Filter/filter';
 // import FilterGrid from '../../FilterGrid/filter-grid';
 import { useQuery } from "react-query";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { HeaderTitle } from "../../../common/HeaderTitle";
 const { subcategoryProducts, productsbySlug } = new ManageProductsApi();
 const fetchSubcategoryProducts = (cat, subcat) => () =>
