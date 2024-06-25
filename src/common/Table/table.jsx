@@ -1,7 +1,9 @@
 import React from "react";
 import "../../styles/pagination.css";
 import { BsEyeFill } from "react-icons/bs";
-import moment from 'moment'
+import NoDataFound from "../NoDataFound/nodatafound";
+import moment from 'moment';
+import { Link } from "react-router-dom";
 const OrderTable = ({ data, type }) => {
   const getOrdertype = (type) => {
     let ordertype = "";
@@ -9,8 +11,8 @@ const OrderTable = ({ data, type }) => {
       case "all":
         ordertype = "All Orders";
         break;
-      case "recent":
-        ordertype = "Recent Orders";
+      case "today":
+        ordertype = "Today Orders";
         break;
       default:
         ordertype = "Orders";
@@ -100,48 +102,50 @@ const OrderTable = ({ data, type }) => {
   return (
     <div>
       <h4 className="card-title">{getOrdertype(type)}</h4>
-      <table className="table">
-        <thead>
-          <tr>
-            <th> Order ID </th>
-            <th> Amount </th>
-            <th> Order Status </th>
-            <th> Payment Status </th>
-            <th> Ordered Date </th>
-            <th> Action </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td> {item.order_id} </td>
-              <td>₹ {item.total_amount} </td>
-              <td>
-                <label
-                  className={`badge badge-gradient-${getStatus(
-                    item.order_status
-                  )}`}
-                >
-                  {getStatusName(item.order_status)}
-                </label>
-              </td>
-              <td>
-                <label
-                  className={`badge badge-gradient-${getPaymentStatus(
-                    item.payment_status
-                  )}`}
-                >
-                  {getPaymentStatusName(item.payment_status)}
-                </label>
-              </td>
-              <td> {moment(item.ordered_date).format('MMMM Do YYYY, hh:mm a')} </td>
-              <td className="actions-order">
-                <BsEyeFill />
-              </td>
+      {data.length > 0 ?
+        <table className="table">
+          <thead>
+            <tr>
+              <th> Order ID </th>
+              <th> Amount </th>
+              <th> Order Status </th>
+              <th> Payment Status </th>
+              <th> Ordered Date </th>
+              <th> Action </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td><Link to={"/order-details/" + item.id}>  {item.order_id} </Link></td>
+                <td>₹ {item.total_amount} </td>
+                <td>
+                  <label
+                    className={`badge badge-gradient-${getStatus(
+                      item.order_status
+                    )}`}
+                  >
+                    {getStatusName(item.order_status)}
+                  </label>
+                </td>
+                <td>
+                  <label
+                    className={`badge badge-gradient-${getPaymentStatus(
+                      item.payment_status
+                    )}`}
+                  >
+                    {getPaymentStatusName(item.payment_status)}
+                  </label>
+                </td>
+                <td> {moment(item.ordered_date).format('MMMM Do YYYY, hh:mm a')} </td>
+                <td className="actions-order">
+                  <BsEyeFill />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table> :
+        <NoDataFound />}
     </div>
   );
 };

@@ -90,10 +90,7 @@ const Dashboard = () => {
           <div className="card">
             <div className="card-body">
               <div className="table-responsive">
-                <OrderTable
-                  type="recent"
-                  data={getPaginatedData(orderItems, 1, orderItems.length)}
-                />
+                  <OrderTable type="today" data={getPaginatedData(orderItems, 1, orderItems.length)} />
               </div>
             </div>
           </div>

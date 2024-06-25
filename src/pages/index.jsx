@@ -18,7 +18,9 @@ import OrderPlacedPage from "./OrderPlaced/orderplaced";
 import SeasonsPage from "./Seasons/seasons";
 import NewCollectionsPage from "./NewCollections/newcollections";
 import WebPage from "./WebPage/webpage";
+import OrderDetailsPage from "./OrderDetails/order-details";
 export {
+  OrderDetailsPage,
   WebPage,
   SeasonsPage,
   NewCollectionsPage,

@@ -15,5 +15,10 @@ export class ManageOrderApi {
 
         return res;
     };
+    getOrderbyID = async (id) => {
+        const res = await _axios("get", `/order-details/${id}`);
+
+        return res;
+    };
 
 }
