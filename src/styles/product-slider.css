@@ -1,17 +1,18 @@
 .product-slider {
   width: 100%;
 }
-.sectitle{
-    text-transform: capitalize;
-    font-weight: 700;
-    color: rgb(218, 98, 125);
-    text-align: center;
-    font-size: 35px !important;
+.sectitle {
+  text-transform: capitalize;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  font-size: 35px !important;
 }
 .subtitle {
   text-align: center;
 }
-.slider-container ,.mobile-slider {
+.slider-container,
+.mobile-slider {
   position: relative;
   overflow: hidden;
 }
@@ -42,7 +43,7 @@
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  display: none; 
+  display: none;
 }
 
 .prev-btn:hover,

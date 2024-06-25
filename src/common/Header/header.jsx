@@ -13,8 +13,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
-import { ManageCategoriesApi, ManageCartApi, ManageWishlistApi } from "../../service";
+import {
+  ManageCategoriesApi,
+  ManageCartApi,
+  ManageWishlistApi,
+} from "../../service";
 import { useQuery } from "react-query";
+
 const { getCart } = new ManageCartApi();
 const { getWishlist } = new ManageWishlistApi();
 const fetchCart = (userID) => () => getCart(userID);
@@ -26,7 +31,8 @@ const WebsiteHeader = () => {
   let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
   const isLoggedIn = userToken ? true : false;
   const [ismobileMenu, setismobileMenu] = useState(false);
-  const { productMenuCategory, productMenuNew, productMenuSeasons } = new ManageCategoriesApi();
+  const { productMenuCategory, productMenuNew, productMenuSeasons } =
+    new ManageCategoriesApi();
   const { data } = useQuery("menu-categories", productMenuCategory);
   const { data: seasons } = useQuery("menu-seasons", productMenuSeasons);
   const { data: newCollections } = useQuery(
@@ -36,9 +42,14 @@ const WebsiteHeader = () => {
   const [categories, setcategories] = useState([]);
   const [seasoncollections, setSeasonalCollections] = useState([]);
   const [newcollectionsmenu, setNewCollections] = useState([]);
-  const { data: cartData } = useQuery('cart', fetchCart(userDetails?.id), { enabled: userDetails != null ? true : false });
-  const { data: wishlistData } = useQuery('wishlist', fetchWishlist(userDetails?.id), { enabled: userDetails != null ? true : false });
-
+  const { data: cartData } = useQuery("cart", fetchCart(userDetails?.id), {
+    enabled: userDetails != null ? true : false,
+  });
+  const { data: wishlistData } = useQuery(
+    "wishlist",
+    fetchWishlist(userDetails?.id),
+    { enabled: userDetails != null ? true : false }
+  );
 
   const [cartItems, setCartItems] = useState([]);
   const [wishlistItems, setwishlistItems] = useState([]);
@@ -50,7 +61,7 @@ const WebsiteHeader = () => {
     if (wishlistData?.data && Array.isArray(wishlistData?.data)) {
       setwishlistItems(wishlistData?.data);
     }
-  }, [cartData, wishlistData])
+  }, [cartData, wishlistData]);
 
   useEffect(() => {
     if (data && data.response && Array.isArray(data.response)) {
@@ -203,7 +214,7 @@ const WebsiteHeader = () => {
               </a>
             </li>
             {categories.length > 0 &&
-              categories.map((cat,key) => {
+              categories.map((cat, key) => {
                 return (
                   <li key={key} className="menu-category">
                     <a
@@ -244,7 +255,9 @@ const WebsiteHeader = () => {
                     newcollectionsmenu.map((menu, key) => {
                       return (
                         <li className="dropdown-item" key={key + 1}>
-                          <a href={"/products?slug=" + menu?.slug}>{menu?.name}</a>
+                          <a href={"/products?slug=" + menu?.slug}>
+                            {menu?.name}
+                          </a>
                         </li>
                       );
                     })}
@@ -261,7 +274,9 @@ const WebsiteHeader = () => {
                     seasoncollections.map((menu, key) => {
                       return (
                         <li className="dropdown-item" key={key + 1}>
-                          <a href={"/products?slug=" + menu?.slug}>{menu?.name}</a>
+                          <a href={"/products?slug=" + menu?.slug}>
+                            {menu?.name}
+                          </a>
                         </li>
                       );
                     })}

@@ -13,13 +13,15 @@ const Breadcrumb = () => {
       <div className="container">
         <ol className="breadcrumb">
           <li className="breadcrumb-item">
-            <Link to="/">Home</Link>
+            <Link to="/" style={{ color: "#000" }}>
+              Home
+            </Link>
             <IonIcon icon={chevronForwardOutline} />
           </li>
 
           {paths.map((path, index) => {
-            const pathTo = "/" + paths.slice(0, index + 1).join("/");
-            const isLast = index === paths.length - 1;
+            const pathTo = "/" + paths?.slice(0, index + 1).join("/");
+            const isLast = index === paths?.length - 1;
             return (
               <li
                 key={index}

@@ -10,7 +10,7 @@ function ImageMagnifier({
   zoomLevel = 1.5,
   images,
   index,
-  showModal
+  showModal,
 }) {
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
@@ -23,11 +23,16 @@ function ImageMagnifier({
   };
   useEffect(() => {
     setshowPopup(showModal);
-  }, [showModal])
+  }, [showModal]);
   return (
     <>
       {showPopup && (
-        <ProductGallerySlideshow modal={time} index={index} images={images} modalClose={() => setshowPopup(false)} />
+        <ProductGallerySlideshow
+          modal={time}
+          index={index}
+          images={images}
+          modalClose={() => setshowPopup(false)}
+        />
       )}
 
       <div
@@ -82,8 +87,9 @@ function ImageMagnifier({
             backgroundColor: "white",
             backgroundImage: `url('${src}')`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel
-              }px`,
+            backgroundSize: `${imgWidth * zoomLevel}px ${
+              imgHeight * zoomLevel
+            }px`,
 
             backgroundPositionX: `${-x * zoomLevel + magnifieWidth / 2}px`,
             backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`,
@@ -99,11 +105,11 @@ const ProductGallery = ({ data }) => {
     data?.gallery !== undefined
       ? data?.gallery?.split(",")
       : [
-        "/assets/images/placeholder.jpg",
-        "/assets/images/placeholder.jpg",
-        "/assets/images/placeholder.jpg",
-      ];
-  gallery.push(data?.image)
+          "/assets/images/placeholder.jpg",
+          "/assets/images/placeholder.jpg",
+          "/assets/images/placeholder.jpg",
+        ];
+  gallery?.push(data?.image);
 
   const [mainImage, setMainImage] = useState(data?.image);
   const [index, setIndex] = useState(1);
@@ -133,8 +139,9 @@ const ProductGallery = ({ data }) => {
             {gallery?.map((product, index) => (
               <img
                 onClick={() => handleThumbnailClick(product, index)}
-                className={`product-gallery-item ${mainImage === product ? "active" : ""
-                  }`}
+                className={`product-gallery-item ${
+                  mainImage === product ? "active" : ""
+                }`}
                 src={product}
                 alt={data?.short_name}
               />

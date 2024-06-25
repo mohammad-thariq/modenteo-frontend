@@ -105,7 +105,7 @@ const Login = () => {
             Forgot Password? &nbsp;
             <span
               style={{ color: "#da627d", cursor: "pointer" }}
-              onClick={() => handleNavigate('forgot-password')}
+              onClick={() => handleNavigate("forgot-password")}
             >
               {" "}
               Reset
@@ -115,7 +115,7 @@ const Login = () => {
             I don’t have an account? &nbsp;
             <span
               style={{ color: "#da627d", cursor: "pointer" }}
-              onClick={() => handleNavigate('register')}
+              onClick={() => handleNavigate("register")}
             >
               {" "}
               Sign up

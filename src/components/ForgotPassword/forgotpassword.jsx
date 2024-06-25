@@ -7,111 +7,114 @@ import { handleForgotPassword } from "./hooks/forgotpassword";
 import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
-    const navigate = useNavigate();
-    const schema = Yup.object({
-        email: Yup.string()
-            .email("Please Enter valid email")
-            .required("Email is Required"),
-        password: Yup.string().required("New Password is Required"),
-    });
+  const navigate = useNavigate();
+  const schema = Yup.object({
+    email: Yup.string()
+      .email("Please Enter valid email")
+      .required("Email is Required"),
+    password: Yup.string().required("New Password is Required"),
+  });
 
-    const btnStyle = {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-    };
+  const btnStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
 
-    const handleNavigate = () => {
-        return navigate("/login");
-    };
-    return (
-        <div className="login-wrapper">
-            <div className="login-left">
-                <div className="card-wrapper">
-                    <img
-                        src="/assets/images/logo3.png"
-                        alt="modenteologo"
-                        className="mb-4"
-                    />
-                    <p className="card-signin mb-4">Forgot Password</p>
-                    <Formik
-                        initialValues={{ email: "", password: "" }}
-                        validationSchema={schema}
-                        onSubmit={async (values, actions) => {
-                            await handleForgotPassword({
-                                email: values.email,
-                                password: values.password,
-                            });
-                            actions.setSubmitting(true);
-                        }}
-                    >
-                        {({
-                            values,
-                            errors,
-                            touched,
-                            handleChange,
-                            handleBlur,
-                            handleSubmit,
-                            isSubmitting,
-                        }) => (
-                            <form>
-                                <div className="login-form">
-                                    <label>Email</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        name="email"
-                                        // placeholder="Enter the Email"
-                                        value={values.email}
-                                    />
-                                </div>
-                                <p style={{ marginTop: "5px", color: "red" }}>
-                                    {errors.email && touched.email && errors.email}
-                                </p>
-                                <div className="login-form">
-                                    <label>New Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        // placeholder="Enter the Password"
-                                        name="password"
-                                        value={values.password}
-                                    />
-                                </div>
-                                <p style={{ marginTop: "5px", color: "red" }}>
-                                    {errors.password && touched.password && errors.password}
-                                </p>
-                                <Button
-                                    onClick={handleSubmit}
-                                    isSubmitting={isSubmitting}
-                                    name="Reset Password"
-                                    bg="#dc395f"
-                                    w="150px"
-                                    color="#fff"
-                                    type="submit"
-                                    style={btnStyle}
-                                />
-                            </form>
-                        )}
-                    </Formik>
-                    <p className="singup-connect">
-                        Already have a account? &nbsp;
-                        <span style={{ color: "#da627d", cursor: "pointer" }} onClick={() => handleNavigate()}>
-                            {" "}
-                            Sign In
-                        </span>
-                    </p>
+  const handleNavigate = () => {
+    return navigate("/login");
+  };
+  return (
+    <div className="login-wrapper">
+      <div className="login-left">
+        <div className="card-wrapper">
+          <img
+            src="/assets/images/logo3.png"
+            alt="modenteologo"
+            className="mb-4"
+          />
+          <p className="card-signin mb-4">Forgot Password</p>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={schema}
+            onSubmit={async (values, actions) => {
+              await handleForgotPassword({
+                email: values.email,
+                password: values.password,
+              });
+              actions.setSubmitting(true);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form>
+                <div className="login-form">
+                  <label>Email</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    name="email"
+                    // placeholder="Enter the Email"
+                    value={values.email}
+                  />
                 </div>
-            </div>
-            <div className="login-right">
-                <img src="/assets/svg/signin.svg" alt="sigin" />
-            </div>
+                <p style={{ marginTop: "5px", color: "red" }}>
+                  {errors.email && touched.email && errors.email}
+                </p>
+                <div className="login-form">
+                  <label>New Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // placeholder="Enter the Password"
+                    name="password"
+                    value={values.password}
+                  />
+                </div>
+                <p style={{ marginTop: "5px", color: "red" }}>
+                  {errors.password && touched.password && errors.password}
+                </p>
+                <Button
+                  onClick={handleSubmit}
+                  isSubmitting={isSubmitting}
+                  name="Reset Password"
+                  bg="#dc395f"
+                  w="150px"
+                  color="#fff"
+                  type="submit"
+                  style={btnStyle}
+                />
+              </form>
+            )}
+          </Formik>
+          <p className="singup-connect">
+            Already have a account? &nbsp;
+            <span
+              style={{ color: "#da627d", cursor: "pointer" }}
+              onClick={() => handleNavigate()}
+            >
+              {" "}
+              Sign In
+            </span>
+          </p>
         </div>
-    );
+      </div>
+      <div className="login-right">
+        <img src="/assets/svg/signin.svg" alt="sigin" />
+      </div>
+    </div>
+  );
 };
 
 export default ForgotPassword;

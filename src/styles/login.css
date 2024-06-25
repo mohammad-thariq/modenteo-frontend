@@ -34,7 +34,7 @@
   font-weight: 600;
   line-height: 22px;
   letter-spacing: 1px;
-  color: #da627d;
+  color: #1a1a1a;
   margin: 0px;
 }
 
@@ -44,7 +44,7 @@
   gap: 6px;
 }
 
-.login-form>label {
+.login-form > label {
   margin: 0 !important;
   font-size: 16px;
   font-weight: 400;
@@ -53,7 +53,7 @@
   color: #495057;
 }
 
-.login-form>input {
+.login-form > input {
   height: 40px;
   font-size: 16px;
   line-height: 1.5;
@@ -80,8 +80,8 @@
   justify-content: center;
 }
 
-.signin-content>span {
-  color: #da627d;
+.signin-content > span {
+  color: #1a1a1a;
   cursor: pointer;
 }
 
@@ -91,18 +91,17 @@
   position: relative;
 }
 
-.login-right>img {
+.login-right > img {
   position: absolute;
   bottom: 0;
   right: 30%;
 }
 
-
-@media screen and (max-width:700px) {
+@media screen and (max-width: 700px) {
   .login-right {
     display: none;
   }
-  .singup-connect{
+  .singup-connect {
     display: block !important;
   }
   .login-wrapper {
@@ -113,7 +112,7 @@
     width: 100%;
   }
 
-  .card-wrapper{
+  .card-wrapper {
     margin: 12px;
   }
 }

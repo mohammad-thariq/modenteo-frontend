@@ -1,22 +1,21 @@
 .btn-gradient-primary {
-  background: #da627d;
+  background: #1a1a1a;
 }
 
 .btn-gradient-primary:hover {
-  background: #da627d;
+  background: #1a1a1a;
 }
 
 .auth-link {
-  color: #da627d !important;
+  color: #1a1a1a !important;
 }
 @font-face {
-  font-family: 'HelveticaNow';
-  src: url('./fonts/helveticanowtext-bold-demo.ttf') format('truetype');
+  font-family: "HelveticaNow";
+  src: url("./fonts/helveticanowtext-bold-demo.ttf") format("truetype");
 }
 body {
   /* font-family: 'Poppins', sans-serif; */
-  font-family: 'HelveticaNow', Helvetica, sans-serif;
-
+  font-family: "HelveticaNow", Helvetica, sans-serif;
 }
 
 a.homelink {

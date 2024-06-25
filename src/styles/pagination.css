@@ -16,18 +16,18 @@
 }
 
 .page-link:hover {
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .page-link {
   padding: 5px 10px;
   cursor: pointer;
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .page-item.active .page-link {
-  background-color: #da627d !important;
-  border-color: #da627d !important;
+  background-color: #1a1a1a !important;
+  border-color: #1a1a1a !important;
 }
 
 td.actions-order svg {

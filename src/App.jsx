@@ -1,8 +1,35 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { useQuery } from "react-query";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { LoginPage, HomePage, RegistrationPage, ForgotPasswordPage, BaseAccount, Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, OrdersPage, OrderDetailsPage, WebPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage } from "./pages";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import {
+  LoginPage,
+  HomePage,
+  RegistrationPage,
+  ForgotPasswordPage,
+  BaseAccount,
+  Base,
+  CartPage,
+  MainCategoryPage,
+  ProductListingPage,
+  DashboardPage,
+  OrdersPage,
+  OrderDetailsPage,
+  WebPage,
+  ProductPage,
+  WishlistPage,
+  ProfilePage,
+  ChildCategoryPage,
+  CheckoutPage,
+  OrderPlacedPage,
+  SeasonsPage,
+  NewCollectionsPage,
+} from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
 import { AuthorizationApi } from "./service";
@@ -40,10 +67,25 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Base><HomePage /></Base>} />
+        <Route
+          exact
+          path="/"
+          element={
+            <Base>
+              <HomePage />
+            </Base>
+          }
+        />
         {isLoggedIn && (
           <>
-            <Route path="/dashboard" element={<BaseAccount><DashboardPage /></BaseAccount>} />
+            <Route
+              path="/dashboard"
+              element={
+                <BaseAccount>
+                  <DashboardPage />
+                </BaseAccount>
+              }
+            />
             <Route
               path="/profile"
               element={
@@ -52,8 +94,24 @@ const App = () => {
                 </BaseAccount>
               }
             />
-            <Route exact path="/order-details/:id" element={<BaseAccount><OrderDetailsPage /></BaseAccount>} />
-            <Route exact path="/orders" element={<BaseAccount><OrdersPage /></BaseAccount>} />
+            <Route
+              exact
+              path="/order-details/:id"
+              element={
+                <BaseAccount>
+                  <OrderDetailsPage />
+                </BaseAccount>
+              }
+            />
+            <Route
+              exact
+              path="/orders"
+              element={
+                <BaseAccount>
+                  <OrdersPage />
+                </BaseAccount>
+              }
+            />
             <Route
               path="/wishlist"
               element={
@@ -137,8 +195,22 @@ const App = () => {
             </Base>
           }
         />
-        <Route path="/product/:id" element={<Base><ProductPage /></Base>} />
-        <Route path="/page/:slug" element={<Base><WebPage /></Base>} />
+        <Route
+          path="/product/:id"
+          element={
+            <Base>
+              <ProductPage />
+            </Base>
+          }
+        />
+        <Route
+          path="/page/:slug"
+          element={
+            <Base>
+              <WebPage />
+            </Base>
+          }
+        />
         {!isLoggedIn && (
           <>
             <Route path="/login" element={<LoginPage />} />

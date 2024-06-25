@@ -6,7 +6,6 @@ import * as Yup from "yup";
 import { handleRegister } from "./hooks/register";
 import { useNavigate } from "react-router-dom";
 
-
 const Registration = () => {
   const navigate = useNavigate();
 
@@ -139,7 +138,6 @@ const Registration = () => {
                         name="password"
                         value={values.password}
                       />
-
                     </div>
                     <p className="errorMessage">
                       {errors.password && touched.password && errors.password}
@@ -177,7 +175,10 @@ const Registration = () => {
           </Formik>
           <p className="singup-connect">
             Already have a account? &nbsp;
-            <span style={{ color: "#da627d", cursor: "pointer" }} onClick={() => handleNavigate()}>
+            <span
+              style={{ color: "#da627d", cursor: "pointer" }}
+              onClick={() => handleNavigate()}
+            >
               {" "}
               Sign In
             </span>

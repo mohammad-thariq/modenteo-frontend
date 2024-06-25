@@ -34,7 +34,7 @@
   font-weight: 600;
   line-height: 22px;
   letter-spacing: 1px;
-  color: #da627d;
+  color: #1a1a1a;
   margin: 0px;
 }
 
@@ -44,7 +44,7 @@
   gap: 6px;
 }
 
-.register-form>label {
+.register-form > label {
   margin: 0 !important;
   font-size: 16px;
   font-weight: 400;
@@ -53,7 +53,7 @@
   color: #495057;
 }
 
-.register-form>input {
+.register-form > input {
   height: 40px;
   font-size: 16px;
   line-height: 1.5;
@@ -80,7 +80,7 @@
   justify-content: center;
 }
 
-.signin-content>span {
+.signin-content > span {
   color: #da627d;
   cursor: pointer;
 }
@@ -91,7 +91,7 @@
   position: relative;
 }
 
-.register-right>img {
+.register-right > img {
   position: absolute;
   bottom: 0;
   left: 30%;
@@ -123,8 +123,7 @@
   font-size: 12px;
 }
 
-
-@media screen and (max-width:700px) {
+@media screen and (max-width: 700px) {
   .register-right {
     display: none;
   }
@@ -132,7 +131,7 @@
   .input-register {
     display: block;
   }
-  .register-wrapper{
+  .register-wrapper {
     height: unset;
   }
   .singup-connect {

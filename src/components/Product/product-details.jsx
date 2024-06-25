@@ -7,7 +7,7 @@ import { localStorageConst } from "../../constants/localStorage";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import { ManageCartApi, ManageWishlistApi } from "../../service";
 import { useMutation, useQuery } from "react-query";
-import { Loading } from '../../common';
+import { Loading } from "../../common";
 
 const ProductDetails = ({ data }) => {
   const [qty, setQty] = useState(1);
@@ -17,18 +17,28 @@ const ProductDetails = ({ data }) => {
   const { addCart, getCart, updateCart } = new ManageCartApi();
   const { addWishlist, deleteWishlist, getWishlist } = new ManageWishlistApi();
 
-  const { data: cartData, isLoading, refetch } = useQuery('cart', () => getCart(userDetails?.id), {
+  const {
+    data: cartData,
+    isLoading,
+    refetch,
+  } = useQuery("cart", () => getCart(userDetails?.id), {
     enabled: !!userDetails,
   });
 
-  const { data: wishlistData, isLoading: isLoadingWishlist, refetch: refetchWishlist } = useQuery('wishlist', () => getWishlist(userDetails?.id), {
+  const {
+    data: wishlistData,
+    isLoading: isLoadingWishlist,
+    refetch: refetchWishlist,
+  } = useQuery("wishlist", () => getWishlist(userDetails?.id), {
     enabled: !!userDetails,
   });
 
   useEffect(() => {
     if (cartData) {
       const checkCartExists = (id) => {
-        return cartData?.data ? cartData.data.filter(item => item.product_id === id) : [];
+        return cartData?.data
+          ? cartData.data.filter((item) => item.product_id === id)
+          : [];
       };
 
       const cartDetails = checkCartExists(data?.id);
@@ -70,7 +80,9 @@ const ProductDetails = ({ data }) => {
   });
 
   const handleRemoveWishlist = () => {
-    const getWishlistItem = wishlistData?.data.find(item => item.product_id === data?.id && item.user_id === userDetails?.id);
+    const getWishlistItem = wishlistData?.data.find(
+      (item) => item.product_id === data?.id && item.user_id === userDetails?.id
+    );
     if (getWishlistItem) {
       removeWishlist(getWishlistItem.id);
     }
@@ -82,10 +94,14 @@ const ProductDetails = ({ data }) => {
 
   const handleAddToCart = () => {
     if (userDetails) {
-      const cartData = { product_id: data.id, user_id: userDetails?.id, quantity: qty };
+      const cartData = {
+        product_id: data.id,
+        user_id: userDetails?.id,
+        quantity: qty,
+      };
       createCart(cartData);
     } else {
-      ToastifyFailed('Please log in to add products to your cart');
+      ToastifyFailed("Please log in to add products to your cart");
     }
   };
 
@@ -104,12 +120,17 @@ const ProductDetails = ({ data }) => {
       const wishlistData = { product_id: data.id, user_id: userDetails?.id };
       createWishlist(wishlistData);
     } else {
-      ToastifyFailed('Please log in to add products to your wishlist');
+      ToastifyFailed("Please log in to add products to your wishlist");
     }
   };
 
   const checkWishlistExists = (productId) => {
-    return wishlistData?.data ? wishlistData.data.some(item => item.product_id === productId && item.user_id === userDetails?.id) : false;
+    return wishlistData?.data
+      ? wishlistData.data.some(
+          (item) =>
+            item.product_id === productId && item.user_id === userDetails?.id
+        )
+      : false;
   };
 
   return (
@@ -135,27 +156,44 @@ const ProductDetails = ({ data }) => {
           </div>
         </div>
 
-        {(isLoading || isLoadingWishlist) ? <Loading /> : (
+        {isLoading || isLoadingWishlist ? (
+          <Loading />
+        ) : (
           <div className="product-details-action cart-screen">
             {existingCart.length > 0 ? (
-              <span onClick={() => handleUpdateToCart(existingCart[0].id)} className="btn-product btn-cart">
+              <span
+                onClick={() => handleUpdateToCart(existingCart[0].id)}
+                className="btn-product btn-cart"
+              >
                 <IonIcon icon={cartOutline} />
+                &nbsp;
                 <span>Update Cart</span>
               </span>
             ) : (
               <span onClick={handleAddToCart} className="btn-product btn-cart">
                 <IonIcon icon={cartOutline} />
+                &nbsp;
                 <span>Add to Cart</span>
               </span>
             )}
             {checkWishlistExists(data?.id) ? (
-              <span onClick={handleRemoveWishlist} className="btn-product btn-cart" title="Wishlist">
+              <span
+                onClick={handleRemoveWishlist}
+                className="btn-product btn-cart"
+                title="Wishlist"
+              >
                 <IonIcon icon={heartDislike} />
+                &nbsp;
                 <span>Remove Wishlist</span>
               </span>
             ) : (
-              <span onClick={handleAddToWishlist} className="btn-product btn-cart" title="Wishlist">
+              <span
+                onClick={handleAddToWishlist}
+                className="btn-product btn-cart"
+                title="Wishlist"
+              >
                 <IonIcon icon={heartOutline} />
+                &nbsp;
                 <span>Add to Wishlist</span>
               </span>
             )}

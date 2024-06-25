@@ -14,7 +14,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
       startPage = Math.max(totalPages - 4, 1);
     }
     for (let i = startPage; i <= endPage; i++) {
-      pageNumbers.push(i);
+      pageNumbers?.push(i);
     }
     return pageNumbers;
   };

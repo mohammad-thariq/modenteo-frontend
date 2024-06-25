@@ -1,79 +1,81 @@
 .carousel {
-    position: relative;
-    width: 100%;
-    margin: auto;
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
 }
 
 .slides {
-    display: flex;
-    transition: transform 0.5s ease;
+  display: flex;
+  transition: transform 0.5s ease;
 }
 
-.slider-item  {
-    width: 100%;
-    display: none;
+.slider-item {
+  width: 100%;
+  display: none;
 }
 
 .slider-item.active {
-    display: block;
+  display: block;
 }
 
 .prev,
 .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 22px;
-    color: #fff;
-    width: 40px;
-    height: 50px;
-    background: #da627d;
-    margin-left: 5px;
-    margin-right: 5px;
-    border-radius: 5px;
-    z-index: 999;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 22px;
+  color: #fff;
+  width: 40px;
+  height: 50px;
+  background: #da627d;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .prev {
-    left: 0;
+  left: 0;
 }
 
 .next {
-    right: 0;
+  right: 0;
 }
 
 .dots {
-        text-align: center;
-        margin-top: 10px;
-        display: flex;
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translatex(-50%);
+  text-align: center;
+  margin-top: 10px;
+  display: flex;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translatex(-50%);
 }
 
 .dots span {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #fff;
-    margin: 0 5px;
-    cursor: pointer;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  margin: 0 5px;
+  cursor: pointer;
 }
 
 .dots span.active {
-    background: #da627d;
-    width: 47px;
-    border-radius: 10px;
+  background: #da627d;
+  width: 47px;
+  border-radius: 10px;
 }
-@media screen and (max-width:500px) {
-    .dots{
-        bottom: 10px;
-    }
-    
+@media screen and (max-width: 500px) {
+  .dots {
+    bottom: 10px;
+  }
 }

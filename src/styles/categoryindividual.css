@@ -32,7 +32,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 2rem 5px;
+  padding: 1rem 10px;
   gap: 4px;
   position: relative;
   transition: all 0.35s ease;
@@ -45,8 +45,6 @@
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #333333;
-  width: 215px;
-  margin-bottom: 0.2rem;
 }
 
 .product-title a {
@@ -55,7 +53,7 @@
 
 .product-title a:hover,
 .product-title a:focus {
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .product-cat {
@@ -79,13 +77,12 @@
 .product-price {
   gap: 5px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   flex-flow: wrap;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.25;
-  color: #da627d;
-  margin-bottom: 1.3rem;
+  color: #1a1a1a;
 }
 
 .product-label {
@@ -118,11 +115,11 @@
 
 .ratings {
   position: relative;
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .ratings-text {
-  color: #da627d;
+  color: #1a1a1a;
   letter-spacing: -0.01em;
   margin-left: 0.8rem;
   font-size: 16px;
@@ -151,7 +148,7 @@
 }
 
 .btn-product {
-  color: #da627d;
+  color: #1a1a1a;
   position: relative;
   display: flex;
   align-items: center;
@@ -180,8 +177,8 @@
 
 .btn-product:hover span,
 .btn-product:focus span {
-  color: #da627d;
-  box-shadow: 0 1px 0 0 #da627d;
+  color: #1a1a1a;
+  box-shadow: 0 1px 0 0 #1a1a1a;
 }
 
 .product-action-vertical {
@@ -258,7 +255,7 @@
   padding-left: 18px;
   padding-right: 0.4rem;
   color: #fff;
-  background-color: #da627d;
+  background-color: #1a1a1a;
   transition: all 0.35s ease;
   opacity: 0;
   visibility: hidden;
@@ -305,7 +302,7 @@
 .product-nav-thumbs a.active,
 .product-nav-thumbs a:hover,
 .product-nav-thumbs a:focus {
-  box-shadow: 0 0 0 0.1rem #da627d;
+  box-shadow: 0 0 0 0.1rem #1a1a1a;
 }
 
 .product-nav-thumbs a:last-child {
@@ -325,14 +322,14 @@
 .product.product-7 .btn-product {
   padding-top: 1.1rem;
   padding-bottom: 1.1rem;
-  color: #da627d;
+  color: #1a1a1a;
   background-color: #fff;
   text-transform: uppercase;
   border-bottom: 0.1rem solid #ebebeb;
 }
 
 .product.product-7 .btn-product span {
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .product.product-7 .btn-product:before {
@@ -343,8 +340,8 @@
 .product.product-7 .btn-product:hover,
 .product.product-7 .btn-product:focus {
   color: #fff;
-  background-color: #da627d;
-  border-bottom-color: #da627d;
+  background-color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
 }
 
 .product.product-7 .btn-product:hover span,
@@ -497,7 +494,7 @@
 
 ::selection {
   color: #fff;
-  background-color: #da627d;
+  background-color: #1a1a1a;
 }
 
 h3 {
@@ -513,7 +510,7 @@ h3 {
 }
 
 a {
-  color: #da627d;
+  color: #1a1a1a;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -753,7 +750,7 @@ label {
 .filter-colors a.selected,
 .filter-colors a:hover,
 .filter-colors a:focus {
-  box-shadow: 0 0 0 0.1rem #da627d;
+  box-shadow: 0 0 0 0.1rem #1a1a1a;
 }
 
 .filter-colors a.selected:after {
@@ -772,7 +769,7 @@ label {
 }
 
 #filter-price-range {
-  color: #da627d;
+  color: #1a1a1a;
 }
 
 .widget {
@@ -1212,7 +1209,7 @@ a:hover {
 .page-link:hover,
 .page-link:focus {
   box-shadow: none;
-  color: #da627d;
+  color: #1a1a1a;
   border-color: #ebebeb;
   text-decoration: none;
   background-color: transparent;
@@ -1220,7 +1217,7 @@ a:hover {
 }
 
 .page-item-total {
-  color: #da627d;
+  color: #1a1a1a;
   font-size: 14px;
   font-weight: 400;
   margin-left: 1.2rem;
@@ -1263,4 +1260,7 @@ a:hover {
 }
 span.defaultPrice.strikeout {
   text-decoration: line-through;
+  text-decoration-color: red;
+  color: #666;
+  font-size: 14px;
 }
