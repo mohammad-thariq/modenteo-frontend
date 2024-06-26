@@ -71,6 +71,6 @@ a.view_more {
   padding-bottom: 10px;
   border-radius: 6px;
 }
-a:hover {
+a.view_more:hover {
   color: #ffff !important;
 }
