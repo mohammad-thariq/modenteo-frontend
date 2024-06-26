@@ -58,3 +58,19 @@ a.homelink {
   display: flex;
   justify-content: flex-end;
 }
+
+a.view_more {
+  justify-content: center;
+  display: flex;
+  background: black;
+  width: 161px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 6px;
+}
+a:hover {
+  color: #ffff !important;
+}

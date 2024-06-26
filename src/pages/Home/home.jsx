@@ -10,6 +10,7 @@ import ProductCard from "../../components/Product/product-card";
 import { SettingsAPI } from "../../service/settings/settings";
 import { useQuery, useMutation } from "react-query";
 import { ManageProductsApi } from "../../service";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const { getSettings, getHomeSettings } = new SettingsAPI();
@@ -130,6 +131,7 @@ const HomePage = () => {
                     </div>
                   </div>
                 </div>
+                {item.view_more  && <Link className="view_more" to={item.view_more}>View More</Link>}
               </div>
             </div>
           );
