@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "../../../styles/categoryindividual.css";
 import ProductCard from "../../Product/product-card";
-import { ManageProductsApi } from "../../../service";
+import { ManageMenusApi, ManageProductsApi } from "../../../service";
 import {
   CustomPagination,
   Loading,
@@ -14,20 +14,49 @@ import {
 import { useQuery } from "react-query";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HeaderTitle } from "../../../common/HeaderTitle";
-const { subcategoryProducts, productsbySlug } = new ManageProductsApi();
-const fetchSubcategoryProducts = (cat, subcat) => () =>
-  subcategoryProducts(cat, subcat);
-const fetchProducts = (slug) => () => productsbySlug(slug);
+import { lastPathObjects } from "../../../constants/otherConstants";
+import {
+  ProductFilterBySlug,
+  ProductFilterForKids,
+  ProductFilterForMens,
+  ProductFilterForWomens,
+} from "../../../constants/productFilters";
+import { FilterPanel } from "../../FilterPanel";
+import { ManageBrandsApi } from "../../../service/brands/brand";
+
+const defeaultFilteringValue = {
+  brands: undefined,
+  collections: undefined,
+  mensWear: undefined,
+  womensWear: undefined,
+  kidsWear: undefined,
+  price: undefined,
+};
 
 const ChildCategory = () => {
   const [searchParams] = useSearchParams();
   const slug = searchParams.get("slug");
   const { id, cat } = useParams();
-  const { data, isLoading, isError, error, refetch } = useQuery(
-    "subcategory-product",
-    fetchSubcategoryProducts(cat, id),
-    { enabled: id != null ? true : false }
+  const itemsPerPage = 16;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productList, setproductList] = useState([]);
+  const [availableFilterData, setAvailableFilterData] = useState();
+  const [currentPageSlug, setCurrentPageSlug] = useState();
+  const [productFilterData, setProductFilterData] = useState(
+    defeaultFilteringValue
   );
+
+  const { subcategoryProducts, productsbySlug } = new ManageProductsApi();
+  const { menuCollections } = new ManageMenusApi();
+  const { getBrands } = new ManageBrandsApi();
+  const fetchProducts = (slug) => () => productsbySlug(slug);
+
+  const { data, isLoading, isError, error, refetch } = useQuery(
+    ["subcategory-product", cat, id, productFilterData],
+    subcategoryProducts,
+    { enabled: !!id }
+  );
+
   const {
     data: collectionProducts,
     isLoading: isLoadingProducts,
@@ -35,10 +64,13 @@ const ChildCategory = () => {
   } = useQuery("slug-product", fetchProducts(slug), {
     enabled: slug != null ? true : false,
   });
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productList, setproductList] = useState([]);
 
-  const itemsPerPage = 16;
+  const { data: availableCollections } = useQuery(
+    "collections",
+    menuCollections
+  );
+
+  const { data: availableBrands } = useQuery("brands", getBrands);
 
   useEffect(() => {
     if (data?.data) {
@@ -49,6 +81,18 @@ const ChildCategory = () => {
     }
   }, [collectionProducts, data]);
 
+  useEffect(() => {
+    if (currentPageSlug === lastPathObjects.MENS) {
+      setAvailableFilterData(ProductFilterForMens);
+    } else if (currentPageSlug === lastPathObjects.WOMENS) {
+      setAvailableFilterData(ProductFilterForWomens);
+    } else if (currentPageSlug === lastPathObjects.KIDS) {
+      setAvailableFilterData(ProductFilterForKids);
+    } else {
+      setAvailableFilterData(ProductFilterBySlug);
+    }
+  }, [currentPageSlug]);
+
   const totalPages = productList
     ? Math.ceil(productList.length / itemsPerPage)
     : 0;
@@ -56,11 +100,20 @@ const ChildCategory = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
   const getPaginatedData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return productList?.slice(startIndex, endIndex);
   };
+
+  const onFilterChange = useCallback(
+    (fielName, value) => {
+      setProductFilterData((prevObj) => ({ ...prevObj, [fielName]: value }));
+      setCurrentPage(1);
+    },
+    [setCurrentPage, setProductFilterData]
+  );
 
   if (isLoading || isLoadingProducts) {
     return <Loading />;
@@ -74,13 +127,21 @@ const ChildCategory = () => {
     return <NoRecordFound />;
   }
 
-  console.log(slug, "slug");
-
   return (
     <section className="cat-outer-section">
       <div className="container">
         <Breadcrumb />
-        <HeaderTitle defaultTitle={slug && slug} />
+        <HeaderTitle
+          defaultTitle={slug && slug}
+          onCurrentSlug={setCurrentPageSlug}
+        />
+        <FilterPanel
+          availableFilterOptions={availableFilterData}
+          totalProduct={getPaginatedData()?.length}
+          availableCollections={availableCollections}
+          availableBrands={availableBrands}
+          onFilterChange={onFilterChange}
+        />
         <div className="row">
           <div className="col-lg-12">
             {/* <FilterGrid itemsPerPageCount={getPaginatedData().length} totalCount={data?.data.length} /> */}

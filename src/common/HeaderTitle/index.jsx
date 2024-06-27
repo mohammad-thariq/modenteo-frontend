@@ -4,7 +4,7 @@ import { lastPathObjects } from "../../constants/otherConstants";
 import { stringFormatter } from "../../utils/stringFormatter";
 import "../../styles/product.css";
 
-export const HeaderTitle = ({ defaultTitle }) => {
+export const HeaderTitle = ({ defaultTitle, onCurrentSlug }) => {
   const location = useLocation();
   const paths = location.pathname?.split("/").filter((path) => path !== ""); // Split URL path into segments
   const [currentTitleHeader, setCurrentTitleHeader] = useState("");
@@ -13,7 +13,6 @@ export const HeaderTitle = ({ defaultTitle }) => {
     const lastElement = array[array.length - 1];
     return Object.values(obj).includes(lastElement);
   }
-  console.log(paths, "paths");
 
   useEffect(() => {
     const lastPath = paths.find((path, index) => {
@@ -37,9 +36,8 @@ export const HeaderTitle = ({ defaultTitle }) => {
         }`
       );
     }
-  }, [defaultTitle, paths]);
-
-  console.log(currentTitleHeader, "currentTitleHeader");
+    onCurrentSlug(lastPath);
+  }, [defaultTitle, onCurrentSlug, paths]);
 
   return (
     <div className="product_title_header ">

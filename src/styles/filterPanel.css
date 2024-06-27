@@ -1,0 +1,64 @@
+.filterWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  display: flex;
+  border: 1px solid #1a1a1a;
+  padding: 7px 10px;
+  border-radius: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.filter-btn > p {
+  margin: 0px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
+}
+
+.more-filters {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.more-filters.show {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  column-gap: 10px;
+  opacity: 1;
+  transform: translateX(0);
+  z-index: 1;
+}
+
+.total-products {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  gap: 6px;
+}
+
+.total-products > p {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #666e7e;
+  line-height: 1.25rem;
+  letter-spacing: 0rem;
+}
