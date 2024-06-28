@@ -79,7 +79,7 @@ const ProductCard = ({ data }) => {
         )}
         <a href={"/product/" + data?.slug}>
           <img
-            src={data?.image || "/assets/home/images/products/1.jpg"}
+            src={data?.image || "https://placehold.co/244x353"}
             alt={data?.name}
             className="product-image"
           />

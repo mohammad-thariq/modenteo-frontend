@@ -33,6 +33,7 @@ const defeaultFilteringValue = {
   womensWear: undefined,
   kidsWear: undefined,
   price: undefined,
+  productCatalog: undefined,
 };
 
 const ProductListing = () => {
@@ -122,16 +123,8 @@ const ProductListing = () => {
     [setCurrentPage, setProductFilterData]
   );
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   if (isError) {
-    return <Error message={error.message} onRetry={refetch} />;
-  }
-
-  if (productList.length <= 0) {
-    return <NoRecordFound />;
+    return <Error message={error?.message} onRetry={refetch} />;
   }
 
   return (
@@ -149,22 +142,33 @@ const ProductListing = () => {
         />
         <div className="row">
           <div className="col-lg-12">
-            <div className="products mb-3">
-              <div className="row justify-content-center">
-                {getPaginatedData().map((data, key) => {
-                  return (
-                    <div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
-                      <ProductCard key={key} data={data} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <CustomPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+            {isLoading ? (
+              <Loading />
+            ) : productList.length <= 0 ? (
+              <NoRecordFound />
+            ) : (
+              <>
+                <div className="products mb-3">
+                  <div className="row justify-content-center">
+                    {getPaginatedData().map((data, key) => {
+                      return (
+                        <div
+                          key={key}
+                          className="col-6 col-md-3 col-lg-3 col-xl-3"
+                        >
+                          <ProductCard key={key} data={data} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              </>
+            )}
           </div>
           {/* <Filter /> */}
         </div>

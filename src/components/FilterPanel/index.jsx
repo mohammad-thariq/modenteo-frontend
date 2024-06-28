@@ -3,65 +3,10 @@ import Select from "react-select";
 import "../../styles/filterPanel.css";
 import { IonIcon } from "@ionic/react";
 import { alertCircle, filterOutline } from "ionicons/icons";
-import { SortingOptions } from "../../constants/otherConstants";
+import { SortingOptions } from "../../constants/productFilters";
+import { customStyles } from "./style";
+import { useNavigate } from "react-router-dom";
 
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected
-      ? "black"
-      : state.isFocused
-      ? "black"
-      : "white",
-    color: state.isSelected ? "white" : state.isFocused ? "white" : "#1a1a1a",
-    fontSize: "14px",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    paddingLeft: "20px",
-    paddingRight: "20px",
-    cursor: "pointer",
-    width: "280px",
-  }),
-  control: (provided) => ({
-    ...provided,
-    borderRadius: 0,
-    width: "max-content",
-    borderColor: "black",
-    fontWeight: "400",
-    boxShadow: "none",
-    "&:hover": {
-      borderColor: "black",
-    },
-  }),
-  multiValue: (provided) => ({
-    ...provided,
-    backgroundColor: "black",
-    color: "white",
-  }),
-  multiValueLabel: (provided) => ({
-    ...provided,
-    color: "white",
-  }),
-  multiValueRemove: (provided) => ({
-    ...provided,
-    color: "white",
-    ":hover": {
-      backgroundColor: "darkgray",
-      color: "black",
-    },
-  }),
-  placeholder: (provided) => ({
-    ...provided,
-    color: "black",
-    fontSize: "16px",
-    fontWeight: 400,
-  }),
-  menu: (provided) => ({
-    ...provided,
-    padding: "10px",
-    width: "300px",
-  }),
-};
 
 export const FilterPanel = ({
   availableFilterOptions,
@@ -71,6 +16,7 @@ export const FilterPanel = ({
   availableSubCategory,
   onFilterChange,
 }) => {
+  const navigate = useNavigate();
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   const handleShowMoreFilters = () => {
@@ -121,6 +67,13 @@ export const FilterPanel = ({
           }));
         }
 
+        if (filterOption === "productCatalog") {
+          availableOptions = SortingOptions?.map((elem) => ({
+            value: elem.value,
+            label: elem.label,
+          }));
+        }
+
         const modifiedValue = {
           name: value.name,
           availableOptions,
@@ -151,25 +104,10 @@ export const FilterPanel = ({
   return (
     <>
       <div className="filterWrapper">
-        <Select
-          closeMenuOnSelect={false}
-          isMulti
-          isSearchable
-          options={SortingOptions}
-          styles={customStyles}
-          theme={(theme) => ({
-            ...theme,
-            colors: {
-              ...theme.colors,
-              primary25: "black",
-              primary: "black",
-            },
-          })}
-          placeholder="Sort By"
-        />
-        {showMoreFilters && (
-          <div className={`more-filters ${showMoreFilters ? "show" : ""}`}>
-            {Object.entries(ProductFilterData)?.map(([filterOption, i]) => (
+        <div>
+          {Object.entries(ProductFilterData)
+            .filter(([filterOption]) => filterOption === "productCatalog")
+            .map(([filterOption, i]) => (
               <Select
                 key={filterOption}
                 closeMenuOnSelect={false}
@@ -180,7 +118,6 @@ export const FilterPanel = ({
                 }
                 options={i?.availableOptions}
                 styles={customStyles}
-                name={i?.name}
                 theme={(theme) => ({
                   ...theme,
                   colors: {
@@ -189,9 +126,37 @@ export const FilterPanel = ({
                     primary: "black",
                   },
                 })}
-                placeholder={i?.placeholder}
+                placeholder={i.placeholder}
               />
             ))}
+        </div>
+        {showMoreFilters && (
+          <div className={`more-filters ${showMoreFilters ? "show" : ""}`}>
+            {Object.entries(ProductFilterData)
+            .filter(([filterOption]) => filterOption !== "productCatalog")
+            .map(([filterOption, i]) => (
+                <Select
+                  key={filterOption}
+                  closeMenuOnSelect={false}
+                  isMulti
+                  isSearchable
+                  onChange={(e) =>
+                    onFilterChangeWithFormattedValues(filterOption, e)
+                  }
+                  options={i?.availableOptions}
+                  styles={customStyles}
+                  name={i?.name}
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "black",
+                      primary: "black",
+                    },
+                  })}
+                  placeholder={i?.placeholder}
+                />
+              ))}
           </div>
         )}
         <div className="filter-btn" onClick={handleShowMoreFilters}>
@@ -202,6 +167,7 @@ export const FilterPanel = ({
       <div className="total-products">
         <p>{totalProduct} products</p>
         <IonIcon
+          onClick={() => navigate('/page/how-product-recommendations-work')}
           icon={alertCircle}
           style={{ cursor: "pointer" }}
           title="How we recommend products? click to see more"

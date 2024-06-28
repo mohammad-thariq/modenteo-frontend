@@ -5,7 +5,8 @@ const Loading = () => {
   return (
     <div className="loading-container">
       <div className="spinner"></div>
-      <h2>Loading...</h2>
+      &nbsp;
+      <h2 style={{marginLeft: '20px'}}>Loading...</h2>
     </div>
   );
 };

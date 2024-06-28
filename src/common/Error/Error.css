@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 100vh;
     color: #ff0000; /* Error text color */
   }
   
@@ -12,6 +12,15 @@
     margin-bottom: 1rem;
     color: #ff0000; /* Error icon color */
     animation: pulse 1s infinite alternate;
+  }
+
+  .error-img{
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 40px;
   }
   
   .error-message {

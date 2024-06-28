@@ -16,9 +16,23 @@
     animation: bounce 1s ease infinite alternate;
 }
 
+.no-record-img{
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
 .no-record-message {
     font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.no-record-description {
+    font-size: 18px;
     margin-bottom: 20px;
+    font-weight: 500;
 }
 
 @keyframes bounce {

@@ -36,8 +36,8 @@ export class ManageProductsApi {
     return res;
   };
 
-  productsbySlug = async (slug) => {
-    const res = await _axios("get", `/collection-product/` + slug);
+  productsbySlug = async ({ queryKey }) => {
+    const res = await _axios("post", `/collection-product/${queryKey[1]}`, queryKey[2]);
     return res;
   };
   similarProducts = async (subcat) => {

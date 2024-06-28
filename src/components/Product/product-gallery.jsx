@@ -105,9 +105,10 @@ const ProductGallery = ({ data }) => {
     data?.gallery !== undefined
       ? data?.gallery?.split(",")
       : [
-          "/assets/images/placeholder.jpg",
-          "/assets/images/placeholder.jpg",
-          "/assets/images/placeholder.jpg",
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
         ];
   gallery?.push(data?.image);
 
@@ -129,7 +130,7 @@ const ProductGallery = ({ data }) => {
           <figure className="product-main-image">
             <ImageMagnifier
               id="product-zoom"
-              src={mainImage}
+              src={mainImage || 'https://placehold.co/400x590'}
               index={index}
               images={gallery}
               showModal={false}

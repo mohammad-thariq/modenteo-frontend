@@ -7,6 +7,7 @@ const Error = ({ message, onRetry }) => {
       <div className="error-icon">
         <span className="material-icons">error</span>
       </div>
+      <img src='/assets/svg/404.svg' alt='Page not found' className='error-img'/>
       <div className="error-message">{message}</div>
       <button className="retry-button" onClick={onRetry}>
         Retry

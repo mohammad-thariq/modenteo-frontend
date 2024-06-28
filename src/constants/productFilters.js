@@ -1,4 +1,29 @@
+export const SortingOptions = [
+  {
+    label: "New Arrival",
+    value: "new arrival",
+  },
+  {
+    label: "Best Products",
+    value: "best products",
+  },
+  {
+    label: "Top Products",
+    value: "top products",
+  },
+  {
+    label: "Featured Products",
+    value: "featured products",
+  },
+];
+
+
 export const ProductFilterForMens = {
+  productCatalog: {
+    availableOptions: [],
+    placeholder: "Sort By",
+    name: "product_catalog",
+  },
   brands: {
     availableOptions: [],
     placeholder: "Brands",
@@ -22,6 +47,11 @@ export const ProductFilterForMens = {
 };
 
 export const ProductFilterForWomens = {
+  productCatalog: {
+    availableOptions: [],
+    placeholder: "Sort By",
+    name: "product_catalog",
+  },
   brands: {
     availableOptions: [],
     placeholder: "Brands",
@@ -45,6 +75,11 @@ export const ProductFilterForWomens = {
 };
 
 export const ProductFilterForKids = {
+  productCatalog: {
+    availableOptions: [],
+    placeholder: "Sort By",
+    name: "product_catalog",
+  },
   brands: {
     availableOptions: [],
     placeholder: "Brands",
@@ -68,6 +103,11 @@ export const ProductFilterForKids = {
 };
 
 export const ProductFilterBySlug = {
+  productCatalog: {
+    availableOptions: [],
+    placeholder: "Sort By",
+    name: "product_catalog",
+  },
   brands: {
     availableOptions: [],
     placeholder: "Brands",
@@ -77,6 +117,24 @@ export const ProductFilterBySlug = {
     availableOptions: [],
     placeholder: "Collections",
     name: "collections",
+  },
+  price: {
+    availableOptions: [],
+    placeholder: "Price",
+    name: "price",
+  },
+};
+
+export const ProductFilterBySlugForCollections = {
+  productCatalog: {
+    availableOptions: [],
+    placeholder: "Sort By",
+    name: "product_catalog",
+  },
+  brands: {
+    availableOptions: [],
+    placeholder: "Brands",
+    name: "brands",
   },
   price: {
     availableOptions: [],

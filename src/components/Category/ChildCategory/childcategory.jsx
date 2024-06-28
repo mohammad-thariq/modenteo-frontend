@@ -17,6 +17,7 @@ import { HeaderTitle } from "../../../common/HeaderTitle";
 import { lastPathObjects } from "../../../constants/otherConstants";
 import {
   ProductFilterBySlug,
+  ProductFilterBySlugForCollections,
   ProductFilterForKids,
   ProductFilterForMens,
   ProductFilterForWomens,
@@ -31,6 +32,7 @@ const defeaultFilteringValue = {
   womensWear: undefined,
   kidsWear: undefined,
   price: undefined,
+  productCatalog: undefined,
 };
 
 const ChildCategory = () => {
@@ -49,7 +51,6 @@ const ChildCategory = () => {
   const { subcategoryProducts, productsbySlug } = new ManageProductsApi();
   const { menuCollections } = new ManageMenusApi();
   const { getBrands } = new ManageBrandsApi();
-  const fetchProducts = (slug) => () => productsbySlug(slug);
 
   const { data, isLoading, isError, error, refetch } = useQuery(
     ["subcategory-product", cat, id, productFilterData],
@@ -61,8 +62,8 @@ const ChildCategory = () => {
     data: collectionProducts,
     isLoading: isLoadingProducts,
     isError: isErrorProducts,
-  } = useQuery("slug-product", fetchProducts(slug), {
-    enabled: slug != null ? true : false,
+  } = useQuery(["slug-product", slug, productFilterData], productsbySlug, {
+    enabled:  !!slug,
   });
 
   const { data: availableCollections } = useQuery(
@@ -71,6 +72,8 @@ const ChildCategory = () => {
   );
 
   const { data: availableBrands } = useQuery("brands", getBrands);
+  const containsCollections = slug?.includes('collections');
+  console.log(containsCollections, 'containsCollections');
 
   useEffect(() => {
     if (data?.data) {
@@ -90,8 +93,11 @@ const ChildCategory = () => {
       setAvailableFilterData(ProductFilterForKids);
     } else {
       setAvailableFilterData(ProductFilterBySlug);
+      if(containsCollections){
+        setAvailableFilterData(ProductFilterBySlugForCollections)
+      }
     }
-  }, [currentPageSlug]);
+  }, [containsCollections, currentPageSlug]);
 
   const totalPages = productList
     ? Math.ceil(productList.length / itemsPerPage)
@@ -115,17 +121,19 @@ const ChildCategory = () => {
     [setCurrentPage, setProductFilterData]
   );
 
-  if (isLoading || isLoadingProducts) {
-    return <Loading />;
-  }
+  // if (isLoading || isLoadingProducts) {
+  //   return <Loading />;
+  // }
 
   if (isError || isErrorProducts) {
-    return <Error message={error.message} onRetry={refetch} />;
+    return <Error message={error?.message} onRetry={refetch} />;
   }
 
-  if (productList.length <= 0) {
-    return <NoRecordFound />;
-  }
+  // if (productList.length <= 0) {
+  //   return <NoRecordFound />;
+  // }
+
+  console.log(slug, 'slug');
 
   return (
     <section className="cat-outer-section">
@@ -144,23 +152,33 @@ const ChildCategory = () => {
         />
         <div className="row">
           <div className="col-lg-12">
-            {/* <FilterGrid itemsPerPageCount={getPaginatedData().length} totalCount={data?.data.length} /> */}
-            <div className="products mb-3">
-              <div className="row justify-content-center">
-                {getPaginatedData().map((data, key) => {
-                  return (
-                    <div key={key} className="col-6 col-md-3 col-lg-3 col-xl-3">
-                      <ProductCard key={key} data={data} />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <CustomPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+            {isLoading || isLoadingProducts ? (
+              <Loading />
+            ) : productList.length <= 0 ? (
+              <NoRecordFound />
+            ) : (
+              <>
+                <div className="products mb-3">
+                  <div className="row justify-content-center">
+                    {getPaginatedData().map((data, key) => {
+                      return (
+                        <div
+                          key={key}
+                          className="col-6 col-md-3 col-lg-3 col-xl-3"
+                        >
+                          <ProductCard key={key} data={data} />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <CustomPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              </>
+            )}
           </div>
           {/* <Filter /> */}
         </div>
