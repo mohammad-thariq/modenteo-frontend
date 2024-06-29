@@ -146,7 +146,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <PageTitle title="Modenteo"/>
+      <PageTitle title="Fashion Store For Fashioned People"/>
       {getSettingsByType("banner") && sectionContent?.banner && (
         <WebsiteBanner images={sectionContent.banner} />
       )}

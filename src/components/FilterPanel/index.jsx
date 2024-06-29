@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo, useState } from "react";
-import Select, { components } from "react-select";
+import Select from "react-select";
 import "../../styles/filterPanel.css";
 import { IonIcon } from "@ionic/react";
 import { alertCircle, optionsOutline } from "ionicons/icons";
 import { PriceOptions, SortingOptions } from "../../constants/productFilters";
-import { customStyles, priceRangeCustomStyles } from "./style";
+import { customStyles } from "./style";
 import { useNavigate } from "react-router-dom";
-import { PriceRangeInput } from "../PriceRange";
 
 export const FilterPanel = ({
   availableFilterOptions,
@@ -102,16 +101,13 @@ export const FilterPanel = ({
 
   const onFilterChangeWithFormattedValues = useCallback(
     (fieldName, value) => {
-      const chosenValue = value && value?.map((elem) => elem);
+      const chosenValue = Array.isArray(value)
+        ? value.map((elem) => elem)
+        : [value];
       onFilterChange(fieldName, chosenValue);
     },
     [onFilterChange]
   );
-
-  const handlePriceRangeChange = (values) => {
-    console.log(values, 'vvv');
-    console.log("Selected Values:", values);
-  };
 
   return (
     <>
@@ -145,16 +141,13 @@ export const FilterPanel = ({
         {showMoreFilters && (
           <div className={`more-filters ${showMoreFilters ? "show" : ""}`}>
             {Object.entries(ProductFilterData)
-              .filter(
-                ([filterOption]) =>
-                  filterOption !== "productCatalog" && filterOption !== "price"
-              )
+              .filter(([filterOption]) => filterOption !== "productCatalog")
               .map(([filterOption, i]) => (
                 <Select
                   key={filterOption}
-                  closeMenuOnSelect={false}
-                  isMulti
-                  isSearchable
+                  closeMenuOnSelect={filterOption === "price" ? true : false}
+                  isMulti={filterOption !== "price"}
+                  isSearchable={filterOption !== "price"}
                   onChange={(e) =>
                     onFilterChangeWithFormattedValues(filterOption, e)
                   }
@@ -169,38 +162,8 @@ export const FilterPanel = ({
                       primary: "black",
                     },
                   })}
-                  placeholder={i?.placeholder}
-                />
-              ))}
-            {Object.entries(ProductFilterData)
-              .filter(([filterOption]) => filterOption === "price")
-              .map(([filterOption, i]) => (
-                <Select
-                defaultMenuIsOpen
-                  key={filterOption}
-                  closeMenuOnSelect={false}
-                  isMulti
-                  isSearchable
                   isClearable
-                  options={i?.availableOptions}
-                  styles={priceRangeCustomStyles}
-                  name={i?.name}
-                  theme={(theme) => ({
-                    ...theme,
-                    colors: {
-                      ...theme.colors,
-                      primary25: "black",
-                      primary: "black",
-                    },
-                  })}
                   placeholder={i?.placeholder}
-                  components={{
-                    Menu: (props) => (
-                      <components.Menu {...props}>
-                        <PriceRangeInput onChange={handlePriceRangeChange} />
-                      </components.Menu>
-                    ),
-                  }}
                 />
               ))}
           </div>

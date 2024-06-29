@@ -19,26 +19,26 @@ export const SortingOptions = [
 
 export const PriceOptions = [
   {
-    label: "New Arrival",
-    value: "new arrival",
+    label: "$0 - $499",
+    value: { min: 0, max: 499 },
   },
   {
-    label: "Best Products",
-    value: "best products",
+    label: "$499 - $899",
+    value: { min: 499, max: 899 },
   },
   {
-    label: "Offer Price",
-    value: "offer price",
+    label: "$899 - $1299",
+    value: { min: 899, max: 1299 },
   },
   {
-    label: "Featured Products",
-    value: "featured products",
+    label: "$1299 - $2999",
+    value: { min: 1299, max: 2999 },
+  },
+  {
+    label: "$2999 +",
+    value: { min: 2999, max: 500000 },
   },
 ];
-
-
-
-
 
 export const ProductFilterForMens = {
   productCatalog: {
