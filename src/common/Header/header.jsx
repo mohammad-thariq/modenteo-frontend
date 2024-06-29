@@ -330,14 +330,9 @@ const WebsiteHeader = () => {
             categories.map((cat) => {
               return (
                 <li key={cat?.id} className="menu-category">
-                  <button
-                    className={
-                      cat?.isOpen ? "accordion-menu active" : "accordion-menu"
-                    }
-                    onClick={() => toggleAccordion(cat?.id)}
-                  >
-                    <p className="menu-title">{cat?.categoryName}</p>
-                    <div>
+                  <button className={cat?.isOpen ? "accordion-menu active" : "accordion-menu"}>
+                    <a  href={"/category/" + cat?.categorySlug}><p className="menu-title">{cat?.categoryName}</p></a>
+                    <div onClick={() => toggleAccordion(cat?.id)}>
                       <IonIcon className="add-icon" icon={addOutline} />
                       <IonIcon className="remove-icon" icon={removeOutline} />
                     </div>
@@ -353,7 +348,12 @@ const WebsiteHeader = () => {
                       {cat?.subCategory.map((subcat, index) => {
                         return (
                           <li key={index} className="submenu-category">
-                            <a href="/" className="submenu-title">
+                            <a href={
+                              "/category/" +
+                              cat?.categorySlug +
+                              "/" +
+                              subcat?.slug
+                            } className="submenu-title">
                               {subcat?.name}
                             </a>
                           </li>
@@ -364,6 +364,7 @@ const WebsiteHeader = () => {
                 </li>
               );
             })}
+            
           <li className="menu-category">
             <a href="/new" className="menu-title">
               New
