@@ -8,9 +8,8 @@ import {
   Error,
   NoRecordFound,
   Breadcrumb,
+  PageTitle,
 } from "../../../common";
-// import Filter from '../../Filter/filter';
-// import FilterGrid from '../../FilterGrid/filter-grid';
 import { useQuery } from "react-query";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HeaderTitle } from "../../../common/HeaderTitle";
@@ -44,6 +43,7 @@ const ChildCategory = () => {
   const [productList, setproductList] = useState([]);
   const [availableFilterData, setAvailableFilterData] = useState();
   const [currentPageSlug, setCurrentPageSlug] = useState();
+  const [currentPageTitle, setCurrentPageTitle] = useState()
   const [productFilterData, setProductFilterData] = useState(
     defeaultFilteringValue
   );
@@ -73,7 +73,6 @@ const ChildCategory = () => {
 
   const { data: availableBrands } = useQuery("brands", getBrands);
   const containsCollections = slug?.includes('collections');
-  console.log(containsCollections, 'containsCollections');
 
   useEffect(() => {
     if (data?.data) {
@@ -87,10 +86,13 @@ const ChildCategory = () => {
   useEffect(() => {
     if (currentPageSlug === lastPathObjects.MENS) {
       setAvailableFilterData(ProductFilterForMens);
+      setCurrentPageTitle('Clothing For Mens')
     } else if (currentPageSlug === lastPathObjects.WOMENS) {
       setAvailableFilterData(ProductFilterForWomens);
+      setCurrentPageTitle('Clothing For Womens')
     } else if (currentPageSlug === lastPathObjects.KIDS) {
       setAvailableFilterData(ProductFilterForKids);
+      setCurrentPageTitle('Clothing For Kids')
     } else {
       setAvailableFilterData(ProductFilterBySlug);
       if(containsCollections){
@@ -121,27 +123,25 @@ const ChildCategory = () => {
     [setCurrentPage, setProductFilterData]
   );
 
-  // if (isLoading || isLoadingProducts) {
-  //   return <Loading />;
-  // }
-
+  const handleCurrentPageTitle = useCallback((pageTitle) => {
+    setCurrentPageTitle(pageTitle);
+  }, []);
+  
   if (isError || isErrorProducts) {
     return <Error message={error?.message} onRetry={refetch} />;
   }
 
-  // if (productList.length <= 0) {
-  //   return <NoRecordFound />;
-  // }
-
-  console.log(slug, 'slug');
 
   return (
+    <>
+    <PageTitle title={currentPageTitle}/>
     <section className="cat-outer-section">
       <div className="container">
         <Breadcrumb />
         <HeaderTitle
           defaultTitle={slug && slug}
           onCurrentSlug={setCurrentPageSlug}
+          handleCurrentPageTitle={handleCurrentPageTitle}
         />
         <FilterPanel
           availableFilterOptions={availableFilterData}
@@ -184,6 +184,7 @@ const ChildCategory = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

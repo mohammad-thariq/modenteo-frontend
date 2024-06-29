@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from "react";
 import ProductDetailsFooter from "./product-footer";
 import { IonIcon } from "@ionic/react";
-import { heartOutline, cartOutline, heartDislike } from "ionicons/icons";
+import {
+  heartOutline,
+  cartOutline,
+  heartDislike,
+  bagAddSharp,
+} from "ionicons/icons";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
-import { ManageCartApi, ManageWishlistApi } from "../../service";
+import {
+  ManageBrandsApi,
+  ManageCartApi,
+  ManageCategoriesApi,
+  ManageWishlistApi,
+} from "../../service";
 import { useMutation, useQuery } from "react-query";
 import { Loading } from "../../common";
+import ProductDetailsTab from "./product-details-tab";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = ({ data }) => {
   const [qty, setQty] = useState(1);
   const [existingCart, setExistingCart] = useState([]);
-
+  const navigate = useNavigate();
   const userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
   const { addCart, getCart, updateCart } = new ManageCartApi();
+  const { getBrandById } = new ManageBrandsApi();
+  const { getSubCategoryById } = new ManageCategoriesApi();
   const { addWishlist, deleteWishlist, getWishlist } = new ManageWishlistApi();
 
   const {
@@ -32,6 +46,22 @@ const ProductDetails = ({ data }) => {
   } = useQuery("wishlist", () => getWishlist(userDetails?.id), {
     enabled: !!userDetails,
   });
+
+  const { data: productBrand } = useQuery(
+    ["product-brand", data.brand_id],
+    getBrandById,
+    {
+      enabled: !!data?.brand_id,
+    }
+  );
+
+  const { data: productSubCategory } = useQuery(
+    ["product-sub-category", data.sub_category_id],
+    getSubCategoryById,
+    {
+      enabled: !!data?.sub_category_id,
+    }
+  );
 
   useEffect(() => {
     if (cartData) {
@@ -132,27 +162,30 @@ const ProductDetails = ({ data }) => {
         )
       : false;
   };
-
+  
   return (
-    <div className="col-md-6">
-      <div className="product-details">
-        <h1 className="product-title">{data?.name}</h1>
-        <div className="product-price">${data?.price}</div>
-
-        <div className="product-content">
-          <p>{data?.short_description}</p>
+    <div className="col-md-6 mt-4">
+      <div className="product-detailds">
+        {productBrand && (
+          <p className="product-brand">{productBrand?.brand?.name}</p>
+        )}
+        <p className="product-name">{data?.name}</p>
+        <div className="product-indprice">
+          $ {data?.price} <span>including VAT.</span>
         </div>
 
         <div className="details-filter-row details-row-size">
-          <label htmlFor="qty">Qty:</label>
           <div className="product-details-quantity">
             <input
               type="number"
               className="form-control"
-              style={{ textAlign: "center" }}
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
             />
+            <p className="product-details-qnty-item">{productSubCategory && productSubCategory?.data?.name}</p>
+          </div>
+          <div className="product-details-policy" title="Shipping and Return Policy" onClick={() => navigate('/page/delivery')}>
+            <IonIcon icon={bagAddSharp} />
           </div>
         </div>
 
@@ -179,7 +212,7 @@ const ProductDetails = ({ data }) => {
             {checkWishlistExists(data?.id) ? (
               <span
                 onClick={handleRemoveWishlist}
-                className="btn-product btn-cart"
+                className="btn-product btn-wishlist"
                 title="Wishlist"
               >
                 <IonIcon icon={heartDislike} />
@@ -189,7 +222,7 @@ const ProductDetails = ({ data }) => {
             ) : (
               <span
                 onClick={handleAddToWishlist}
-                className="btn-product btn-cart"
+                className="btn-product btn-wishlist"
                 title="Wishlist"
               >
                 <IonIcon icon={heartOutline} />
@@ -200,6 +233,7 @@ const ProductDetails = ({ data }) => {
           </div>
         )}
       </div>
+      <ProductDetailsTab data={data}/>
       <ProductDetailsFooter product={data} />
     </div>
   );

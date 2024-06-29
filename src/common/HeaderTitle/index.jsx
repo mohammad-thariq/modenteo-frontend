@@ -4,9 +4,13 @@ import { lastPathObjects } from "../../constants/otherConstants";
 import { stringFormatter } from "../../utils/stringFormatter";
 import "../../styles/product.css";
 
-export const HeaderTitle = ({ defaultTitle, onCurrentSlug }) => {
+export const HeaderTitle = ({
+  defaultTitle,
+  onCurrentSlug,
+  handleCurrentPageTitle,
+}) => {
   const location = useLocation();
-  const paths = location.pathname?.split("/").filter((path) => path !== ""); // Split URL path into segments
+  const paths = location.pathname?.split("/").filter((path) => path !== "");
   const [currentTitleHeader, setCurrentTitleHeader] = useState("");
 
   function checkLastElement(array, obj) {
@@ -27,17 +31,26 @@ export const HeaderTitle = ({ defaultTitle, onCurrentSlug }) => {
       setCurrentTitleHeader(
         `Clothing For ${lastPath?.charAt(0).toUpperCase() + lastPath?.slice(1)}`
       );
+      handleCurrentPageTitle(
+        `Clothing For ${lastPath?.charAt(0).toUpperCase() + lastPath?.slice(1)}`
+      );
     } else if (lastPath === "products") {
       setCurrentTitleHeader(stringFormatter(defaultTitle));
+      handleCurrentPageTitle(stringFormatter(defaultTitle));
     } else {
       setCurrentTitleHeader(
         `${lastPath?.charAt(0).toUpperCase() + lastPath?.slice(1)} For ${
           secondLastPath?.charAt(0).toUpperCase() + secondLastPath?.slice(1)
         }`
       );
+      handleCurrentPageTitle(
+        `${lastPath?.charAt(0).toUpperCase() + lastPath?.slice(1)} For ${
+          secondLastPath?.charAt(0).toUpperCase() + secondLastPath?.slice(1)
+        }`
+      );
     }
     onCurrentSlug(lastPath);
-  }, [defaultTitle, onCurrentSlug, paths]);
+  }, [defaultTitle, handleCurrentPageTitle, onCurrentSlug, paths]);
 
   return (
     <div className="product_title_header ">

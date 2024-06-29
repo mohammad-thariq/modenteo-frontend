@@ -33,4 +33,9 @@ export class ManageCategoriesApi {
     const res = await _axios("get", `/list/child_categories`);
     return res;
   };
+
+  getSubCategoryById = async ({ queryKey }) => {
+    const res = await _axios("get", `/sub_categories/unauth/${queryKey[1]}`);
+    return res;
+  };
 }

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import Select from "react-select";
 import "../../styles/filterPanel.css";
 import { IonIcon } from "@ionic/react";
-import { alertCircle, filterOutline } from "ionicons/icons";
+import { alertCircle, optionsOutline } from "ionicons/icons";
 import { SortingOptions } from "../../constants/productFilters";
 import { customStyles } from "./style";
 import { useNavigate } from "react-router-dom";
@@ -160,7 +160,7 @@ export const FilterPanel = ({
           </div>
         )}
         <div className="filter-btn" onClick={handleShowMoreFilters}>
-          <IonIcon icon={filterOutline} />
+          <IonIcon icon={optionsOutline} />
           <p>{showMoreFilters ? "Less" : "More"} filters</p>
         </div>
       </div>

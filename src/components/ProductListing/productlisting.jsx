@@ -12,6 +12,7 @@ import {
   Error,
   NoRecordFound,
   Breadcrumb,
+  PageTitle,
 } from "../../common";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -43,6 +44,7 @@ const ProductListing = () => {
   const [productList, setproductList] = useState([]);
   const [currentPageSlug, setCurrentPageSlug] = useState();
   const [availableFilterData, setAvailableFilterData] = useState();
+  const [currentPageTitle, setCurrentPageTitle] = useState()
   const [availableSubCategory, setAvailableSubCategory] = useState();
   const [productFilterData, setProductFilterData] = useState(
     defeaultFilteringValue
@@ -123,15 +125,25 @@ const ProductListing = () => {
     [setCurrentPage, setProductFilterData]
   );
 
+  const handleCurrentPageTitle = useCallback((pageTitle) => {
+    setCurrentPageTitle(pageTitle);
+  }, []);
+  
+
   if (isError) {
     return <Error message={error?.message} onRetry={refetch} />;
   }
 
   return (
+    <>
+    <PageTitle title={currentPageTitle} />
     <section className="cat-outer-section">
       <div className="container">
         <Breadcrumb />
-        <HeaderTitle onCurrentSlug={setCurrentPageSlug} />
+        <HeaderTitle
+          onCurrentSlug={setCurrentPageSlug}
+          handleCurrentPageTitle={handleCurrentPageTitle}
+        />
         <FilterPanel
           availableFilterOptions={availableFilterData}
           totalProduct={getPaginatedData()?.length}
@@ -174,6 +186,7 @@ const ProductListing = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 
