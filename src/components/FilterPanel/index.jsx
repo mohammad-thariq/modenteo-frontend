@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo, useState } from "react";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import "../../styles/filterPanel.css";
 import { IonIcon } from "@ionic/react";
 import { alertCircle, optionsOutline } from "ionicons/icons";
-import { SortingOptions } from "../../constants/productFilters";
-import { customStyles } from "./style";
+import { PriceOptions, SortingOptions } from "../../constants/productFilters";
+import { customStyles, priceRangeCustomStyles } from "./style";
 import { useNavigate } from "react-router-dom";
-
+import { PriceRangeInput } from "../PriceRange";
 
 export const FilterPanel = ({
   availableFilterOptions,
@@ -74,6 +74,13 @@ export const FilterPanel = ({
           }));
         }
 
+        if (filterOption === "price") {
+          availableOptions = PriceOptions?.map((elem) => ({
+            value: elem.value,
+            label: elem.label,
+          }));
+        }
+
         const modifiedValue = {
           name: value.name,
           availableOptions,
@@ -100,6 +107,11 @@ export const FilterPanel = ({
     },
     [onFilterChange]
   );
+
+  const handlePriceRangeChange = (values) => {
+    console.log(values, 'vvv');
+    console.log("Selected Values:", values);
+  };
 
   return (
     <>
@@ -133,8 +145,11 @@ export const FilterPanel = ({
         {showMoreFilters && (
           <div className={`more-filters ${showMoreFilters ? "show" : ""}`}>
             {Object.entries(ProductFilterData)
-            .filter(([filterOption]) => filterOption !== "productCatalog")
-            .map(([filterOption, i]) => (
+              .filter(
+                ([filterOption]) =>
+                  filterOption !== "productCatalog" && filterOption !== "price"
+              )
+              .map(([filterOption, i]) => (
                 <Select
                   key={filterOption}
                   closeMenuOnSelect={false}
@@ -157,6 +172,37 @@ export const FilterPanel = ({
                   placeholder={i?.placeholder}
                 />
               ))}
+            {Object.entries(ProductFilterData)
+              .filter(([filterOption]) => filterOption === "price")
+              .map(([filterOption, i]) => (
+                <Select
+                defaultMenuIsOpen
+                  key={filterOption}
+                  closeMenuOnSelect={false}
+                  isMulti
+                  isSearchable
+                  isClearable
+                  options={i?.availableOptions}
+                  styles={priceRangeCustomStyles}
+                  name={i?.name}
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "black",
+                      primary: "black",
+                    },
+                  })}
+                  placeholder={i?.placeholder}
+                  components={{
+                    Menu: (props) => (
+                      <components.Menu {...props}>
+                        <PriceRangeInput onChange={handlePriceRangeChange} />
+                      </components.Menu>
+                    ),
+                  }}
+                />
+              ))}
           </div>
         )}
         <div className="filter-btn" onClick={handleShowMoreFilters}>
@@ -167,7 +213,7 @@ export const FilterPanel = ({
       <div className="total-products">
         <p>{totalProduct} products</p>
         <IonIcon
-          onClick={() => navigate('/page/how-product-recommendations-work')}
+          onClick={() => navigate("/page/how-product-recommendations-work")}
           icon={alertCircle}
           style={{ cursor: "pointer" }}
           title="How we recommend products? click to see more"

@@ -17,6 +17,28 @@ export const SortingOptions = [
   },
 ];
 
+export const PriceOptions = [
+  {
+    label: "New Arrival",
+    value: "new arrival",
+  },
+  {
+    label: "Best Products",
+    value: "best products",
+  },
+  {
+    label: "Offer Price",
+    value: "offer price",
+  },
+  {
+    label: "Featured Products",
+    value: "featured products",
+  },
+];
+
+
+
+
 
 export const ProductFilterForMens = {
   productCatalog: {
