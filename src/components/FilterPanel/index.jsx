@@ -145,8 +145,8 @@ export const FilterPanel = ({
               .map(([filterOption, i]) => (
                 <Select
                   key={filterOption}
-                  closeMenuOnSelect={filterOption === "price" ? true : false}
-                  isMulti={filterOption !== "price"}
+                  closeMenuOnSelect={false}
+                  isMulti
                   isSearchable={filterOption !== "price"}
                   onChange={(e) =>
                     onFilterChangeWithFormattedValues(filterOption, e)
