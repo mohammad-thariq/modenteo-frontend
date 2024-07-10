@@ -87,9 +87,8 @@ function ImageMagnifier({
             backgroundColor: "white",
             backgroundImage: `url('${src}')`,
             backgroundRepeat: "no-repeat",
-            backgroundSize: `${imgWidth * zoomLevel}px ${
-              imgHeight * zoomLevel
-            }px`,
+            backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel
+              }px`,
 
             backgroundPositionX: `${-x * zoomLevel + magnifieWidth / 2}px`,
             backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`,
@@ -105,11 +104,11 @@ const ProductGallery = ({ data }) => {
     data?.gallery !== undefined
       ? data?.gallery?.split(",")
       : [
-          "https://placehold.co/89x129",
-          "https://placehold.co/89x129",
-          "https://placehold.co/89x129",
-          "https://placehold.co/89x129",
-        ];
+        "https://placehold.co/89x129",
+        "https://placehold.co/89x129",
+        "https://placehold.co/89x129",
+        "https://placehold.co/89x129",
+      ];
   gallery?.push(data?.image);
 
   const [mainImage, setMainImage] = useState(data?.image);
@@ -139,10 +138,10 @@ const ProductGallery = ({ data }) => {
           <div className="product-image-gallery">
             {gallery?.map((product, index) => (
               <img
+                onMouseOver={() => handleThumbnailClick(product, index)}
                 onClick={() => handleThumbnailClick(product, index)}
-                className={`product-gallery-item ${
-                  mainImage === product ? "active" : ""
-                }`}
+                className={`product-gallery-item ${mainImage === product ? "active" : ""
+                  }`}
                 src={product}
                 alt={data?.short_name}
               />

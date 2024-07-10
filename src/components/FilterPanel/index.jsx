@@ -16,7 +16,7 @@ export const FilterPanel = ({
   onFilterChange,
 }) => {
   const navigate = useNavigate();
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [showMoreFilters, setShowMoreFilters] = useState(true);
 
   const handleShowMoreFilters = () => {
     setShowMoreFilters(!showMoreFilters);
