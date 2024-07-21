@@ -10,58 +10,88 @@ import { localStorageConst } from "../../constants/localStorage";
 import { useQuery, useMutation } from "react-query";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 const { getCart, deleteCart, updateCart } = new ManageCartApi();
+
 const fetchCart = (userID) => () => getCart(userID);
 
 const Cart = () => {
-  let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
-
-  const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id));
   const [cartItems, setCartItems] = useState([]);
+  const userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
+
+  const { data: cartData, isLoading, isError, error, refetch } = useQuery('cart', fetchCart(userDetails?.id), {
+    enabled: !!userDetails,
+  });
 
   useEffect(() => {
-    if (cartData?.data && Array.isArray(cartData?.data)) {
-      setCartItems(cartData?.data);
+    if (userDetails) {
+      if (cartData?.data && Array.isArray(cartData?.data)) {
+        setCartItems(cartData?.data);
+      }
+    } else {
+      // Handle guest cart items
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      console.log(guestCart,'guestCartguestCart')
+      setCartItems(guestCart);
     }
-  }, [cartData])
+  }, [cartData, userDetails]);
 
   const { mutate: removeCart } = useMutation(deleteCart, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       ToastifySuccess("Product Removed from the cart");
       refetch();
-
     },
     onError: (error) => {
       ToastifyFailed(error?.message);
     },
   });
+
   const { mutate: cartUpdate } = useMutation(updateCart, {
-    onSuccess: (data) => {
+    onSuccess: () => {
       ToastifySuccess("Quantity Updated");
       refetch();
-
     },
     onError: (error) => {
       ToastifyFailed(error?.message);
     },
   });
+
   const handleCart = (id, qty) => {
-    cartUpdate({ id: id, quantity: qty });
+    if (userDetails) {
+      cartUpdate({ id: id, quantity: qty });
+    } else {
+      // Update guest cart in local storage
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const updatedCart = guestCart.map(item =>
+        item.product_id === id ? { ...item, quantity: qty } : item
+      );
+      LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+      setCartItems(updatedCart); // Update local state
+    }
   };
 
   const handleRemove = (id) => {
-    removeCart(id);
+    if (userDetails) {
+      removeCart(id);
+    } else {
+      // Remove from guest cart in local storage
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const updatedCart = guestCart.filter(item => item.product_id !== id);
+      LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+      setCartItems(updatedCart); // Update local state
+    }
   };
 
   const calculateTotal = () => {
     return cartItems.reduce((total, item) => total + (item.offer_price <= 0 ? item.price : item.offer_price) * item.quantity, 0).toFixed(2);
   };
+
   if (isLoading) {
     return <Loading />;
   }
 
   if (isError) {
-    return <Error message={error.message} onRetry={refetch} />
+    return <Error message={error.message} onRetry={refetch} />;
   }
+
   return (
     <div className="page-content">
       <Breadcrumb />
@@ -83,7 +113,7 @@ const Cart = () => {
                     </thead>
                     <tbody>
                       {cartItems.map((item) => (
-                        <tr key={item.id}>
+                        <tr key={item.product_id}>
                           <td className="product-col">
                             <div className="product">
                               <figure className="product-media">
@@ -94,7 +124,7 @@ const Cart = () => {
                               <h3 className="product-title">
                                 <Link to={"/product/" + item?.slug}>
                                   {item.name}
-                                  </Link>
+                                </Link>
                               </h3>
                             </div>
                           </td>
@@ -107,7 +137,7 @@ const Cart = () => {
                                     style={{ minWidth: 26 }}
                                     className="btn btn-decrement btn-spinner"
                                     type="button"
-                                    onClick={() => handleCart(item?.id, item?.quantity - 1)}
+                                    onClick={() => handleCart(item.product_id, item.quantity - 1)}
                                   >
                                     <IonIcon icon={removeOutline} />
                                   </button>
@@ -117,15 +147,14 @@ const Cart = () => {
                                   style={{ textAlign: "center" }}
                                   className="form-control"
                                   value={item.quantity}
-                                  onChange={(e) => handleCart(item?.id, e.target.value)}
-
+                                  onChange={(e) => handleCart(item.product_id, Number(e.target.value))}
                                 />
                                 <div className="input-group-append">
                                   <button
                                     style={{ minWidth: 26 }}
                                     className="btn btn-increment btn-spinner"
                                     type="button"
-                                    onClick={() => handleCart(item?.id, item?.quantity + 1)}
+                                    onClick={() => handleCart(item.product_id, item.quantity + 1)}
                                   >
                                     <IonIcon icon={addOutline} />
                                   </button>
@@ -135,7 +164,7 @@ const Cart = () => {
                           </td>
                           <td className="total-col">${(item.offer_price <= 0 ? item.price : item.offer_price * item.quantity).toFixed(2)}</td>
                           <td className="remove-col">
-                            <button className="btn-remove" onClick={() => handleRemove(item.id)}>
+                            <button className="btn-remove" onClick={() => handleRemove(item.product_id)}>
                               <IonIcon icon={closeOutline} />
                             </button>
                           </td>
@@ -143,12 +172,6 @@ const Cart = () => {
                       ))}
                     </tbody>
                   </table>
-                  {/* <div className="cart-bottom">
-                    <Link to="#" className="btn btn-outline-dark-2">
-                      <span>UPDATE CART</span>
-                      <IonIcon icon={refreshOutline} />
-                    </Link>
-                  </div> */}
                 </>
               ) : (
                 <div className="empty-cart">

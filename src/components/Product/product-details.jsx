@@ -76,6 +76,14 @@ const ProductDetails = ({ data }) => {
       if (cartDetails.length > 0) {
         setQty(cartDetails[0].quantity);
       }
+    } else {
+      // For guest users, check the local storage
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const guestCartItem = guestCart.find(item => item.product_id === data.id);
+      if (guestCartItem) {
+        setExistingCart([guestCartItem]);
+        setQty(guestCartItem.quantity);
+      }
     }
   }, [cartData, data?.id]);
 
@@ -119,21 +127,60 @@ const ProductDetails = ({ data }) => {
   };
 
   const handleUpdateToCart = (id) => {
-    cartUpdate({ id, quantity: qty });
+    if (userDetails) {
+      cartUpdate({ id, quantity: qty });
+    } else {
+      // Update guest cart in local storage
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const updatedCart = guestCart.map(item =>
+        item.product_id === id ? { ...item, quantity: qty } : item
+      );
+      LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+      ToastifySuccess("Quantity Updated in Guest Cart");
+    }
   };
 
   const handleAddToCart = () => {
+    const cartItem = {
+      product_id: data.id,
+      quantity: qty,
+      image: data.image,      
+      slug: data.slug,       
+      name: data.name,
+      user_id: userDetails?.id        
+    };
+  
     if (userDetails) {
-      const cartData = {
-        product_id: data.id,
-        user_id: userDetails?.id,
-        quantity: qty,
-      };
-      createCart(cartData);
+      const existingItem = cartData?.data?.find(item => item.product_id === data.id);
+  
+      if (existingItem) {
+        // Update quantity if item exists
+        handleUpdateToCart(data.id);
+      } else {
+        // Add new item to user cart
+        createCart(cartItem);
+      }
     } else {
-      ToastifyFailed("Please log in to add products to your cart");
+      // For guest users, handle cart logic in local storage
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const existingItem = guestCart.find(item => item.product_id === data.id);
+  
+      if (existingItem) {
+        // Update quantity if item exists
+        const updatedCart = guestCart.map(item =>
+          item.product_id === data.id ? { ...item, quantity: qty } : item
+        );
+        LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+        ToastifySuccess("Quantity Updated in Guest Cart");
+      } else {
+        // Add new item to guest cart
+        guestCart.push(cartItem);
+        LocalStorageHelper.setItem(localStorageConst.GUEST_CART, guestCart);
+        ToastifySuccess("Product Added to Guest Cart");
+      }
     }
   };
+  
 
   const { mutate: createWishlist } = useMutation(addWishlist, {
     onSuccess: () => {
@@ -162,7 +209,7 @@ const ProductDetails = ({ data }) => {
         )
       : false;
   };
-  
+
   return (
     <div className="col-md-6 mt-4">
       <div className="product-detailds">
@@ -195,7 +242,7 @@ const ProductDetails = ({ data }) => {
           <div className="product-details-action cart-screen">
             {existingCart.length > 0 ? (
               <span
-                onClick={() => handleUpdateToCart(existingCart[0].id)}
+                onClick={() => handleUpdateToCart(existingCart[0].product_id)}
                 className="btn-product btn-cart"
               >
                 <IonIcon icon={cartOutline} />

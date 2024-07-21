@@ -136,7 +136,10 @@ const App = () => {
                 </Base>
               }
             />
-            <Route
+           
+          </>
+        )}
+         <Route
               path="/cart"
               element={
                 <Base>
@@ -144,8 +147,6 @@ const App = () => {
                 </Base>
               }
             />
-          </>
-        )}
         <Route
           path="/categories"
           element={

@@ -3,4 +3,6 @@ export const localStorageConst = {
   USER: "dX20Nlc24g",
   EXPIREIN: "ZXhw20aXJlX24lu",
   REMEMBER: "cmVtZW201iZXJf24bWU",
+  GUEST_CART: "Z3Vlc3RfY2FydA==", 
+
 };

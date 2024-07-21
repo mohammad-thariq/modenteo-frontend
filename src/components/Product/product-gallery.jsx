@@ -1,29 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ProductGallerySlideshow from "./product-gallery-slideshow";
 
-function ImageMagnifier({
+function ImageZoom({
   src,
   width,
   height,
-  magnifierHeight = 200,
-  magnifieWidth = 200,
-  zoomLevel = 1.5,
+  zoomLevel = 2,
   images,
   index,
   showModal,
 }) {
   const [[x, y], setXY] = useState([0, 0]);
-  const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
-  const [showMagnifier, setShowMagnifier] = useState(false);
-  const [showPopup, setshowPopup] = useState(showModal);
-  const [time, settime] = useState("");
+  const [showZoom, setShowZoom] = useState(false);
+  const [showPopup, setShowPopup] = useState(showModal);
+  const [time, setTime] = useState("");
+  const imgRef = useRef(null);
+
   const openModal = () => {
-    setshowPopup(true);
-    settime(Date.now());
+    setShowPopup(true);
+    setTime(Date.now());
   };
+
   useEffect(() => {
-    setshowPopup(showModal);
+    setShowPopup(showModal);
   }, [showModal]);
+
+  const handleMouseMove = (e) => {
+    if (imgRef.current) {
+      const rect = imgRef.current.getBoundingClientRect();
+      const offsetX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+      const offsetY = Math.max(0, Math.min(e.clientY - rect.top, rect.height));
+      setXY([offsetX / rect.width, offsetY / rect.height]);
+    }
+  };
+
   return (
     <>
       {showPopup && (
@@ -31,7 +41,7 @@ function ImageMagnifier({
           modal={time}
           index={index}
           images={images}
-          modalClose={() => setshowPopup(false)}
+          modalClose={() => setShowPopup(false)}
         />
       )}
 
@@ -40,60 +50,30 @@ function ImageMagnifier({
           position: "relative",
           height: height,
           width: width,
+          overflow: "hidden",
         }}
       >
         <img
+          ref={imgRef}
           src={src}
-          style={{ height: height, width: width }}
-          onClick={(e) => {
-            openModal();
-            console.log("dsfs");
-          }}
-          onMouseEnter={(e) => {
-            // update image size and turn-on magnifier
-            const elem = e.currentTarget;
-            const { width, height } = elem.getBoundingClientRect();
-            setSize([width, height]);
-            setShowMagnifier(true);
-          }}
-          onMouseMove={(e) => {
-            // update cursor position
-            const elem = e.currentTarget;
-            const { top, left } = elem.getBoundingClientRect();
-
-            // calculate cursor position on the image
-            const x = e.pageX - left - window.pageXOffset;
-            const y = e.pageY - top - window.pageYOffset;
-            setXY([x, y]);
-          }}
-          onMouseLeave={() => {
-            // close magnifier
-            setShowMagnifier(false);
-          }}
-          alt={"img"}
-        />
-
-        <div
           style={{
-            display: showMagnifier ? "" : "none",
-            position: "absolute",
-            pointerEvents: "none",
-            height: `${magnifierHeight}px`,
-            width: `${magnifieWidth}px`,
-            top: `${y - magnifierHeight / 2}px`,
-            left: `${x - magnifieWidth / 2}px`,
-            opacity: "1",
-            border: "1px solid lightgray",
-            backgroundColor: "white",
-            backgroundImage: `url('${src}')`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: `${imgWidth * zoomLevel}px ${imgHeight * zoomLevel
-              }px`,
-
-            backgroundPositionX: `${-x * zoomLevel + magnifieWidth / 2}px`,
-            backgroundPositionY: `${-y * zoomLevel + magnifierHeight / 2}px`,
+            height: height,
+            width: width,
+            transform: showZoom ? `scale(${zoomLevel})` : "scale(1)",
+            transformOrigin: `${x * 100}% ${y * 100}%`,
+            transition: "transform 0.2s ease",
+            cursor: showZoom ? "zoom-out" : "zoom-in",
           }}
-        ></div>
+          onClick={openModal}
+          onMouseEnter={() => {
+            setShowZoom(true);
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => {
+            setShowZoom(false);
+          }}
+          alt="img"
+        />
       </div>
     </>
   );
@@ -104,11 +84,11 @@ const ProductGallery = ({ data }) => {
     data?.gallery !== undefined
       ? data?.gallery?.split(",")
       : [
-        "https://placehold.co/89x129",
-        "https://placehold.co/89x129",
-        "https://placehold.co/89x129",
-        "https://placehold.co/89x129",
-      ];
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
+          "https://placehold.co/89x129",
+        ];
   gallery?.push(data?.image);
 
   const [mainImage, setMainImage] = useState(data?.image);
@@ -118,6 +98,7 @@ const ProductGallery = ({ data }) => {
     setMainImage(imageUrl);
     setIndex(index + 1);
   };
+
   useEffect(() => {
     setMainImage(data?.image);
   }, [data]);
@@ -127,7 +108,7 @@ const ProductGallery = ({ data }) => {
       <div className="product-gallery product-gallery-vertical">
         <div className="row">
           <figure className="product-main-image">
-            <ImageMagnifier
+            <ImageZoom
               id="product-zoom"
               src={mainImage || 'https://placehold.co/400x590'}
               index={index}
@@ -140,10 +121,10 @@ const ProductGallery = ({ data }) => {
               <img
                 onMouseOver={() => handleThumbnailClick(product, index)}
                 onClick={() => handleThumbnailClick(product, index)}
-                className={`product-gallery-item ${mainImage === product ? "active" : ""
-                  }`}
+                className={`product-gallery-item ${mainImage === product ? "active" : ""}`}
                 src={product}
                 alt={data?.short_name}
+                key={index}
               />
             ))}
           </div>
@@ -154,4 +135,5 @@ const ProductGallery = ({ data }) => {
     <></>
   );
 };
+
 export default ProductGallery;
