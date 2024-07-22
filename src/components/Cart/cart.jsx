@@ -13,10 +13,10 @@ import "../../styles/cart.css";
 import { ManageCartApi } from "../../service";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
-import { useQuery, useMutation } from "react-query";
-import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
+import { useQuery } from "react-query";
+// import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 
-const { getCart, deleteCart, updateCart } = new ManageCartApi();
+const { getCart } = new ManageCartApi();
 // const { getBrandById } = new ManageBrandsApi();
 
 const fetchCart = (userID) => () => getCart(userID);
@@ -41,63 +41,63 @@ const Cart = () => {
     }
   }, [cartData, userDetails]);
 
-  const { mutate: removeCart } = useMutation(deleteCart, {
-    onSuccess: () => {
-      ToastifySuccess("Product Removed from the cart");
-      refetch();
-    },
-    onError: (error) => {
-      ToastifyFailed(error?.message);
-    },
-  });
+  // const { mutate: removeCart } = useMutation(deleteCart, {
+  //   onSuccess: () => {
+  //     ToastifySuccess("Product Removed from the cart");
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     ToastifyFailed(error?.message);
+  //   },
+  // });
 
-  const { mutate: cartUpdate } = useMutation(updateCart, {
-    onSuccess: () => {
-      ToastifySuccess("Quantity Updated");
-      refetch();
-    },
-    onError: (error) => {
-      ToastifyFailed(error?.message);
-    },
-  });
+  // const { mutate: cartUpdate } = useMutation(updateCart, {
+  //   onSuccess: () => {
+  //     ToastifySuccess("Quantity Updated");
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     ToastifyFailed(error?.message);
+  //   },
+  // });
 
-  const handleCart = (id, qty) => {
-    if (userDetails) {
-      cartUpdate({ id: id, quantity: qty });
-    } else {
-      // Update guest cart in local storage
-      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const updatedCart = guestCart.map(item =>
-        item.product_id === id ? { ...item, quantity: qty } : item
-      );
-      LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
-      setCartItems(updatedCart); // Update local state
-    }
-  };
+  // const handleCart = (id, qty) => {
+  //   if (userDetails) {
+  //     cartUpdate({ id: id, quantity: qty });
+  //   } else {
+  //     // Update guest cart in local storage
+  //     const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+  //     const updatedCart = guestCart.map(item =>
+  //       item.product_id === id ? { ...item, quantity: qty } : item
+  //     );
+  //     LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+  //     setCartItems(updatedCart); // Update local state
+  //   }
+  // };
 
-  const handleRemove = (id) => {
-    if (userDetails) {
-      removeCart(id);
-    } else {
-      // Remove from guest cart in local storage
-      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const updatedCart = guestCart.filter(item => item.product_id !== id);
-      LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
-      setCartItems(updatedCart); // Update local state
-    }
-  };
+  // const handleRemove = (id) => {
+  //   if (userDetails) {
+  //     removeCart(id);
+  //   } else {
+  //     // Remove from guest cart in local storage
+  //     const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+  //     const updatedCart = guestCart.filter(item => item.product_id !== id);
+  //     LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
+  //     setCartItems(updatedCart); // Update local state
+  //   }
+  // };
 
-  const calculateTotal = () => {
-    return cartItems
-      .reduce(
-        (total, item) =>
-          total +
-          (item.offer_price <= 0 ? item.price : item.offer_price) *
-            item.quantity,
-        0
-      )
-      .toFixed(2);
-  };
+  // const calculateTotal = () => {
+  //   return cartItems
+  //     .reduce(
+  //       (total, item) =>
+  //         total +
+  //         (item.offer_price <= 0 ? item.price : item.offer_price) *
+  //           item.quantity,
+  //       0
+  //     )
+  //     .toFixed(2);
+  // };
 
   if (isLoading) {
     return <Loading />;
@@ -146,7 +146,7 @@ const Cart = () => {
                 <div>Intermediate sum: NOK 749.00</div>
                 <div>Freight: NOK 0.00</div>
                 <div>Total sum incl. 25% VAT: NOK 749.00</div>
-                <a href="#" className="checkout">
+                <a href="/" className="checkout">
                   To Checkout
                 </a>
               </div>

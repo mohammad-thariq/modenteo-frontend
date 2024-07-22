@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import ProductDetailsFooter from "./product-footer";
 import { IonIcon } from "@ionic/react";
 import {
-  heartOutline,
-  cartOutline,
-  heartDislike,
+  // heartOutline,
+  // cartOutline,
+  // heartDislike,
   bagAddSharp,
 } from "ionicons/icons";
 import { LocalStorageHelper } from "../../utils/localStorage";

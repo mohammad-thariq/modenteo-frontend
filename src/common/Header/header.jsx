@@ -94,7 +94,7 @@ const WebsiteHeader = () => {
     </button>
   );
 
-  const totalCartItems = cartItems.length + guestCartItems.length; // Combine user and guest cart items
+  // const totalCartItems = cartItems.length + guestCartItems.length; // Combine user and guest cart items
 
   const wishlistBtn = (
     <button
@@ -153,7 +153,7 @@ const WebsiteHeader = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  
+
   return (
     <header>
       <div className="header-main">
