@@ -19,11 +19,11 @@ export const HeaderTitle = ({
   }
 
   useEffect(() => {
-    const lastPath = paths.find((path, index) => {
+    const lastPath = paths?.find((path, index) => {
       const lastIndex = index === paths.length - 1;
       return lastIndex;
     });
-    const secondLastPath = paths.find((path, index) => {
+    const secondLastPath = paths?.find((path, index) => {
       const secondLastIndex = index === paths.length - 2;
       return secondLastIndex;
     });

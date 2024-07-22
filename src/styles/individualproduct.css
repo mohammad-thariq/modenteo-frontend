@@ -656,8 +656,8 @@
 .product-label {
   position: absolute;
   z-index: 1;
-  top: 1rem;
-  left: 1rem;
+  bottom: 0.5rem;
+  left: 0.2rem;
   font-weight: 400;
   font-size: 18px;
   line-height: 16px;
@@ -681,7 +681,7 @@
 
 .product-label.label-out {
   color: #fff;
-  background-color: #ccc;
+  background-color: red;
 }
 
 .ratings-container {
@@ -790,21 +790,21 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  right: 1rem;
-  top: 1.5rem;
+  right: 0.5rem;
+  top: 1rem;
   background-color: transparent;
   z-index: 10;
-  visibility: hidden;
-  opacity: 0;
+  visibility: visible;
+  opacity: 1;
   transition: all 0.35s ease;
-  transform: translateX(-15px);
+  /* transform: translateX(-15px); */
 }
 
-.product:hover .product-action-vertical {
+/* .product:hover .product-action-vertical {
   visibility: visible;
   opacity: 1;
   transform: translateX(0);
-}
+} */
 
 .btn-product-icon {
   position: relative;
@@ -814,7 +814,7 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
-  font-size: 14px;
+  font-size: 1em;
   line-height: 1;
   transition: all 0.35s ease;
   padding: 0;
@@ -1219,16 +1219,20 @@ button:focus {
 
 .product-brand {
   color: #66676e;
+  font-size: 1.2rem;
+  letter-spacing: -0.015rem;
+  line-height: 2rem;
+  font-weight: 400;
 }
 
 .product-name {
-  font-weight: 400 !important;
+  font-weight: 700 !important;
   font-size: 1.75rem !important;
   line-height: 2rem !important;
   letter-spacing: -0.0175rem;
   margin-bottom: 1.2rem;
   margin-top: -0.5rem;
-  width: 80%;
+  width: 100%;
   padding-right: 1rem;
 }
 
@@ -1241,13 +1245,15 @@ button:focus {
   letter-spacing: -0.01375rem;
   line-height: 1.75rem;
   color: #212529;
-  font-weight: 400 !important;
-  margin-bottom: 20px;
+  font-weight: 400;
+  margin-top: -0.5rem;
 }
 
 .product-indprice > span {
-  font-size: 16px;
+  font-size: 0.875rem;
   color: #666;
+  letter-spacing: 0rem;
+  line-height: 1.75rem;
 }
 
 .product-details .product-content {
@@ -1382,17 +1388,23 @@ button:focus {
 }
 
 .product-details-action .btn-cart span {
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: -0.01rem;
   color: inherit;
-  text-transform: uppercase;
+  white-space: nowrap;
   box-shadow: none;
   transition: box-shadow 0.35s ease, color 0s ease;
 }
 
 .product-details-action .btn-wishlist span {
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: -0.01rem;
   color: inherit;
-  text-transform: uppercase;
+  white-space: nowrap;
   box-shadow: none;
   transition: box-shadow 0.35s ease, color 0s ease;
 }
@@ -1641,22 +1653,31 @@ button:focus {
   border-left: none;
   border-right: none;
   border-top: 2px solid #ebebeb;
+  border-bottom: 2px solid transparent; /* Add this line */
   display: flex;
-  padding: 20px 20px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
   cursor: pointer;
   align-items: center;
   justify-content: space-between;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .product-details-tab-list:hover {
-  border: 2px solid #66676e;
-  background: #d1d1d1;
-  cursor: pointer;
+  background-color: #d1d1d1;
+  border-color: #66676e;
 }
 
 .product-details-tab-list > p {
   margin: 0;
+  font-size: 1rem;
+  letter-spacing: -0.01rem;
+  line-height: 1.5rem;
+  font-weight: 800;
 }
+
 
 .product-details-tab-html {
   font-weight: 400;

@@ -14,13 +14,13 @@ h3 {
 }
 
 a {
-  color: #007bff;
+  color: #000;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #0056b3;
+  color: #000000;
   text-decoration: underline;
 }
 
@@ -183,18 +183,18 @@ h3 {
   border: 0;
 }
 
-.dropdown-item:focus,
+/* .dropdown-item:focus,
 .dropdown-item:hover {
   color: #16181b;
   text-decoration: none;
   background-color: #f8f9fa;
-}
+} */
 
-.dropdown-item:active {
+/* .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #007bff;
-}
+  background-color: #000000;
+} */
 
 .dropdown-item:disabled {
   color: #6c757d;
@@ -335,11 +335,11 @@ a:focus {
 
 .product-title {
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0rem;
   color: #333333;
-  margin-bottom: 0.2rem;
+  /* white-space: nowrap; */
 }
 
 .product-title a {

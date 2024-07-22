@@ -1,0 +1,15 @@
+.webPage-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.webPage-description-card {
+    background: #f1f1f1;
+    padding: 30px 40px;
+    border-radius: 10px;
+    margin-top: 40px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}

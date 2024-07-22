@@ -12595,6 +12595,12 @@ fieldset:disabled .ajax-upload-dragdrop .ajax-file-upload,
   opacity: 1;
 }
 
+.dropdown-item-flex {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 0.5rem;
+}
+
 .dropdown-item {
   display: block;
   width: 100%;
@@ -12609,11 +12615,11 @@ fieldset:disabled .ajax-upload-dragdrop .ajax-file-upload,
   border: 0;
   border-radius: var(--bs-dropdown-item-border-radius, 0);
 }
-.dropdown-item:hover,
+/* .dropdown-item:hover,
 .dropdown-item:focus {
   color: var(--bs-dropdown-link-hover-color);
   background-color: var(--bs-dropdown-link-hover-bg);
-}
+} */
 .dropdown-item.active,
 .dropdown-item:active {
   color: var(--bs-dropdown-link-active-color);
@@ -12639,6 +12645,12 @@ fieldset:disabled .ajax-upload-dragdrop .ajax-file-upload,
   font-size: 0.875rem;
   color: var(--bs-dropdown-header-color);
   white-space: nowrap;
+}
+
+.item-image{
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
 }
 
 .dropdown-item-text {
@@ -23988,7 +24000,10 @@ code {
   border: 1px solid #ebedf2;
 }
 .breadcrumb .breadcrumb-item {
-  font-size: 0.875rem;
+    font-size: 1rem;
+    letter-spacing: -0.01rem;
+    line-height: 1.25rem;
+    font-weight: 700;
 }
 .breadcrumb .breadcrumb-item.active {
   color: #434a54;
@@ -28083,7 +28098,7 @@ dl li {
   padding: 0.25rem 0;
   width: 100%;
   text-align: left;
-  padding-left: 2.25rem;
+  padding-left: 1.5rem;
 }
 .navbar .navbar-brand-wrapper .navbar-brand:active,
 .navbar .navbar-brand-wrapper .navbar-brand:focus,
@@ -28094,7 +28109,7 @@ dl li {
   width: calc(260px - 120px);
   max-width: 100%;
   height: 28px;
-  margin: auto;
+  /* margin: auto; */
   vertical-align: middle;
 }
 .navbar .navbar-brand-wrapper .navbar-brand.brand-logo-mini {
@@ -28232,8 +28247,8 @@ dl li {
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {
   color: inherit;
   font-size: 0.875rem;
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
+  /* margin-left: 1.5rem;
+  margin-right: 1.5rem; */
   height: 70px;
   display: -webkit-flex;
   display: flex;
@@ -28248,6 +28263,8 @@ dl li {
 }
 .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link i {
   font-size: 1.25rem;
+  margin-top: 8px;
+  font-family: "Helvetica", sans-serif !important;
 }
 .navbar
   .navbar-menu-wrapper
@@ -28427,7 +28444,8 @@ dl li {
   .nav-item.nav-profile
   .nav-link
   .nav-profile-text {
-  margin-left: 1.25rem;
+  margin-left: 1rem;
+  margin-top: 8px;
 }
 .rtl
   .navbar
@@ -28794,7 +28812,6 @@ dl li {
 .sidebar {
   min-height: calc(100vh - 70px);
   background: #ffffff;
-  font-family: "ubuntu-regular", sans-serif;
   padding: 0;
   width: 260px;
   z-index: 11;
@@ -28808,9 +28825,10 @@ dl li {
   flex-wrap: nowrap;
   flex-direction: column;
   margin-bottom: 60px;
+  margin-top: 60px;
 }
 .sidebar .nav .nav-item {
-  padding: 0 2.25rem;
+  padding: 0 1.5rem;
   -webkit-transition-duration: 0.25s;
   -moz-transition-duration: 0.25s;
   -o-transition-duration: 0.25s;
@@ -28922,6 +28940,7 @@ dl li {
 }
 .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-text {
   margin-left: 1rem;
+  margin-top: 8px;
 }
 .rtl .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-text {
   margin-left: auto;

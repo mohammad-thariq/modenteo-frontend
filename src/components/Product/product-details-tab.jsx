@@ -45,7 +45,7 @@ const ProductDetailsTab = ({ data }) => {
           </div>
           {activeTabs.includes(index) && (
             <div className="product-details-tab-html">
-              <DangerousHTML html={i?.content} />
+              <DangerousHTML html={i?.content} product/>
               {i?.description && (
                 <p className="product-details-tab-descripption">
                   {i?.description}

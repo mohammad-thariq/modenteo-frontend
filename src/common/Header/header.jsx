@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Social } from "../Social/social";
 import { IonIcon } from "@ionic/react";
 import {
-  personOutline,
-  heartOutline,
-  bagHandleOutline,
   closeOutline,
   menuOutline,
   addOutline,
@@ -19,6 +16,9 @@ import {
   ManageWishlistApi,
 } from "../../service";
 import { useQuery } from "react-query";
+import { ProfileIcon } from "../illustration/profile";
+import { HeartIcon } from "../illustration/heart";
+import { BagIcon } from "../illustration/bag";
 
 const { getCart } = new ManageCartApi();
 const { getWishlist } = new ManageWishlistApi();
@@ -83,6 +83,16 @@ const WebsiteHeader = () => {
       categories.map((acc) => (acc.id === id ? { ...acc, isOpen: !acc.isOpen } : { ...acc, isOpen: false }))
     );
   };
+  const personOutlineBtn = (
+    <button
+      className="action-btn"
+      onClick={() => {
+        isLoggedIn ? navigate("/dashboard") : navigate("/login");
+      }}
+    >
+      <ProfileIcon />
+    </button>
+  );
 
   const totalCartItems = cartItems.length + guestCartItems.length; // Combine user and guest cart items
 
@@ -93,22 +103,25 @@ const WebsiteHeader = () => {
         isLoggedIn ? navigate("/wishlist") : navigate("/login");
       }}
     >
-      <IonIcon icon={heartOutline} />
+      {/* <IonIcon icon={heartOutline} /> */}
+      <HeartIcon />
       <span className="count">{wishlistItems.length}</span>
     </button>
   );
-
-  const personOutlineBtn = (
-    <button
-      className="action-btn"
-      onClick={() => {
-        isLoggedIn ? navigate("/dashboard") : navigate("/login");
-      }}
-    >
-      <IonIcon icon={personOutline} />
-    </button>
-  );
-
+  // const searchBtn = (
+  //   <div className="header-search-container">
+  //     <input
+  //       type="search"
+  //       name="search"
+  //       className="search-field"
+  //       placeholder="Enter your product name..."
+  //     />
+  //     <button className="search-btn">
+  //       <IonIcon icon={searchOutline} />
+  //     </button>
+  //   </div>
+  // );
+  
   const cartBtn = (
     <button
       className="action-btn"
@@ -116,8 +129,9 @@ const WebsiteHeader = () => {
         navigate("/cart");
       }}
     >
-      <IonIcon icon={bagHandleOutline} />
-      <span className="count">{totalCartItems}</span> {/* Display combined cart count */}
+      {/* <IonIcon icon={bagHandleOutline} /> */}
+      <BagIcon />
+      <span className="count">{cartItems.length}</span>
     </button>
   );
 
@@ -139,7 +153,7 @@ const WebsiteHeader = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
+  
   return (
     <header>
       <div className="header-main">
@@ -153,9 +167,10 @@ const WebsiteHeader = () => {
             />
           </a>
           <div className="header-user-actions">
+            {/* {searchBtn} */}
+            {personOutlineBtn}
             {wishlistBtn}
             {cartBtn}
-            {personOutlineBtn}
           </div>
         </div>
       </div>
@@ -169,18 +184,39 @@ const WebsiteHeader = () => {
               <a href="/" className="menu-title">Home</a>
             </li>
             {categories.length > 0 &&
-              categories.map((cat, key) => (
-                <li key={key} className="menu-category">
-                  <a className="menu-title" href={"/category/" + cat?.categorySlug}>{cat?.categoryName}</a>
-                  <ul className="dropdown-list">
-                    {cat?.subCategory.map((subcat, key) => (
-                      <li className="dropdown-item" key={key + 1}>
-                        <a href={"/category/" + cat?.categorySlug + "/" + subcat?.slug}>{subcat?.name}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
+              categories.map((cat, key) => {
+                return (
+                  <li key={key} className="menu-category">
+                    <a
+                      className="menu-title"
+                      href={"/category/" + cat?.categorySlug}
+                    >
+                      {cat?.categoryName}
+                    </a>
+                    <ul className="dropdown-list">
+                      {cat?.subCategory.map((subcat, key) => {
+                        return (
+                          <li className="dropdown-item" key={key + 1}>
+                            <a
+                            className="dropdown-item-flex"
+                              href={
+                                "/category/" +
+                                cat?.categorySlug +
+                                "/" +
+                                subcat?.slug
+                              }
+                            >
+                              <span><img className="item-image" src={`/assets/icons/menuProductIcons/${subcat?.slug}.png`} alt={subcat?.name}/></span>
+                              {subcat?.name}
+                            </a>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                );
+              })}
+
             <li className="menu-category">
               <a href="/new" className="menu-title">New</a>
               {newCollectionsMenu.length > 0 && (

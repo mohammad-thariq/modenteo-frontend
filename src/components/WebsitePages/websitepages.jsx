@@ -3,6 +3,7 @@ import { Breadcrumb, DangerousHTML, PageTitle } from "../../common";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { PagesAPI } from "../../service";
+import "../../styles/website-page.css";
 const { getPagebySlug } = new PagesAPI();
 const fetchPageContent = (slug) => () => getPagebySlug(slug);
 
@@ -26,7 +27,7 @@ const WebsitePages = () => {
         <Breadcrumb />
         <div className="container">
           <div className="desc-content">
-            <h3>{pageContent?.title}</h3>
+            <h3 className="webPage-title">{pageContent?.title?.toUpperCase()}</h3>
             <DangerousHTML html={pageContent?.content} />
           </div>
         </div>

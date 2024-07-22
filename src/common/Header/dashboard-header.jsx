@@ -3,6 +3,7 @@ import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { Reload } from "../../helper/base";
 import { NameAvatar } from "../Avatar/avatar";
+import { HandBurgerIcon } from "../illustration/handburger";
 
 const Header = () => {
   const [isClassAdded, setIsClassAdded] = useState(true);
@@ -105,7 +106,8 @@ const Header = () => {
           type="button"
           data-toggle="offcanvas"
         >
-          <span className="mdi mdi-menu"></span>
+          {/* <span className="mdi mdi-menu"></span> */}
+          <HandBurgerIcon />
         </button>
       </div>
     </nav>

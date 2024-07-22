@@ -56,15 +56,15 @@ export const ProductFilterForMens = {
     placeholder: "Mens Wears",
     name: "sub_category",
   },
-  collections: {
-    availableOptions: [],
-    placeholder: "Collections",
-    name: "collections",
-  },
   price: {
     availableOptions: [],
     placeholder: "Price",
     name: "price",
+  },
+  collections: {
+    availableOptions: [],
+    placeholder: "Collections",
+    name: "collections",
   },
 };
 
@@ -84,15 +84,15 @@ export const ProductFilterForWomens = {
     placeholder: "Womens Wears",
     name: "sub_category",
   },
-  collections: {
-    availableOptions: [],
-    placeholder: "Collections",
-    name: "collections",
-  },
   price: {
     availableOptions: [],
     placeholder: "Price",
     name: "price",
+  },
+  collections: {
+    availableOptions: [],
+    placeholder: "Collections",
+    name: "collections",
   },
 };
 
@@ -112,16 +112,16 @@ export const ProductFilterForKids = {
     placeholder: "Kids Wears",
     name: "sub_category",
   },
-  collections: {
-    availableOptions: [],
-    placeholder: "Collections",
-    name: "collections",
-  },
   price: {
     availableOptions: [],
     placeholder: "Price",
     name: "price",
   },
+  collections: {
+    availableOptions: [],
+    placeholder: "Collections",
+    name: "collections",
+  }
 };
 
 export const ProductFilterBySlug = {
@@ -135,16 +135,17 @@ export const ProductFilterBySlug = {
     placeholder: "Brands",
     name: "brands",
   },
-  collections: {
-    availableOptions: [],
-    placeholder: "Collections",
-    name: "collections",
-  },
   price: {
     availableOptions: [],
     placeholder: "Price",
     name: "price",
   },
+  collections: {
+    availableOptions: [],
+    placeholder: "Collections",
+    name: "collections",
+  },
+ 
 };
 
 export const ProductFilterBySlugForCollections = {

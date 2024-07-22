@@ -211,14 +211,14 @@ const ProductDetails = ({ data }) => {
   };
 
   return (
-    <div className="col-md-6 mt-4">
+    <div className="col-md-6">
       <div className="product-detailds">
         {productBrand && (
           <p className="product-brand">{productBrand?.brand?.name}</p>
         )}
         <p className="product-name">{data?.name}</p>
         <div className="product-indprice">
-          $ {data?.price} <span>including VAT.</span>
+          Nok {data?.price} <span>including VAT.</span>
         </div>
 
         <div className="details-filter-row details-row-size">
@@ -245,13 +245,13 @@ const ProductDetails = ({ data }) => {
                 onClick={() => handleUpdateToCart(existingCart[0].product_id)}
                 className="btn-product btn-cart"
               >
-                <IonIcon icon={cartOutline} />
+                {/* <IonIcon icon={cartOutline} size="40px"/> */}
                 &nbsp;
                 <span>Update Cart</span>
               </span>
             ) : (
               <span onClick={handleAddToCart} className="btn-product btn-cart">
-                <IonIcon icon={cartOutline} />
+                {/* <IonIcon icon={cartOutline} /> */}
                 &nbsp;
                 <span>Add to Cart</span>
               </span>
@@ -262,7 +262,7 @@ const ProductDetails = ({ data }) => {
                 className="btn-product btn-wishlist"
                 title="Wishlist"
               >
-                <IonIcon icon={heartDislike} />
+                {/* <IonIcon icon={heartDislike} /> */}
                 &nbsp;
                 <span>Remove Wishlist</span>
               </span>
@@ -272,7 +272,7 @@ const ProductDetails = ({ data }) => {
                 className="btn-product btn-wishlist"
                 title="Wishlist"
               >
-                <IonIcon icon={heartOutline} />
+                {/* <IonIcon icon={heartOutline} /> */}
                 &nbsp;
                 <span>Add to Wishlist</span>
               </span>

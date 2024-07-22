@@ -1,9 +1,9 @@
 import React from "react";
 import Menu from "../Menu/menu";
 import "../../styles/sidebar.css";
-import { LocalStorageHelper } from "../../utils/localStorage";
-import { localStorageConst } from "../../constants/localStorage";
-import { NameAvatar } from "../Avatar/avatar";
+// import { LocalStorageHelper } from "../../utils/localStorage";
+// import { localStorageConst } from "../../constants/localStorage";
+// import { NameAvatar } from "../Avatar/avatar";
 
 const SideBar = () => {
   const currentPath = window.location.pathname;
@@ -12,24 +12,20 @@ const SideBar = () => {
     .filter((segment) => segment !== "");
   const firstPath =
     pathSegments.length > 0 ? pathSegments[0] : "No path available";
-  let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
+  // let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
 
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <ul className="nav">
-        <li className="nav-item nav-profile">
+        {/* <li className="nav-item nav-profile">
           <a href="/" className="nav-link">
-            {/* <div className="nav-profile-image">
-                            <img src={process.env.PUBLIC_URL + "/assets/images/faces/face1.jpg"} alt="profile" />
-                            <span className="login-status online"></span>
-                        </div> */}
             <NameAvatar name={userDetails?.name} />
             <div className="nav-profile-text d-flex flex-column">
               <span className="font-weight-bold">{userDetails?.name}</span>
             </div>
             <i className="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
           </a>
-        </li>
+        </li> */}
 
         {Menu.map((item, index) => (
           <li

@@ -112,9 +112,9 @@ export const FilterPanel = ({
   return (
     <>
       <div className="filterWrapper">
-        <div>
+        <div className="more-filters show">
           {Object.entries(ProductFilterData)
-            .filter(([filterOption]) => filterOption === "productCatalog")
+            .filter(([filterOption]) => filterOption !== "collections")
             .map(([filterOption, i]) => (
               <Select
                 key={filterOption}
@@ -141,7 +141,7 @@ export const FilterPanel = ({
         {showMoreFilters && (
           <div className={`more-filters ${showMoreFilters ? "show" : ""}`}>
             {Object.entries(ProductFilterData)
-              .filter(([filterOption]) => filterOption !== "productCatalog")
+              .filter(([filterOption]) => filterOption === "collections")
               .map(([filterOption, i]) => (
                 <Select
                   key={filterOption}

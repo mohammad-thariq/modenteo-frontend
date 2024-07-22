@@ -65,18 +65,21 @@ const ProductCard = ({ data }) => {
     }
   };
 
+  console.log(data, "data");
+
   return (
     <div className="product product-7">
       <figure className="product-media">
-        {data?.type === "new" ? (
+        {data?.new_arrival === 1 ? (
           <span className="product-label label-new">New</span>
-        ) : data?.type === "top" ? (
-          <span className="product-label label-top">Top</span>
-        ) : data?.type === "out" ? (
-          <span className="product-label label-out">Out of Stock</span>
+        ) : data?.best_product === 1 ? (
+          <span className="product-label label-top">Best</span>
         ) : (
           <></>
         )}
+        {/* {data?.offer_price !== 0 && (
+          <span className="product-label label-out">Deal</span>
+        )} */}
         <a href={"/product/" + data?.slug}>
           <img
             src={data?.image || "https://placehold.co/244x353"}
@@ -87,12 +90,13 @@ const ProductCard = ({ data }) => {
         <div className="product-action-vertical">
           {checkWishslistExists(data?.id) ? (
             <button
-              className="btn-product-icon btn-wishlist"
+              className="btn-product-icon btn-wishlist btn-product-icon-active"
               onClick={() => {
                 handleRemoveWishlist(data);
               }}
             >
-              <IonIcon icon={heartDislike} />
+              <IonIcon icon={heartDislike} size="1.5em"/>
+              {/* <HeartIcon currentColor="#da627d"/> */}
               <span>View wishlist</span>
             </button>
           ) : (
@@ -100,7 +104,8 @@ const ProductCard = ({ data }) => {
               className="btn-product-icon btn-wishlist"
               onClick={() => handleAddToWishlist(data)}
             >
-              <IonIcon icon={heartOutline} />
+              <IonIcon icon={heartOutline} size="1.5em"/>
+              {/* <HeartIcon currentColor="#000"/> */}
               <span>Add to wishlist</span>
             </button>
           )}
@@ -119,10 +124,10 @@ const ProductCard = ({ data }) => {
                 : "defaultPrice"
             }
           >
-            ${data?.price}
+            Nok {data?.price}
           </span>{" "}
           {data?.offer_price !== 0 && (
-            <span className="offerPrice">${data?.offer_price}</span>
+            <span className="offerPrice">Nok {data?.offer_price}</span>
           )}
         </div>
       </div>

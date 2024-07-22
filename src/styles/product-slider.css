@@ -6,10 +6,16 @@
   font-weight: 700;
   color: #1a1a1a;
   text-align: center;
-  font-size: 35px !important;
-  margin-top: 30px;
+  font-size: 2rem;
+  letter-spacing: -0.02rem;
+  line-height: 2.25rem;
+  font-family: "Helvetica Now", sans-serif;
 }
 .subtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  letter-spacing: -0.015rem;
+  line-height: 2rem;
   text-align: center;
 }
 .slider-container,

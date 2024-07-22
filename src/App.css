@@ -9,14 +9,27 @@
 .auth-link {
   color: #1a1a1a !important;
 }
+
 @font-face {
-  font-family: "HelveticaNow";
-  src: url("./fonts/helveticanowtext-bold-demo.ttf") format("truetype");
+  font-family: 'Helvetica';
+  src: local('Helvetica'),
+       url("./fonts/Helvetica.ttf") format('truetype'); /* Adjust the URL based on your font file location */
+  font-weight: normal;
+  font-style: normal;
 }
+
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica'),
+       url("./fonts/helveticanowtext-bold-demo.ttf") format('truetype'); /* Adjust the URL based on your font file location */
+  font-weight: bold;
+  font-style: normal;
+}
+
 body {
-  /* font-family: 'Poppins', sans-serif; */
-  font-family: "HelveticaNow", Helvetica, sans-serif;
+  font-family: "Helvetica", sans-serif;
 }
+
 
 a.homelink {
   margin-left: 5px;
