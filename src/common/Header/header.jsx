@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { Social } from "../Social/social";
 import { IonIcon } from "@ionic/react";
