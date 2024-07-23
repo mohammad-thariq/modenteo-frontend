@@ -72,6 +72,12 @@ const WebsiteHeader = () => {
     }
   };
 
+  useEffect(() => {
+    if(userSelectedCategory === null){
+      LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, "Mens")
+    }
+  }, [userSelectedCategory])
+
   const handleRemoveCategoryLocal = () => {
     LocalStorageHelper.remove(localStorageConst.CURRENT_PAGE);
     window.location.reload();
@@ -183,8 +189,6 @@ const WebsiteHeader = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  console.log(userSelectedCategory, "userSelectedCategory");
 
   return (
     <header>
