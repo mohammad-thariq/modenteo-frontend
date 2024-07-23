@@ -21,7 +21,7 @@ const WebsiteBanner = ({ images }) => {
   };
   return (
     <main>
-      <div className="banner carousel">
+      <div className="banner carousel mt-4">
         <div className="container">
           <button className="prev" onClick={prevSlide}>
             <FaChevronLeft />

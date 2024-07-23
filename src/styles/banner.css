@@ -31,7 +31,7 @@
   color: #fff;
   width: 40px;
   height: 50px;
-  background: #da627d;
+  background: #1a1a1a;
   margin-left: 5px;
   margin-right: 5px;
   border-radius: 5px;
@@ -70,8 +70,8 @@
 }
 
 .dots span.active {
-  background: #da627d;
-  width: 47px;
+  background: #1a1a1a;
+  width: 37px;
   border-radius: 10px;
 }
 @media screen and (max-width: 500px) {

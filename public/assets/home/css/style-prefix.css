@@ -554,8 +554,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .header-main {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--cultured);
+  padding: 20px 0 0 0;
 }
 
 .header-logo {
@@ -663,7 +662,7 @@ body::-webkit-scrollbar-thumb:hover {
   width: 100%;
   max-width: 320px;
   height: 100vh;
-  padding: 20px;
+  padding: 15px 0 0 10px;
   -webkit-box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.1);
   box-shadow: 0 0 10px hsla(0, 0%, 0%, 0.1);
   overflow-y: scroll;
@@ -682,8 +681,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .menu-top {
-  padding-bottom: 15px;
-  margin-bottom: 10px;
+  padding-bottom: 10px;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -696,7 +694,6 @@ body::-webkit-scrollbar-thumb:hover {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  border-bottom: 2px solid var(--cultured);
 }
 
 .menu-top .menu-title {
@@ -716,6 +713,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 .mobile-menu-category-list {
   margin-bottom: 30px;
+  padding-left: 0;
 }
 
 .menu-category .accordion-menu {
@@ -742,7 +740,7 @@ body::-webkit-scrollbar-thumb:hover {
   color: var(--onyx);
   font-size: var(--fs-6);
   font-weight: var(--weight-500);
-  padding: 12px 0;
+  padding: 12px 2px;
   margin: 0;
 }
 
@@ -791,9 +789,11 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .submenu-category-list.active {
-  max-height: 148px;
+  max-height: 100%;
   visibility: visible;
   margin-bottom: 15px;
+  padding-left:0;
+  margin-left: 0;
 }
 
 .menu-bottom .menu-category-list {
@@ -844,7 +844,11 @@ body::-webkit-scrollbar-thumb:hover {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  position: absolute;
   gap: 10px;
+  bottom: 0;
+  left: 50%;
+  right: 50%;
 }
 
 .menu-social-container .social-link {
@@ -2323,7 +2327,7 @@ footer {
   }
 
   .header-main {
-    padding: 25px 0;
+    padding: 25px 0 0 0;
   }
 
   .mobile-bottom-navigation {
@@ -2852,6 +2856,7 @@ footer {
 
   .desktop-navigation-menu {
     display: block;
+    border-bottom: 1px solid var(--cultured);   
   }
 
   .desktop-menu-category-list {
@@ -2863,7 +2868,7 @@ footer {
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     -ms-flex-pack: center;
-    justify-content: center;
+    justify-content: flex-start;
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
@@ -2880,7 +2885,7 @@ footer {
     position: relative;
     color: var(--onyx);
     font-size: var(--fs-7);
-    font-weight: var(--weight-600);
+    font-weight: 400;
     text-transform: capitalize;
     padding: 15px 0;
     -webkit-transition: var(--transition-timing);
@@ -3275,7 +3280,7 @@ footer {
    */
 
   .desktop-menu-category-list {
-    gap: 45px;
+    gap: 20px;
   }
 
   /**

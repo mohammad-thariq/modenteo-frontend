@@ -13,7 +13,6 @@ const SideBar = () => {
   const firstPath =
     pathSegments.length > 0 ? pathSegments[0] : "No path available";
   // let userDetails = LocalStorageHelper?.getItem(localStorageConst?.USER);
-
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <ul className="nav">
