@@ -1,35 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { useQuery } from "react-query";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import {
-  LoginPage,
-  HomePage,
-  RegistrationPage,
-  ForgotPasswordPage,
-  BaseAccount,
-  Base,
-  CartPage,
-  MainCategoryPage,
-  ProductListingPage,
-  DashboardPage,
-  OrdersPage,
-  OrderDetailsPage,
-  WebPage,
-  ProductPage,
-  WishlistPage,
-  ProfilePage,
-  ChildCategoryPage,
-  CheckoutPage,
-  OrderPlacedPage,
-  SeasonsPage,
-  NewCollectionsPage,
-} from "./pages";
+import { BrowserRouter as Router, Routes, Route, Navigate, } from "react-router-dom";
+import { LoginPage, HomePage, HomeMenPage, HomeKidsPage, HomeWomenPage, RegistrationPage, ForgotPasswordPage, BaseAccount, Base, CartPage, MainCategoryPage, ProductListingPage, DashboardPage, OrdersPage, OrderDetailsPage, WebPage, ProductPage, WishlistPage, ProfilePage, ChildCategoryPage, CheckoutPage, OrderPlacedPage, SeasonsPage, NewCollectionsPage, } from "./pages";
 import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
 import { AuthorizationApi } from "./service";
@@ -67,15 +40,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <Base>
-              <HomePage />
-            </Base>
-          }
-        />
+        <Route exact path="/" element={<Base><HomePage /></Base>} />
+        <Route exact path="/home-men" element={<Base><HomeMenPage /></Base>} />
+        <Route exact path="/home-women" element={<Base><HomeWomenPage /></Base>} />
+        <Route exact path="/home-kids" element={<Base><HomeKidsPage /></Base>} />
         {isLoggedIn && (
           <>
             <Route
@@ -136,17 +104,17 @@ const App = () => {
                 </Base>
               }
             />
-           
+
           </>
         )}
-         <Route
-              path="/cart"
-              element={
-                <Base>
-                  <CartPage />
-                </Base>
-              }
-            />
+        <Route
+          path="/cart"
+          element={
+            <Base>
+              <CartPage />
+            </Base>
+          }
+        />
         <Route
           path="/categories"
           element={

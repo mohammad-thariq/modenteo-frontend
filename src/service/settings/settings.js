@@ -8,6 +8,14 @@ export class SettingsAPI {
     const res = await _axios('get', `/settings-frontend`)
     return res
   }
+  getSettingsCat = async ({ queryKey }) => {
+    const res = await _axios('get', `/settings/${queryKey[1]}`)
+    return res
+  }
+  getCatSettings = async ({ queryKey }) => {
+    const res = await _axios('get', `/settings/${queryKey[1]}/frontend`)
+    return res
+  }
   createSettings = async (data) => {
     const res = await _axios(
       "post",

@@ -4,6 +4,9 @@ import ForgotPasswordPage from "./Authenticate/FogotPassword/forgotpassword";
 import BaseAccount from "./Base/AccountBase/baseaccount";
 import Base from "./Base/CommonBase/base";
 import HomePage from "./Home/home";
+import HomeMenPage from "./HomeMen/home";
+import HomeWomenPage from "./HomeWomen/home";
+import HomeKidsPage from "./HomeKids/home"
 import BillingPage from "./Billing/billing";
 import CartPage from "./Cart/cart";
 import CheckoutPage from "./Checkout/checkout";
@@ -25,7 +28,7 @@ export {
   SeasonsPage,
   NewCollectionsPage,
   LoginPage,
-  HomePage,
+  HomePage, HomeMenPage, HomeWomenPage, HomeKidsPage,
   OrderPlacedPage,
   RegistrationPage,
   ForgotPasswordPage,
