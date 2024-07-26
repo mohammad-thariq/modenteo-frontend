@@ -38,6 +38,7 @@ const HomePage = () => {
     if (settings && settings.settings) {
       setWebsiteSettings(settings.settings);
     }
+    console.log(settingshome,'settingshome')
     if (settingshome) {
       setSectionContent(settingshome);
     }

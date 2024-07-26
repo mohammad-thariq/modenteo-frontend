@@ -14,8 +14,8 @@ import { Link } from "react-router-dom";
 
 const HomeKidsPage = () => {
   const { getSettingsCat, getCatSettings } = new SettingsAPI();
-  const { data: settings } = useQuery(["settings", "kids"], getCatSettings);
-  const { data: settingshome } = useQuery(["settings-frontend", "kids"], getSettingsCat);
+  const { data: settings } = useQuery(["settings", "kids"], getSettingsCat);
+  const { data: settingshome } = useQuery(["settings-frontend", "kids"], getCatSettings);
 
 
   const [websiteSettings, setWebsiteSettings] = useState([]);
@@ -39,6 +39,7 @@ const HomeKidsPage = () => {
     if (settings && settings.settings) {
       setWebsiteSettings(settings.settings);
     }
+    console.log(settingshome,'settingshome')
     if (settingshome) {
       setSectionContent(settingshome);
     }

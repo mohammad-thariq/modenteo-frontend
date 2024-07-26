@@ -14,8 +14,8 @@ import { Link } from "react-router-dom";
 
 const HomeMenPage = () => {
   const { getSettingsCat, getCatSettings } = new SettingsAPI();
-  const { data: settings } = useQuery(["settings", "men"], getCatSettings);
-  const { data: settingshome } = useQuery(["settings-frontend", "men"], getSettingsCat);
+  const { data: settings } = useQuery(["settings", "men"], getSettingsCat);
+  const { data: settingshome } = useQuery(["settings-frontend", "men"], getCatSettings);
 
   const [websiteSettings, setWebsiteSettings] = useState([]);
   const [sectionContent, setSectionContent] = useState([]);
