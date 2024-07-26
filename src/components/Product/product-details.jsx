@@ -12,13 +12,13 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { Loading } from "../../common";
 import ProductDetailsTab from "./product-details-tab";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { calculateDiscountPercentage } from "../../utils/percentageCal";
 import { productSizecustomStyles } from "../FilterPanel/style";
 
 const ProductDetails = ({ data, sizes, variants }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [existingCart, setExistingCart] = useState([]);
   const [currentColor, setCurrentColor] = useState();
@@ -29,7 +29,7 @@ const ProductDetails = ({ data, sizes, variants }) => {
   const userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
   const { addCart, getCart, updateCart } = new ManageCartApi();
   const { getBrandById } = new ManageBrandsApi();
-  const { getSubCategoryById } = new ManageCategoriesApi();
+  // const { getSubCategoryById } = new ManageCategoriesApi();
   const { addWishlist, deleteWishlist, getWishlist } = new ManageWishlistApi();
 
   const {
@@ -56,13 +56,13 @@ const ProductDetails = ({ data, sizes, variants }) => {
     }
   );
 
-  const { data: productSubCategory } = useQuery(
-    ["product-sub-category", data.sub_category_id],
-    getSubCategoryById,
-    {
-      enabled: !!data?.sub_category_id,
-    }
-  );
+  // const { data: productSubCategory } = useQuery(
+  //   ["product-sub-category", data.sub_category_id],
+  //   getSubCategoryById,
+  //   {
+  //     enabled: !!data?.sub_category_id,
+  //   }
+  // );
 
   const { mutate: cartUpdate } = useMutation(updateCart, {
     onSuccess: () => {
