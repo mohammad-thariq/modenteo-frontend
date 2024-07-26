@@ -6,7 +6,7 @@ import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import {
   ManageBrandsApi,
   ManageCartApi,
-  ManageCategoriesApi,
+  // ManageCategoriesApi,
   ManageWishlistApi,
 } from "../../service";
 import { useMutation, useQuery } from "react-query";

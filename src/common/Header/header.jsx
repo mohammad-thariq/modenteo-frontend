@@ -70,12 +70,12 @@ const WebsiteHeader = () => {
       navigate(`/home-${currentPage.toLowerCase()}`)
   }, [navigate]);
 
-  useEffect(() => {
-    if(userSelectedCategory === null){
-      LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, "Mens")
-      navigate("/home-mens")
-    }
-  }, [navigate, userSelectedCategory])
+  // useEffect(() => {
+  //   if(userSelectedCategory === null){
+  //     LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, "Mens")
+  //     navigate("/home-mens")
+  //   }
+  // }, [navigate, userSelectedCategory])
 
   const handleRemoveCategoryLocal = () => {
     LocalStorageHelper.removeItem(localStorageConst.CURRENT_PAGE);
