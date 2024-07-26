@@ -41,8 +41,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route exact path="/" element={<Base><HomePage /></Base>} />
-        <Route exact path="/home-men" element={<Base><HomeMenPage /></Base>} />
-        <Route exact path="/home-women" element={<Base><HomeWomenPage /></Base>} />
+        <Route exact path="/home-mens" element={<Base><HomeMenPage /></Base>} />
+        <Route exact path="/home-womens" element={<Base><HomeWomenPage /></Base>} />
         <Route exact path="/home-kids" element={<Base><HomeKidsPage /></Base>} />
         {isLoggedIn && (
           <>

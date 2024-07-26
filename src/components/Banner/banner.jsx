@@ -39,7 +39,7 @@ const WebsiteBanner = ({ images }) => {
               >
                 <img src={item.image} alt={index} className="banner-img" />
                 {/* <img src={process.env.PUBLIC_URL + "/assets/home/images/banner-1.jpg"} alt={index} className="banner-img" /> */}
-                <div className="banner-content">
+                {/* <div className="banner-content">
                   <p className="banner-subtitle">{item?.title}</p>
 
                   <h2 className="banner-title">{item?.sub_title}</h2>
@@ -49,7 +49,7 @@ const WebsiteBanner = ({ images }) => {
                   <a href={item?.page_url} className="banner-btn">
                     {item?.button_name}
                   </a>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>

@@ -1,12 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import ProductDetailsFooter from "./product-footer";
-import { IonIcon } from "@ionic/react";
-import {
-  // heartOutline,
-  // cartOutline,
-  // heartDislike,
-  bagAddSharp,
-} from "ionicons/icons";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
@@ -20,11 +13,19 @@ import { useMutation, useQuery } from "react-query";
 import { Loading } from "../../common";
 import ProductDetailsTab from "./product-details-tab";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
+import { calculateDiscountPercentage } from "../../utils/percentageCal";
+import { productSizecustomStyles } from "../FilterPanel/style";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data, sizes, variants }) => {
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [existingCart, setExistingCart] = useState([]);
-  const navigate = useNavigate();
+  const [currentColor, setCurrentColor] = useState();
+  const [currentPrice, setCurrentPrice] = useState();
+  const [currentSize, setCurrentSize] = useState();
+  const [currentOfferPrice, setCurrentOfferPrice] = useState();
+  const [currentProductQuantity, setCurrentProductQuantity] = useState();
   const userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
   const { addCart, getCart, updateCart } = new ManageCartApi();
   const { getBrandById } = new ManageBrandsApi();
@@ -63,40 +64,6 @@ const ProductDetails = ({ data }) => {
     }
   );
 
-  useEffect(() => {
-    if (cartData) {
-      const checkCartExists = (id) => {
-        return cartData?.data
-          ? cartData.data.filter((item) => item.product_id === id)
-          : [];
-      };
-
-      const cartDetails = checkCartExists(data?.id);
-      setExistingCart(cartDetails);
-      if (cartDetails.length > 0) {
-        setQty(cartDetails[0].quantity);
-      }
-    } else {
-      // For guest users, check the local storage
-      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const guestCartItem = guestCart.find(item => item.product_id === data.id);
-      if (guestCartItem) {
-        setExistingCart([guestCartItem]);
-        setQty(guestCartItem.quantity);
-      }
-    }
-  }, [cartData, data?.id]);
-
-  const { mutate: createCart } = useMutation(addCart, {
-    onSuccess: () => {
-      ToastifySuccess("Product Added to Cart");
-      refetch();
-    },
-    onError: (error) => {
-      ToastifyFailed(error?.message);
-    },
-  });
-
   const { mutate: cartUpdate } = useMutation(updateCart, {
     onSuccess: () => {
       ToastifySuccess("Quantity Updated");
@@ -110,6 +77,26 @@ const ProductDetails = ({ data }) => {
   const { mutate: removeWishlist } = useMutation(deleteWishlist, {
     onSuccess: () => {
       ToastifySuccess("Wishlist Removed");
+      refetchWishlist();
+    },
+    onError: (error) => {
+      ToastifyFailed(error?.message);
+    },
+  });
+
+  const { mutate: createCart } = useMutation(addCart, {
+    onSuccess: () => {
+      ToastifySuccess("Product Added to Cart");
+      refetch();
+    },
+    onError: (error) => {
+      ToastifyFailed(error?.message);
+    },
+  });
+
+  const { mutate: createWishlist } = useMutation(addWishlist, {
+    onSuccess: () => {
+      ToastifySuccess("Product Added to Wishlist");
       refetchWishlist();
     },
     onError: (error) => {
@@ -131,8 +118,9 @@ const ProductDetails = ({ data }) => {
       cartUpdate({ id, quantity: qty });
     } else {
       // Update guest cart in local storage
-      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const updatedCart = guestCart.map(item =>
+      const guestCart =
+        LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const updatedCart = guestCart.map((item) =>
         item.product_id === id ? { ...item, quantity: qty } : item
       );
       LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
@@ -143,16 +131,20 @@ const ProductDetails = ({ data }) => {
   const handleAddToCart = () => {
     const cartItem = {
       product_id: data.id,
-      quantity: qty,
-      image: data.image,      
-      slug: data.slug,       
+      quantity: currentProductQuantity,
+      image: data.image,
+      slug: data.slug,
       name: data.name,
-      user_id: userDetails?.id        
+      size: currentSize,
+      color: currentColor,
+      user_id: userDetails?.id,
     };
-  
+
     if (userDetails) {
-      const existingItem = cartData?.data?.find(item => item.product_id === data.id);
-  
+      const existingItem = cartData?.data?.find(
+        (item) => item.product_id === data.id
+      );
+
       if (existingItem) {
         // Update quantity if item exists
         handleUpdateToCart(data.id);
@@ -162,12 +154,15 @@ const ProductDetails = ({ data }) => {
       }
     } else {
       // For guest users, handle cart logic in local storage
-      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const existingItem = guestCart.find(item => item.product_id === data.id);
-  
+      const guestCart =
+        LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const existingItem = guestCart.find(
+        (item) => item.product_id === data.id
+      );
+
       if (existingItem) {
         // Update quantity if item exists
-        const updatedCart = guestCart.map(item =>
+        const updatedCart = guestCart.map((item) =>
           item.product_id === data.id ? { ...item, quantity: qty } : item
         );
         LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
@@ -180,17 +175,6 @@ const ProductDetails = ({ data }) => {
       }
     }
   };
-  
-
-  const { mutate: createWishlist } = useMutation(addWishlist, {
-    onSuccess: () => {
-      ToastifySuccess("Product Added to Wishlist");
-      refetchWishlist();
-    },
-    onError: (error) => {
-      ToastifyFailed(error?.message);
-    },
-  });
 
   const handleAddToWishlist = () => {
     if (userDetails) {
@@ -210,6 +194,68 @@ const ProductDetails = ({ data }) => {
       : false;
   };
 
+  useEffect(() => {
+    if (cartData) {
+      const checkCartExists = (id) => {
+        return cartData?.data
+          ? cartData.data.filter((item) => item.product_id === id)
+          : [];
+      };
+
+      const cartDetails = checkCartExists(data?.id);
+      setExistingCart(cartDetails);
+      if (cartDetails.length > 0) {
+        setQty(cartDetails[0].quantity);
+      }
+    } else {
+      // For guest users, check the local storage
+      const guestCart =
+        LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      const guestCartItem = guestCart.find(
+        (item) => item.product_id === data.id
+      );
+      if (guestCartItem) {
+        setExistingCart([guestCartItem]);
+        setQty(guestCartItem.quantity);
+      }
+    }
+  }, [cartData, data?.id]);
+
+  useEffect(() => {
+    setCurrentColor(data?.color);
+    if (sizes?.length !== 0) {
+      setCurrentOfferPrice(sizes?.[0]?.offer_price);
+      setCurrentPrice(sizes?.[0]?.product_price);
+      setCurrentProductQuantity(sizes?.[0]?.product_quantity);
+      setCurrentSize(sizes?.[0]?.product_size);
+    }
+  }, [data?.color, sizes, sizes?.length]);
+
+  const ProductSizeData = useMemo(() => {
+    if (Array.isArray(sizes)) {
+      return sizes.map((size) => ({
+        value: size.product_size,
+        label: size.product_size,
+        offer_price: size.offer_price,
+        product_price: size.product_price,
+        quantity: size.product_quantity
+      }));
+    }
+    return [];
+  }, [sizes]);
+
+  const handleChangeSize = useCallback((e) => {
+    setCurrentSize(e?.value);
+    setCurrentOfferPrice(e?.offer_price);
+    setCurrentPrice(e?.product_price);
+    setCurrentProductQuantity(e?.quantity)
+  }, []);
+
+  const handleThumbnailVariantClick = useCallback((color) => {
+    setCurrentColor(color);
+  }, []);
+
+console.log(currentSize, 'currentsize');
   return (
     <div className="col-md-6">
       <div className="product-detailds">
@@ -217,23 +263,72 @@ const ProductDetails = ({ data }) => {
           <p className="product-brand">{productBrand?.brand?.name}</p>
         )}
         <p className="product-name">{data?.name}</p>
-        <div className="product-indprice">
-          Nok {data?.price} <span>including VAT.</span>
+        {currentOfferPrice !== 0 ? (
+          <div className="product-offerprice">
+            Nok {currentOfferPrice} <span>including VAT.</span>
+            <p className="product-orgprice">
+              Original:{" "}
+              <span className="product-orgprice-strike">
+                Nok {currentPrice}
+              </span>
+              &nbsp;
+              <span className="product-offer-percentage">
+                -
+                {`${calculateDiscountPercentage(
+                  currentPrice,
+                  currentOfferPrice
+                ).toFixed(0)}%`}
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div className="product-indprice">
+            Nok {currentPrice} <span>including VAT.</span>
+          </div>
+        )}
+        <div className="product-detail-variant-wrapper">
+          <p className="product-detail-color">
+            colour: <span>{currentColor}</span>
+          </p>
+          {variants?.length !== 0 && (
+            <div className="product-detail-variants">
+              {Array.isArray(variants) &&
+                variants.map((variant) => (
+                  <img
+                    className={
+                      variant?.id === data?.id && "product-detail-variants-img-active"
+                    }
+                    onMouseOver={() => handleThumbnailVariantClick(variant?.color)}
+                    src={variant?.image}
+                    alt={variant?.name}
+                    key={variant?.id}
+                  />
+                ))}
+            </div>
+          )}
         </div>
-
-        <div className="details-filter-row details-row-size">
-          <div className="product-details-quantity">
-            <input
+        <div className="mb-2 product-details-quantity">
+          <Select
+            isSearchable={false}
+            options={ProductSizeData}
+            onChange={(e) => handleChangeSize(e)}
+            placeholder="choose size"
+            styles={productSizecustomStyles}
+            theme={(theme) => ({
+              ...theme,
+              colors: {
+                ...theme.colors,
+                primary25: "black",
+                primary: "black",
+              },
+            })}
+          />
+          {/* <input
               type="number"
               className="form-control"
               value={qty}
               onChange={(e) => setQty(Number(e.target.value))}
-            />
-            <p className="product-details-qnty-item">{productSubCategory && productSubCategory?.data?.name}</p>
-          </div>
-          <div className="product-details-policy" title="Shipping and Return Policy" onClick={() => navigate('/page/delivery')}>
-            <IonIcon icon={bagAddSharp} />
-          </div>
+            /> */}
         </div>
 
         {isLoading || isLoadingWishlist ? (
@@ -280,7 +375,7 @@ const ProductDetails = ({ data }) => {
           </div>
         )}
       </div>
-      <ProductDetailsTab data={data}/>
+      <ProductDetailsTab data={data} />
       <ProductDetailsFooter product={data} />
     </div>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Social } from "../Social/social";
 import { IonIcon } from "@ionic/react";
 import {
@@ -65,22 +65,26 @@ const WebsiteHeader = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [guestCartItems, setGuestCartItems] = useState([]);
 
-  const handleCategoryLocal = (currentPage) => {
-    if (currentPage) {
+  const handleCategoryLocal = useCallback((currentPage) => {
       LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, currentPage);
-      window.location.reload();
-    }
-  };
+      navigate(`/home-${currentPage.toLowerCase()}`)
+  }, [navigate]);
 
-  useEffect(() => {
-    if(userSelectedCategory === null){
-      LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, "Mens")
-    }
-  }, [userSelectedCategory])
+  // useEffect(() => {
+  //   if(userSelectedCategory === null){
+  //     LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, "Mens")
+  //     navigate("/home-mens")
+  //   }
+  // }, [navigate, userSelectedCategory])
 
   const handleRemoveCategoryLocal = () => {
-    LocalStorageHelper.remove(localStorageConst.CURRENT_PAGE);
-    window.location.reload();
+    LocalStorageHelper.removeItem(localStorageConst.CURRENT_PAGE);
+    navigate("/")
+  };
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    handleRemoveCategoryLocal();
   };
 
   useEffect(() => {
@@ -197,19 +201,19 @@ const WebsiteHeader = () => {
           <div className="header-button-wrapper">
             {categories?.map((cate, key) => (
               <p
+                onClick={() => handleCategoryLocal(cate?.categoryName)}
                 className={
                   userSelectedCategory === cate?.categoryName
                     ? "header-button-text-active"
                     : "header-button-text"
                 }
                 key={key}
-                onClick={() => handleCategoryLocal(cate?.categoryName)}
               >
                 {cate?.categoryName}
               </p>
             ))}
           </div>
-          <a href="/" className="header-logo">
+          <a href="/" className="header-logo" onClick={handleHomeClick}>
             <img
               src={process.env.PUBLIC_URL + "/assets/images/modenteologo.jpeg"}
               alt="Modenteo"
@@ -236,7 +240,7 @@ const WebsiteHeader = () => {
         <div className="container">
           <ul className="desktop-menu-category-list">
             <li className="menu-category">
-              <a href="/" className="menu-title">
+              <a href="/" className="menu-title" onClick={handleHomeClick}>
                 Home
               </a>
             </li>
@@ -359,7 +363,7 @@ const WebsiteHeader = () => {
 
         <ul className="mobile-menu-category-list">
           <li className="menu-category">
-            <a href="/" className="menu-title">
+            <a href="/" className="menu-title" onClick={handleHomeClick}>
               Home
             </a>
           </li>

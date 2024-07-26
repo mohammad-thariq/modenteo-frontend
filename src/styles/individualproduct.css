@@ -1240,12 +1240,48 @@ button:focus {
   margin-bottom: 18px;
 }
 
+.product-offerprice {
+  font-size: 1.375rem;
+  letter-spacing: -0.01375rem;
+  line-height: 1.75rem;
+  color: #d9000c;
+  font-weight: 700;
+  margin-top: -0.5rem;
+}
+
+.product-offerprice > span {
+  font-size: 0.875rem;
+  color: #666;
+  letter-spacing: 0rem;
+  line-height: 1.75rem;
+}
+
+.product-orgprice {
+  font-size: 0.875rem;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: #66676e;
+}
+
+.product-orgprice-strike {
+  text-decoration: line-through;
+}
+
+.product-offer-percentage{
+  font-size: 0.875rem;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  color: #d9000c;
+}
+
 .product-indprice {
   font-size: 1.375rem;
   letter-spacing: -0.01375rem;
   line-height: 1.75rem;
   color: #212529;
-  font-weight: 400;
+  font-weight: 700;
   margin-top: -0.5rem;
 }
 
@@ -1348,6 +1384,52 @@ button:focus {
 .size-guide:hover,
 .size-guide:focus {
   color: #1a1a1a;
+}
+
+.product-detail-variant-wrapper{
+  margin-top: 2.25rem;
+  margin-bottom: 3rem;
+}
+
+.product-detail-color{
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+.product-detail-color > span{
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
+  margin: 0;
+}
+
+.product-detail-variants{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.product-detail-variants > img {
+  width: 70px;
+  height: 100px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.product-detail-variants > img:hover {
+  width: 70px;
+  height: 100px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  border: 2px solid #000000;
+}
+
+.product-detail-variants-img-active {
+  border: 2px solid #000000;
 }
 
 .product-details-quantity {
@@ -1764,7 +1846,7 @@ button:focus {
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
   .product-details-action {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
   }
 
@@ -1845,7 +1927,7 @@ button:focus {
 }
 
 .product-image-gallery {
-  height: 650px;
+  /* height: 650px; */
   overflow: auto;
 }
 

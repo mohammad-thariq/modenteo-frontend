@@ -15,7 +15,6 @@ const Dashboard = () => {
   const [wishlist_count, setwishlistcount] = useState(0);
   const { mutate: getDashboard } = useMutation(dashboard, {
     onSuccess: (data) => {
-      console.log(data, "datat");
       setorderItems(data?.orders);
       setcartCount(data?.cart_count);
       setorderCount(data?.order_count);

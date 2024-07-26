@@ -65,8 +65,6 @@ const ProductCard = ({ data }) => {
     }
   };
 
-  console.log(data, "data");
-
   return (
     <div className="product product-7">
       <figure className="product-media">
@@ -124,10 +122,10 @@ const ProductCard = ({ data }) => {
                 : "defaultPrice"
             }
           >
-            Nok {data?.price}
+            Nok {data?.price || "699"}
           </span>{" "}
           {data?.offer_price !== 0 && (
-            <span className="offerPrice">Nok {data?.offer_price}</span>
+            <span className="offerPrice">Nok {data?.offer_price || "599"}</span>
           )}
         </div>
       </div>
