@@ -644,9 +644,15 @@
   align-items: center;
   flex-flow: wrap;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
+  font-size: 0.875rem;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
   color: #1a1a1a;
+}
+
+.product-price-red{
+  color: #d9000c !important;
+  font-weight: 700 !important;
 }
 
 .out-price {
@@ -1411,6 +1417,7 @@ button:focus {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  gap: 10px;
 }
 
 .product-detail-variants > img {

@@ -1527,6 +1527,14 @@ td.quantity-col .btn {
   font-weight: 700;
 }
 
+.item-offerPrice {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #d9000c;
+}
+
 .summary {
   padding: 1.5rem;
   background-color: #efeff0;

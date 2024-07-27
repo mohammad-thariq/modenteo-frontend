@@ -7,6 +7,7 @@ import { ToastifyFailed, ToastifySuccess } from "../../common/Toastify";
 import { ManageWishlistApi } from "../../service";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
+import { calculateDiscountPercentage } from "../../utils/percentageCal";
 const { getWishlist, addWishlist, deleteWishlist } = new ManageWishlistApi();
 const fetchWishlist = (userID) => () => getWishlist(userID);
 
@@ -65,6 +66,8 @@ const ProductCard = ({ data }) => {
     }
   };
 
+  console.log(data, "data");
+
   return (
     <div className="product product-7">
       <figure className="product-media">
@@ -75,9 +78,9 @@ const ProductCard = ({ data }) => {
         ) : (
           <></>
         )}
-        {/* {data?.offer_price !== 0 && (
+        {data?.sizes !== null && data?.sizes?.[0]?.offer_price !== 0 && (
           <span className="product-label label-out">Deal</span>
-        )} */}
+        )}
         <a href={"/product/" + data?.slug}>
           <img
             src={data?.image || "https://placehold.co/244x353"}
@@ -93,7 +96,7 @@ const ProductCard = ({ data }) => {
                 handleRemoveWishlist(data);
               }}
             >
-              <IonIcon icon={heartDislike} size="1.5em"/>
+              <IonIcon icon={heartDislike} size="1.5em" />
               {/* <HeartIcon currentColor="#da627d"/> */}
               <span>View wishlist</span>
             </button>
@@ -102,7 +105,7 @@ const ProductCard = ({ data }) => {
               className="btn-product-icon btn-wishlist"
               onClick={() => handleAddToWishlist(data)}
             >
-              <IonIcon icon={heartOutline} size="1.5em"/>
+              <IonIcon icon={heartOutline} size="1.5em" />
               {/* <HeartIcon currentColor="#000"/> */}
               <span>Add to wishlist</span>
             </button>
@@ -114,20 +117,29 @@ const ProductCard = ({ data }) => {
         <h3 className="product-title">
           <a href={"/product/" + data?.slug}>{data?.name}</a>
         </h3>
-        <div className="product-price">
-          <span
-            className={
-              data?.offer_price !== 0 && data?.offer_price !== null
-                ? "defaultPrice strikeout"
-                : "defaultPrice"
-            }
-          >
-            Nok {data?.price || "699"}
-          </span>{" "}
-          {data?.offer_price !== 0 && (
-            <span className="offerPrice">Nok {data?.offer_price || "599"}</span>
-          )}
-        </div>
+        {data?.sizes !== null && data?.sizes?.[0]?.offer_price !== 0 ? (
+          <div className="product-price product-price-red">
+            Nok {data?.sizes?.[0]?.offer_price}
+            <p className="product-orgprice">
+              Original:{" "}
+              <span className="product-orgprice-strike">
+                Nok {data?.sizes?.[0]?.product_price}
+              </span>
+              &nbsp;
+              <span className="product-offer-percentage">
+                -
+                {`${calculateDiscountPercentage(
+                  data?.sizes?.[0]?.product_price,
+                  data?.sizes?.[0]?.offer_price
+                ).toFixed(0)}%`}
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div className="product-price">
+            Nok {data?.sizes?.[0]?.product_price}
+          </div>
+        )}
       </div>
     </div>
   );

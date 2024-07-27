@@ -76,13 +76,14 @@
 }
 
 .product-price {
-  gap: 5px;
+  /* gap: 5px; */
   display: flex;
   align-items: flex-end;
   flex-flow: wrap;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.25;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0rem;
+  line-height: 1.25rem;
   color: #1a1a1a;
 }
 

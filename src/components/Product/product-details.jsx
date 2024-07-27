@@ -12,13 +12,13 @@ import {
 import { useMutation, useQuery } from "react-query";
 import { Loading } from "../../common";
 import ProductDetailsTab from "./product-details-tab";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { calculateDiscountPercentage } from "../../utils/percentageCal";
 import { productSizecustomStyles } from "../FilterPanel/style";
 
 const ProductDetails = ({ data, sizes, variants }) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [existingCart, setExistingCart] = useState([]);
   const [currentColor, setCurrentColor] = useState();
@@ -131,6 +131,7 @@ const ProductDetails = ({ data, sizes, variants }) => {
   const handleAddToCart = () => {
     const cartItem = {
       product_id: data.id,
+      brand_id: data.brand_id,
       quantity: currentProductQuantity,
       image: data.image,
       slug: data.slug,
@@ -238,7 +239,7 @@ const ProductDetails = ({ data, sizes, variants }) => {
         label: size.product_size,
         offer_price: size.offer_price,
         product_price: size.product_price,
-        quantity: size.product_quantity
+        quantity: size.product_quantity,
       }));
     }
     return [];
@@ -248,14 +249,18 @@ const ProductDetails = ({ data, sizes, variants }) => {
     setCurrentSize(e?.value);
     setCurrentOfferPrice(e?.offer_price);
     setCurrentPrice(e?.product_price);
-    setCurrentProductQuantity(e?.quantity)
+    setCurrentProductQuantity(e?.quantity);
   }, []);
 
   const handleThumbnailVariantClick = useCallback((color) => {
-    setCurrentColor(color);
+      setCurrentColor(color);
   }, []);
 
-console.log(currentSize, 'currentsize');
+  const handleNavigateToVariants = (variantSlug) => {
+    navigate(`/product/${variantSlug}`);
+    window.location.reload();
+  };
+
   return (
     <div className="col-md-6">
       <div className="product-detailds">
@@ -288,7 +293,7 @@ console.log(currentSize, 'currentsize');
         )}
         <div className="product-detail-variant-wrapper">
           <p className="product-detail-color">
-            colour: <span>{currentColor}</span>
+            Colour: <span>{currentColor}</span>
           </p>
           {variants?.length !== 0 && (
             <div className="product-detail-variants">
@@ -296,9 +301,16 @@ console.log(currentSize, 'currentsize');
                 variants.map((variant) => (
                   <img
                     className={
-                      variant?.id === data?.id && "product-detail-variants-img-active"
+                      variant?.id === data?.id &&
+                      "product-detail-variants-img-active"
                     }
-                    onMouseOver={() => handleThumbnailVariantClick(variant?.color)}
+                    onClick={() => handleNavigateToVariants(variant?.slug)}
+                    onMouseOver={() =>
+                      handleThumbnailVariantClick(variant?.color)
+                    }
+                    onMouseLeave={() =>
+                      setCurrentColor(data?.color)
+                    }
                     src={variant?.image}
                     alt={variant?.name}
                     key={variant?.id}
