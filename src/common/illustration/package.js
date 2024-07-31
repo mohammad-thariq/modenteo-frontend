@@ -7,7 +7,7 @@ export const PackageIcon = () => {
       width="1em"
       height="1em"
       fill="currentColor"
-      class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _65i7kZ HlZ_Tf I_qHp3"
+      className="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ _65i7kZ HlZ_Tf I_qHp3"
       focusable="false"
       aria-hidden="true"
     >

@@ -79,7 +79,7 @@ function ImageZoom({
   );
 }
 
-const ProductGallery = ({ data }) => {
+const ProductGallery = ({ data, variantImage }) => {
   let gallery =
     data?.gallery !== undefined
       ? data?.gallery?.split(",")
@@ -100,8 +100,14 @@ const ProductGallery = ({ data }) => {
   };
 
   useEffect(() => {
-    setMainImage(data?.image);
-  }, [data]);
+    if (variantImage !== undefined) {
+      setMainImage(variantImage);
+    } else {
+      setMainImage(data?.image);
+    }
+  }, [data, variantImage]);
+
+  
 
   return mainImage !== "" ? (
     <div className="col-md-6">
@@ -121,7 +127,7 @@ const ProductGallery = ({ data }) => {
               <img
                 onMouseOver={() => handleThumbnailClick(product, index)}
                 onClick={() => handleThumbnailClick(product, index)}
-                className={`product-gallery-item ${mainImage === product ? "active" : ""}`}
+                className={`product-gallery-item cursor-pointer ${mainImage === product ? "active" : ""}`}
                 src={product}
                 alt={data?.short_name}
                 key={index}

@@ -18,7 +18,6 @@ const Orders = () => {
 
   const { mutate: getOrders } = useMutation(getOrder, {
     onSuccess: (data) => {
-      console.log(data, "datat");
       setorderItems(data?.order);
     },
     onError: (error) => {

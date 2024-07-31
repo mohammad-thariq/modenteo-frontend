@@ -7,7 +7,7 @@ export const WarmingIcon = () => {
       width="1em"
       height="1em"
       fill="currentColor"
-      class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ Ik4W2Q"
+      className="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ Ik4W2Q"
       focusable="false"
       aria-hidden="true"
     >

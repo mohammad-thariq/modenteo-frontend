@@ -50,8 +50,6 @@ const ProductSlider = ({ images }) => {
   };
 
   return (
-
-
     window.innerWidth >= 700 ? (
       <div className="container slider-container">
         <div className="slides">

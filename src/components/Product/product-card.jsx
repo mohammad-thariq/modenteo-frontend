@@ -66,8 +66,6 @@ const ProductCard = ({ data }) => {
     }
   };
 
-  console.log(data, "data");
-
   return (
     <div className="product product-7">
       <figure className="product-media">

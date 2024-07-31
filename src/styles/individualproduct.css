@@ -1105,7 +1105,7 @@ button:focus {
 }
 
 .product-details-top {
-  margin-bottom: 1rem;
+  margin-bottom: 5rem;
 }
 
 .product-gallery {
@@ -1800,6 +1800,10 @@ button:focus {
   cursor: pointer;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media screen and (min-width: 992px) {
   .product-gallery-vertical .row {
     margin-left: -0.5rem;
@@ -1934,8 +1938,35 @@ button:focus {
 }
 
 .product-image-gallery {
-  /* height: 650px; */
+  height: 650px;
   overflow: auto;
+}
+
+.product-image-gallery::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width:1150px) {
+  .product-image-gallery{
+    height: 580px;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width:1020px) {
+  .product-image-gallery{
+    height: 528px;
+    overflow: auto;
+  }
+}
+
+@media screen and (max-width:992px) {
+  .product-image-gallery{
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-flow: nowrap
+  }
 }
 
 @media screen and (max-width:800px) {

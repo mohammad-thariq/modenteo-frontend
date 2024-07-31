@@ -9,7 +9,7 @@ export const HeartIcon = ({currentColor}) => {
       fill={currentColor}
       color={currentColor}
       aria-labelledby="wish-list-:r0:"
-      class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ HlZ_Tf I_qHp3"
+      className="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ HlZ_Tf I_qHp3"
       focusable="false"
       aria-hidden="false"
       role="img"

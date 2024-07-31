@@ -8,7 +8,7 @@ export const TruckIcon = () => {
       height="1em"
       fill="currentColor"
       aria-labelledby="raskere-leveranse-:R6pbd6cap:"
-      class="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ HlZ_Tf I_qHp3"
+      className="zds-icon RC794g X9n9TI DlJ4rT _5Yd-hZ HlZ_Tf I_qHp3"
       focusable="false"
       aria-hidden="true"
       role="img"

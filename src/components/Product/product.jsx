@@ -13,9 +13,12 @@ const fetchProductbySlug = (id) => () => productbySlug(id);
 const Product = () => {
   const { id } = useParams();
   const [productDetails, setproductDetails] = useState({});
+  const [productVariantMainImage, setproductVariantMainImage] = useState();
   const [productSizesDetails, setproductSizesDetails] = useState({});
   const [productVariantsDetails, setproductVariantsDetails] = useState({});
-  const [productsSimilar, setproductsSimilar] = useState([]);
+  const [productsSimilar, setproductsSimilar] = useState([])
+
+
   const { data } = useQuery("product", fetchProductbySlug(id), {
     enabled: id != null ? true : false,
   });
@@ -47,8 +50,7 @@ const Product = () => {
     productSizesDetails?.length !== 0 &&
     productVariantsDetails?.length !== 0
   )
-    return <Loading />;
-console.log(productVariantsDetails, 'productVariantsDetails');
+    return <Loading />;  
   return (
     <>
       <PageTitle
@@ -59,11 +61,12 @@ console.log(productVariantsDetails, 'productVariantsDetails');
         <div className="container">
           <div className="product-details-top">
             <div className="row">
-              <ProductGallery data={productDetails} />
+              <ProductGallery data={productDetails} variantImage={productVariantMainImage} />
               <ProductDetails
                 data={productDetails}
                 sizes={productSizesDetails}
                 variants={productVariantsDetails}
+                setproductVariantMainImage={setproductVariantMainImage}
               />
             </div>
           </div>

@@ -17,7 +17,7 @@ import Select from "react-select";
 import { calculateDiscountPercentage } from "../../utils/percentageCal";
 import { productSizecustomStyles } from "../FilterPanel/style";
 
-const ProductDetails = ({ data, sizes, variants }) => {
+const ProductDetails = ({ data, sizes, variants, setproductVariantMainImage }) => {
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [existingCart, setExistingCart] = useState([]);
@@ -252,9 +252,10 @@ const ProductDetails = ({ data, sizes, variants }) => {
     setCurrentProductQuantity(e?.quantity);
   }, []);
 
-  const handleThumbnailVariantClick = useCallback((color) => {
+  const handleThumbnailVariantClick = useCallback((image, color) => {
+    setproductVariantMainImage(image)
       setCurrentColor(color);
-  }, []);
+  }, [setproductVariantMainImage]);
 
   const handleNavigateToVariants = (variantSlug) => {
     navigate(`/product/${variantSlug}`);
@@ -306,7 +307,7 @@ const ProductDetails = ({ data, sizes, variants }) => {
                     }
                     onClick={() => handleNavigateToVariants(variant?.slug)}
                     onMouseOver={() =>
-                      handleThumbnailVariantClick(variant?.color)
+                      handleThumbnailVariantClick(variant?.image, variant?.color)
                     }
                     onMouseLeave={() =>
                       setCurrentColor(data?.color)
