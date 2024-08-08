@@ -168,11 +168,14 @@ const ProductDetails = ({ data, sizes, variants, setproductVariantMainImage }) =
         );
         LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
         ToastifySuccess("Quantity Updated in Guest Cart");
+
       } else {
         // Add new item to guest cart
         guestCart.push(cartItem);
         LocalStorageHelper.setItem(localStorageConst.GUEST_CART, guestCart);
         ToastifySuccess("Product Added to Guest Cart");
+        window.location.reload();
+
       }
     }
   };

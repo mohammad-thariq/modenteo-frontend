@@ -76,7 +76,7 @@ const Cart = () => {
     }
     return undefined;
   };
-  
+
 
   const { mutate: removeCart } = useMutation(deleteCart, {
     onSuccess: () => {
@@ -98,29 +98,30 @@ const Cart = () => {
     },
   });
 
-  const handleCart = (id, qty) => {
+  const handleCart = (cartitem, qty) => {
     if (userDetails) {
-      cartUpdate({ id: id, quantity: qty });
+      cartUpdate({ id: cartitem.id, quantity: qty });
     } else {
       // Update guest cart in local storage
-      const guestCart =
-        LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const updatedCart = guestCart.map((item) =>
-        item.product_id === id ? { ...item, quantity: qty } : item
-      );
+      const guestCart = LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
+      console.log(guestCart, qty);
+      const updatedCart = guestCart.map((item) => item.product_id === cartitem.product_id ? { ...item, quantity: qty } : item);
+      // console.log(updatedCart,'updatedCart');
+
       LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
       setCartItems(updatedCart); // Update local state
     }
   };
 
-  const handleRemove = (id) => {
+  const handleRemove = (cartitem) => {
     if (userDetails) {
-      removeCart(id);
+      removeCart(cartitem.id);
     } else {
       // Remove from guest cart in local storage
       const guestCart =
         LocalStorageHelper.getItem(localStorageConst.GUEST_CART) || [];
-      const updatedCart = guestCart.filter((item) => item.product_id !== id);
+      console.log(cartitem.product_id, guestCart, 'guestCartguestCart')
+      const updatedCart = guestCart.filter((item) => item.product_id !== cartitem.product_id);
       LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
       setCartItems(updatedCart); // Update local state
     }
@@ -132,7 +133,7 @@ const Cart = () => {
         (total, item) =>
           total +
           (item.offer_price !== 0 ? item.offer_price : item.price) *
-            defaultQuantity,
+          defaultQuantity,
         0
       )
       .toFixed(2);
@@ -146,11 +147,10 @@ const Cart = () => {
     return <Error message={error.message} onRetry={refetch} />;
   }
 
-  console.log(cartData, 'cart')
 
   return (
     <>
-      <PageTitle title={`Shopping Cart (${cartData?.data?.length} item)`} />
+      <PageTitle title={`Shopping Cart (${cartItems?.length} item)`} />
       <div className="page-content">
         <Breadcrumb />
         <div className="cart">
@@ -158,7 +158,7 @@ const Cart = () => {
             {cartItems.length > 0 ? (
               <>
                 <div className="pageTitle">
-                  <h1>{`Shopping Cart (${cartData?.data?.length} item)`}</h1>
+                  <h1>{`Shopping Cart (${cartItems?.length} item)`}</h1>
                   <div className="subText">
                     <PackageIcon />
                     <p>The package is delivered by Modenteo</p>
@@ -192,7 +192,7 @@ const Cart = () => {
                               isSearchable={false}
                               placeholder="1"
                               // value={defaultQuantity}
-                              // onChange={(e)=> handleCart(item?.id, e?.target?.value)}
+                              onChange={(e) => handleCart(item, e?.target?.value)}
                               styles={productQuantitycustomStyles}
                               theme={(theme) => ({
                                 ...theme,
@@ -207,7 +207,7 @@ const Cart = () => {
                           <div className="item-price-wrapper">
                             <div
                               className="item-price-wrapper-flex"
-                              onClick={() => handleRemove(item.id)}
+                              onClick={() => handleRemove(item)}
                             >
                               <img
                                 src="/assets/icons/delete.png"

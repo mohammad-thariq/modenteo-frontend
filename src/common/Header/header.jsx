@@ -171,7 +171,7 @@ const WebsiteHeader = () => {
     >
       {/* <IonIcon icon={bagHandleOutline} /> */}
       <BagIcon />
-      <span className="count">{cartItems.length}</span>
+      <span className="count">{guestCartItems.length || cartItems.length}</span>
     </button>
   );
 
