@@ -116,6 +116,7 @@ const Cart = () => {
   const handleRemove = (cartitem) => {
     if (userDetails) {
       removeCart(cartitem.id);
+      window.location.reload();
     } else {
       // Remove from guest cart in local storage
       const guestCart =
@@ -124,6 +125,7 @@ const Cart = () => {
       const updatedCart = guestCart.filter((item) => item.product_id !== cartitem.product_id);
       LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
       setCartItems(updatedCart); // Update local state
+      window.location.reload();
     }
   };
 
@@ -192,7 +194,7 @@ const Cart = () => {
                               isSearchable={false}
                               placeholder="1"
                               // value={defaultQuantity}
-                              onChange={(e) => handleCart(item, e?.target?.value)}
+                              // onChange={(e) => handleCart(item, e?.target?.value)}
                               styles={productQuantitycustomStyles}
                               theme={(theme) => ({
                                 ...theme,

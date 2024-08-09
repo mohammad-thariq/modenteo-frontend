@@ -138,6 +138,8 @@ const ProductDetails = ({ data, sizes, variants, setproductVariantMainImage }) =
       name: data.name,
       size: currentSize,
       color: currentColor,
+      price: currentPrice, 
+      offer_price: currentOfferPrice,
       user_id: userDetails?.id,
     };
 
@@ -164,7 +166,7 @@ const ProductDetails = ({ data, sizes, variants, setproductVariantMainImage }) =
       if (existingItem) {
         // Update quantity if item exists
         const updatedCart = guestCart.map((item) =>
-          item.product_id === data.id ? { ...item, quantity: qty } : item
+          item.product_id === data.id ? { ...item, quantity: qty} : item
         );
         LocalStorageHelper.setItem(localStorageConst.GUEST_CART, updatedCart);
         ToastifySuccess("Quantity Updated in Guest Cart");
