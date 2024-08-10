@@ -91,7 +91,7 @@ const Header = () => {
               </div>
             </a>
           </li>
-          <li className="nav-item nav-logout d-none d-lg-block">
+          <li className="nav-item nav-logout">
             <a className="nav-link" href="/" onClick={() => handleLogout()}>
               <i className="mdi mdi-power"></i>
             </a>
