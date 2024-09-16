@@ -21,6 +21,7 @@ import { ProfileIcon } from "../illustration/profile";
 import { HeartIcon } from "../illustration/heart";
 import { BagIcon } from "../illustration/bag";
 import "../../styles/header.css";
+import { BagAddedIcon } from "../illustration/bagAdded";
 
 const { getCart } = new ManageCartApi();
 const { getWishlist } = new ManageWishlistApi();
@@ -65,10 +66,13 @@ const WebsiteHeader = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
   const [guestCartItems, setGuestCartItems] = useState([]);
 
-  const handleCategoryLocal = useCallback((currentPage) => {
+  const handleCategoryLocal = useCallback(
+    (currentPage) => {
       LocalStorageHelper.setItem(localStorageConst.CURRENT_PAGE, currentPage);
-      navigate(`/home-${currentPage.toLowerCase()}`)
-  }, [navigate]);
+      navigate(`/home-${currentPage.toLowerCase()}`);
+    },
+    [navigate]
+  );
 
   // useEffect(() => {
   //   if(userSelectedCategory === null){
@@ -79,7 +83,7 @@ const WebsiteHeader = () => {
 
   const handleRemoveCategoryLocal = () => {
     LocalStorageHelper.removeItem(localStorageConst.CURRENT_PAGE);
-    navigate("/")
+    navigate("/");
   };
 
   const handleHomeClick = (e) => {
@@ -169,8 +173,11 @@ const WebsiteHeader = () => {
         navigate("/cart");
       }}
     >
-      {/* <IonIcon icon={bagHandleOutline} /> */}
-      <BagIcon />
+      {guestCartItems.length !== 0 || cartItems.length !== 0 ? (
+        <BagAddedIcon />
+      ) : (
+        <BagIcon />
+      )}
       <span className="count">{guestCartItems.length || cartItems.length}</span>
     </button>
   );
@@ -229,14 +236,7 @@ const WebsiteHeader = () => {
           </div>
         </div>
       </div>
-      <nav
-        id="myHeader"
-        className={
-          isSticky
-            ? "desktop-navigation-menu sticky"
-            : "desktop-navigation-menu"
-        }
-      >
+      <nav id="myHeader" className="desktop-navigation-menu">
         <div className="container">
           <ul className="desktop-menu-category-list">
             <li className="menu-category">
@@ -346,20 +346,20 @@ const WebsiteHeader = () => {
           </button>
         </div>
         <div className="mobile-header-button-wrapper">
-            {categories?.map((cate, key) => (
-              <p
-                className={
-                  userSelectedCategory === cate?.categoryName
-                    ? "mobile-header-button-text-active"
-                    : "mobile-header-button-text"
-                }
-                key={key}
-                onClick={() => handleCategoryLocal(cate?.categoryName)}
-              >
-                {cate?.categoryName}
-              </p>
-            ))}
-          </div>
+          {categories?.map((cate, key) => (
+            <p
+              className={
+                userSelectedCategory === cate?.categoryName
+                  ? "mobile-header-button-text-active"
+                  : "mobile-header-button-text"
+              }
+              key={key}
+              onClick={() => handleCategoryLocal(cate?.categoryName)}
+            >
+              {cate?.categoryName}
+            </p>
+          ))}
+        </div>
 
         <ul className="mobile-menu-category-list">
           <li className="menu-category">
@@ -372,53 +372,53 @@ const WebsiteHeader = () => {
               .filter((cat) => cat?.categoryName === userSelectedCategory)
               .map((cat, key) => {
                 return (
-                <li key={key} className="menu-category">
-                  <button
-                    className={
-                      cat?.isOpen ? "accordion-menu active" : "accordion-menu"
-                    }
-                  >
-                    <a href={"/category/" + cat?.categorySlug}>
-                      <p className="menu-title">Clothing</p>
-                    </a>
-                    <div onClick={() => toggleAccordion(cat?.id)}>
-                      <IonIcon className="add-icon" icon={addOutline} />
-                      <IonIcon className="remove-icon" icon={removeOutline} />
-                    </div>
-                  </button>
-                  {cat?.subCategory.length > 0 && (
-                    <ul
+                  <li key={key} className="menu-category">
+                    <button
                       className={
-                        cat?.isOpen
-                          ? "submenu-category-list active"
-                          : "submenu-category-list"
+                        cat?.isOpen ? "accordion-menu active" : "accordion-menu"
                       }
                     >
-                      {cat?.subCategory.map((subcat, index) => (
-                        <li key={index} className="submenu-category">
-                          <a
-                            href={
-                              "/category/" +
-                              cat?.categorySlug +
-                              "/" +
-                              subcat?.slug
-                            }
-                            className="submenu-title"
-                          >
-                            <span>
-                              <img
-                                className="item-image"
-                                src={`/assets/icons/menuProductIcons/${subcat?.slug}.png`}
-                                alt={subcat?.name}
-                              />
-                            </span>
-                            {subcat?.name}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
+                      <a href={"/category/" + cat?.categorySlug}>
+                        <p className="menu-title">Clothing</p>
+                      </a>
+                      <div onClick={() => toggleAccordion(cat?.id)}>
+                        <IonIcon className="add-icon" icon={addOutline} />
+                        <IonIcon className="remove-icon" icon={removeOutline} />
+                      </div>
+                    </button>
+                    {cat?.subCategory.length > 0 && (
+                      <ul
+                        className={
+                          cat?.isOpen
+                            ? "submenu-category-list active"
+                            : "submenu-category-list"
+                        }
+                      >
+                        {cat?.subCategory.map((subcat, index) => (
+                          <li key={index} className="submenu-category">
+                            <a
+                              href={
+                                "/category/" +
+                                cat?.categorySlug +
+                                "/" +
+                                subcat?.slug
+                              }
+                              className="submenu-title"
+                            >
+                              <span>
+                                <img
+                                  className="item-image"
+                                  src={`/assets/icons/menuProductIcons/${subcat?.slug}.png`}
+                                  alt={subcat?.name}
+                                />
+                              </span>
+                              {subcat?.name}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
                 );
               })}
           <li className="menu-category">
@@ -432,7 +432,6 @@ const WebsiteHeader = () => {
             </a>
           </li>
         </ul>
-
         <div className="menu-bottom">
           <ul className="menu-social-container">
             <Social />
