@@ -3,7 +3,7 @@ import "../../styles/category-collection.css";
 import { SectionTitle } from "../../common";
 const CategoryCollection = ({ data, header }) => {
   return (
-    <section className="collections-sec">
+    <section className="collections-sec category-collection">
       <div className="container">
         <div className="section_title1">
           <SectionTitle title={header?.title} subtitle={header?.description} />

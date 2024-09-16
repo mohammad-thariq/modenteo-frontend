@@ -38,6 +38,7 @@ const HomePage = () => {
     if (settings && settings.settings) {
       setWebsiteSettings(settings.settings);
     }
+    console.log(settingshome, 'settingshome')
     if (settingshome) {
       setSectionContent(settingshome);
     }
@@ -51,42 +52,31 @@ const HomePage = () => {
       (section) => section.type === type && section.enabled === 1
     );
   };
-
-  const [loading, setLoading] = useState(true);
-
   const getProducts = useCallback(
-    (type, value) => {
+    async (type, value) => {
       const key = type + value;
       if (productsData[key]) {
         return;
       }
-      if (type === "sub_category") {
-        productSubcategory.mutate(value, {
-          onSuccess: (data) => {
-            setProductsData((prev) => ({ ...prev, [key]: data.products }));
-          },
-        });
-      }
-      if (type === "main_category") {
-        productCategory.mutate(value, {
-          onSuccess: (data) => {
-            setProductsData((prev) => ({ ...prev, [key]: data.products }));
-          },
-        });
-      }
-      if (type === "collection") {
-        productCollection.mutate(value, {
-          onSuccess: (data) => {
-            setProductsData((prev) => ({ ...prev, [key]: data.products }));
-          },
-        });
-      }
-      if (type === "brands") {
-        productBrand.mutate(value, {
-          onSuccess: (data) => {
-            setProductsData((prev) => ({ ...prev, [key]: data.products }));
-          },
-        });
+      try {
+        let data;
+        if (type === "sub_category") {
+          data = await productSubcategory.mutateAsync(value);
+        }
+        if (type === "main_category") {
+          data = await productCategory.mutateAsync(value);
+        }
+        if (type === "collection") {
+          data = await productCollection.mutateAsync(value);
+        }
+        if (type === "brands") {
+          data = await productBrand.mutateAsync(value);
+        }
+        if (data) {
+          setProductsData((prev) => ({ ...prev, [key]: data.products }));
+        }
+      } catch (error) {
+        console.error(`Error fetching products for ${type} ${value}:`, error);
       }
     },
     [
@@ -98,25 +88,30 @@ const HomePage = () => {
     ]
   );
 
+
   useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all(homeSettings.map(item => getProducts(item.type, item.value)));
-      setLoading(false); // Set loading to false once all data is fetched
+    const fetchProducts = async () => {
+      setLoading(true);
+      const promises = homeSettings.map((item) => getProducts(item.type, item.value));
+      await Promise.all(promises);
+      setLoading(false);
     };
-    fetchData();
+  
+    fetchProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [homeSettings]);
+  const [loading, setLoading] = useState(true);
+
 
   const renderSection = (sectionname) => {
     let data = homeSettings.filter(
       (section) => section.after_section === sectionname
     );
     if (data.length > 0) {
-      console.log(data, sectionname)
-    }
-    if (data.length > 0) {
       return data.map((item, key) => {
         const products = productsData[item.type + item.value] || [];
+        console.log(`Products for ${item.type} ${item.value}:`, products);
+
         if (products.length > 0) {
           return (
             <div className="our-collections pt-5" key={key}>
@@ -150,71 +145,64 @@ const HomePage = () => {
       return null;
     }
   };
-
-  return (
-    <div>
-      <PageTitle title="Fashion Store For Fashioned People" />
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          {getSettingsByType("banner") && sectionContent?.banner && (
-            <WebsiteBanner images={sectionContent.banner} />
-          )}
-          {renderSection("banner")}
-          {getSettingsByType("spotlight") && sectionContent?.spotlight && (
-            <div className="pt-5 pb-5">
-              <CategoryCollection
-                data={sectionContent.spotlight}
-                header={getSettingsByType("spotlight")}
-              />
-            </div>
-          )}
-          {renderSection("spotlight")}
-          {getSettingsByType("discount") && sectionContent?.discount && (
-            <div className="pt-5 pb-5">
-              <Collections
-                data={sectionContent.discount}
-                header={getSettingsByType("discount")}
-              />
-            </div>
-          )}
-          {renderSection("discount")}
-          {getSettingsByType("popular") && sectionContent?.popular && (
-            <div className="pt-5 pb-5">
-              <Popular
-                data={sectionContent.popular}
-                header={getSettingsByType("popular")}
-              />
-            </div>
-          )}
-          {renderSection("popular")}
-          {getSettingsByType("fashion") && sectionContent?.fashion && (
-            <div className="pt-5 pb-5">
-              <Fashion
-                images={sectionContent.fashion}
-                header={getSettingsByType("fashion")}
-              />
-            </div>
-          )}
-          {renderSection("fashion")}
-          {getSettingsByType("service") && sectionContent?.customerservice && (
-            <div className="pt-5 pb-5">
-              <CustomerBenefits
-                data={sectionContent.customerservice}
-                header={getSettingsByType("service")}
-              />
-            </div>
-          )}
-          {renderSection("service")}
-          )
-        </>
-      )
-      }
-
-    </div>
-
-  );
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  else
+    return (
+      <div>
+        <PageTitle title="Fashion Store For Fashioned People" />
+        {getSettingsByType("banner") && sectionContent?.banner && (
+          <WebsiteBanner images={sectionContent.banner} />
+        )}
+        {renderSection("banner")}
+        {getSettingsByType("spotlight") && sectionContent?.spotlight && (
+          <div className="pt-5 pb-5">
+            <CategoryCollection
+              data={sectionContent.spotlight}
+              header={getSettingsByType("spotlight")}
+            />
+          </div>
+        )}
+        {renderSection("spotlight")}
+        {getSettingsByType("discount") && sectionContent?.discount && (
+          <div className="pt-5 pb-5">
+            <Collections
+              data={sectionContent.discount}
+              header={getSettingsByType("discount")}
+            />
+          </div>
+        )}
+        {renderSection("discount")}
+        {getSettingsByType("popular") && sectionContent?.popular && (
+          <div className="pt-5 pb-5">
+            <Popular
+              data={sectionContent.popular}
+              header={getSettingsByType("popular")}
+            />
+          </div>
+        )}
+        {renderSection("popular")}
+        {getSettingsByType("fashion") && sectionContent?.fashion && (
+          <div className="pt-5 pb-5">
+            <Fashion
+              images={sectionContent.fashion}
+              header={getSettingsByType("fashion")}
+            />
+          </div>
+        )}
+        {renderSection("fashion")}
+        {getSettingsByType("service") && sectionContent?.customerservice && (
+          <div className="pt-5 pb-5">
+            <CustomerBenefits
+              data={sectionContent.customerservice}
+              header={getSettingsByType("service")}
+            />
+          </div>
+        )}
+        {renderSection("service")}
+      </div>
+    );
 };
 
 export default HomePage;
