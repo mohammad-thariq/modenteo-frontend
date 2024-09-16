@@ -8,10 +8,14 @@ import { ManageWishlistApi } from "../../service";
 import { LocalStorageHelper } from "../../utils/localStorage";
 import { localStorageConst } from "../../constants/localStorage";
 import { calculateDiscountPercentage } from "../../utils/percentageCal";
+import { useNavigate } from 'react-router-dom';
+
 const { getWishlist, addWishlist, deleteWishlist } = new ManageWishlistApi();
 const fetchWishlist = (userID) => () => getWishlist(userID);
 
 const ProductCard = ({ data }) => {
+  const navigate = useNavigate();
+
   let userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
   const { data: wishlistData, refetch: refetchWishlist } = useQuery(
     "wishlist",
@@ -48,15 +52,16 @@ const ProductCard = ({ data }) => {
       ToastifyFailed(error?.message);
     },
   });
+
   const handleAddToWishlist = (data) => {
     if (userDetails) {
       let wishlistData = { product_id: data.id, user_id: userDetails?.id };
       createWishlist(wishlistData);
     } else {
-      ToastifyFailed("Please log in to add products to your wishlist");
+      // Save the intended action and redirect to login
+      navigate(`/login?redirect=add_to_wishlist&product_id=${data.id}`);
     }
   };
-
   const handleRemoveWishlist = (data) => {
     let getwishlist = wishlistData?.data.find(
       (item) => item.product_id === data?.id && item.user_id === userDetails?.id

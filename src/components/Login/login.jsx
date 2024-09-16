@@ -3,7 +3,7 @@ import "../../styles/login.css";
 import { Button } from "../../common/Button";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { handleLogin } from "./hooks/login";
+import { useHandleLogin } from "./hooks/login";
 import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../../common";
 
@@ -25,6 +25,8 @@ const Login = () => {
   const handleNavigate = (type) => {
     return navigate("/" + type);
   };
+  const { handleLogin } = useHandleLogin();
+
   return (
     <>
       <PageTitle title="Login" />
