@@ -38,7 +38,6 @@ const HomePage = () => {
     if (settings && settings.settings) {
       setWebsiteSettings(settings.settings);
     }
-    console.log(settingshome,'settingshome')
     if (settingshome) {
       setSectionContent(settingshome);
     }
@@ -52,6 +51,8 @@ const HomePage = () => {
       (section) => section.type === type && section.enabled === 1
     );
   };
+
+  const [loading, setLoading] = useState(true);
 
   const getProducts = useCallback(
     (type, value) => {
@@ -98,9 +99,11 @@ const HomePage = () => {
   );
 
   useEffect(() => {
-    homeSettings.forEach((item) => {
-      getProducts(item.type, item.value);
-    });
+    const fetchData = async () => {
+      await Promise.all(homeSettings.map(item => getProducts(item.type, item.value)));
+      setLoading(false); // Set loading to false once all data is fetched
+    };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [homeSettings]);
 
@@ -108,6 +111,9 @@ const HomePage = () => {
     let data = homeSettings.filter(
       (section) => section.after_section === sectionname
     );
+    if (data.length > 0) {
+      console.log(data, sectionname)
+    }
     if (data.length > 0) {
       return data.map((item, key) => {
         const products = productsData[item.type + item.value] || [];
@@ -132,7 +138,7 @@ const HomePage = () => {
                     </div>
                   </div>
                 </div>
-                {item.view_more  && <Link className="view_more" to={item.view_more}>View More</Link>}
+                {item.view_more && <Link className="view_more" to={item.view_more}>View More</Link>}
               </div>
             </div>
           );
@@ -147,57 +153,67 @@ const HomePage = () => {
 
   return (
     <div>
-      <PageTitle title="Fashion Store For Fashioned People"/>
-      {getSettingsByType("banner") && sectionContent?.banner && (
-        <WebsiteBanner images={sectionContent.banner} />
-      )}
-      {renderSection("banner")}
-      {getSettingsByType("spotlight") && sectionContent?.spotlight && (
-        <div className="pt-5 pb-5">
-          <CategoryCollection
-            data={sectionContent.spotlight}
-            header={getSettingsByType("spotlight")}
-          />
-        </div>
-      )}
-      {renderSection("spotlight")}
-      {getSettingsByType("discount") && sectionContent?.discount && (
-        <div className="pt-5 pb-5">
-          <Collections
-            data={sectionContent.discount}
-            header={getSettingsByType("discount")}
-          />
-        </div>
-      )}
-      {renderSection("discount")}
-      {getSettingsByType("popular") && sectionContent?.popular && (
-        <div className="pt-5 pb-5">
-          <Popular
-            data={sectionContent.popular}
-            header={getSettingsByType("popular")}
-          />
-        </div>
-      )}
-      {renderSection("popular")}
-      {getSettingsByType("fashion") && sectionContent?.fashion && (
-        <div className="pt-5 pb-5">
-          <Fashion
-            images={sectionContent.fashion}
-            header={getSettingsByType("fashion")}
-          />
-        </div>
-      )}
-      {renderSection("fashion")}
-      {getSettingsByType("service") && sectionContent?.customerservice && (
-        <div className="pt-5 pb-5">
-          <CustomerBenefits
-            data={sectionContent.customerservice}
-            header={getSettingsByType("service")}
-          />
-        </div>
-      )}
-      {renderSection("service")}
+      <PageTitle title="Fashion Store For Fashioned People" />
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {getSettingsByType("banner") && sectionContent?.banner && (
+            <WebsiteBanner images={sectionContent.banner} />
+          )}
+          {renderSection("banner")}
+          {getSettingsByType("spotlight") && sectionContent?.spotlight && (
+            <div className="pt-5 pb-5">
+              <CategoryCollection
+                data={sectionContent.spotlight}
+                header={getSettingsByType("spotlight")}
+              />
+            </div>
+          )}
+          {renderSection("spotlight")}
+          {getSettingsByType("discount") && sectionContent?.discount && (
+            <div className="pt-5 pb-5">
+              <Collections
+                data={sectionContent.discount}
+                header={getSettingsByType("discount")}
+              />
+            </div>
+          )}
+          {renderSection("discount")}
+          {getSettingsByType("popular") && sectionContent?.popular && (
+            <div className="pt-5 pb-5">
+              <Popular
+                data={sectionContent.popular}
+                header={getSettingsByType("popular")}
+              />
+            </div>
+          )}
+          {renderSection("popular")}
+          {getSettingsByType("fashion") && sectionContent?.fashion && (
+            <div className="pt-5 pb-5">
+              <Fashion
+                images={sectionContent.fashion}
+                header={getSettingsByType("fashion")}
+              />
+            </div>
+          )}
+          {renderSection("fashion")}
+          {getSettingsByType("service") && sectionContent?.customerservice && (
+            <div className="pt-5 pb-5">
+              <CustomerBenefits
+                data={sectionContent.customerservice}
+                header={getSettingsByType("service")}
+              />
+            </div>
+          )}
+          {renderSection("service")}
+          )
+        </>
+      )
+      }
+
     </div>
+
   );
 };
 
