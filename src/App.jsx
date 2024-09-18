@@ -7,6 +7,7 @@ import { LocalStorageHelper } from "./utils/localStorage";
 import { localStorageConst } from "./constants/localStorage";
 import { AuthorizationApi } from "./service";
 import { SetExpireToken } from "./helper/expire";
+import { Loading } from "./common";
 
 const App = () => {
   const { validateToken } = new AuthorizationApi();
@@ -34,7 +35,7 @@ const App = () => {
   }, [data]);
 
   if (isLoading || isLoggedIn === null) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

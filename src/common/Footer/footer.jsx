@@ -4,6 +4,12 @@ import { mailOutline, callOutline, locationOutline } from "ionicons/icons";
 import { SocialFooter } from "../Social/social";
 import { ManageCategoriesApi, PagesAPI } from "../../service";
 import { useQuery } from "react-query";
+import { MasterCardIcon } from "../illustration/mastercard";
+import { PaypalIcon } from "../illustration/paypal";
+import { VisaIcon } from "../illustration/visa";
+import { VappsIcon } from "../illustration/vapps";
+import { FakutraIcon } from "../illustration/fakutra";
+import { AmericanExpressIcon } from "../illustration/americanExpress";
 
 const WebsiteFooter = () => {
   const { productMenuSeasons } = new ManageCategoriesApi();
@@ -65,6 +71,18 @@ const WebsiteFooter = () => {
                   </a>
                 </li>
               ))}
+            <br />
+            <li className="footer-nav-item">
+              <h2 className="nav-title">Payment Options</h2>
+            </li>
+            <li className="social-link" style={{gap: '5px'}}>
+              <MasterCardIcon />
+              <PaypalIcon />
+              <VisaIcon />
+              <VappsIcon />
+              <FakutraIcon />
+              <AmericanExpressIcon />
+            </li>
           </ul>
           <ul className="footer-nav-list">
             <li className="footer-nav-item">
@@ -78,6 +96,13 @@ const WebsiteFooter = () => {
                   </a>
                 </li>
               ))}
+            <br />
+            <li className="footer-nav-item">
+              <h2 className="nav-title">Follow Us</h2>
+            </li>
+            <li>
+              <SocialFooter />
+            </li>
           </ul>
 
           <ul className="footer-nav-list">
@@ -109,14 +134,7 @@ const WebsiteFooter = () => {
               </a>
             </li>
           </ul>
-          <ul className="footer-nav-list">
-            <li className="footer-nav-item">
-              <h2 className="nav-title">Follow Us</h2>
-            </li>
-            <li>
-              <SocialFooter />
-            </li>
-          </ul>
+          <ul className="footer-nav-list"></ul>
         </div>
       </div>
       <div className="footer-bottom">

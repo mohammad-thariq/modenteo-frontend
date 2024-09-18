@@ -35,7 +35,7 @@ export const Social = () => {
 
 export const SocialFooter = () => {
     return (
-        <ul className="social-link">
+        <ul className="social-link" style={{paddingLeft: 0}}>
 
             <li className="footer-nav-item">
                 <a href="/" className="footer-nav-link">

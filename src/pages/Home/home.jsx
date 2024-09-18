@@ -5,7 +5,7 @@ import Collections from "../../components/Collections/collections";
 import Fashion from "../../components/Fashion/fashion";
 import Popular from "../../components/Popular/popular";
 import CategoryCollection from "../../components/Collections/category-collection";
-import { PageTitle, SectionTitle } from "../../common";
+import { Loading, PageTitle, SectionTitle } from "../../common";
 import ProductCard from "../../components/Product/product-card";
 import { SettingsAPI } from "../../service/settings/settings";
 import { useQuery, useMutation } from "react-query";
@@ -146,7 +146,7 @@ const HomePage = () => {
     }
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   else
     return (

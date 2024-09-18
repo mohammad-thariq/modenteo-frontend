@@ -203,6 +203,15 @@ const WebsiteHeader = () => {
 
   return (
     <header>
+      <div className="header-offer-line">
+        <div className="container">
+          <div className="header-offer-line-flex">
+            <span>All your fovorite brands</span>
+            <span>100 days open purchase</span>
+            <span>free shipping on standard shipments over NOK 449*</span>
+          </div>
+        </div>
+      </div>
       <div className="header-main">
         <div className="container">
           <div className="header-button-wrapper">

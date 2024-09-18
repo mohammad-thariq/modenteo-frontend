@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ManageOrderApi } from "../../service";
 import { useMutation } from "react-query";
-import { PageTitle } from "../../common";
+import { Loading, PageTitle } from "../../common";
 
 const OrderDetail = () => {
   const { id } = useParams();
@@ -29,7 +29,7 @@ const OrderDetail = () => {
   }, [id, fetchOrder]);
 
   if (!orderDetails) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
