@@ -82,6 +82,8 @@ const Cart = () => {
     onSuccess: () => {
       ToastifySuccess("Product Removed from the cart");
       refetch();
+      window.location.reload();
+
     },
     onError: (error) => {
       ToastifyFailed(error?.message);
@@ -116,7 +118,6 @@ const Cart = () => {
   const handleRemove = (cartitem) => {
     if (userDetails) {
       removeCart(cartitem.id);
-      window.location.reload();
     } else {
       // Remove from guest cart in local storage
       const guestCart =

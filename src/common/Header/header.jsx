@@ -32,7 +32,15 @@ const WebsiteHeader = () => {
   const navigate = useNavigate();
   const [isSticky, setIsSticky] = useState(false);
   const [ismobileMenu, setIsMobileMenu] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   const userToken = LocalStorageHelper.getItem(localStorageConst.JWTUSER);
   const userDetails = LocalStorageHelper.getItem(localStorageConst.USER);
   const userSelectedCategory = LocalStorageHelper.getItem(
@@ -137,6 +145,42 @@ const WebsiteHeader = () => {
       <ProfileIcon />
     </button>
   );
+  const MiniCart = ({ items }) => {
+    // Calculate total price
+    const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  
+    return (
+      <div className="minicart">
+        {items.length > 0 ? (
+          <div className="minicart-items">
+            {items.map((item, index) => (
+              <div key={index} className="minicart-item">
+                <img src={item.image} alt={item.name} className="minicart-item-image" />
+                <div className="minicart-item-details">
+                  <p className="minicart-item-name">{item.name}</p>
+                  <p className="minicart-item-price">{item.price} NOK x {item.quantity}</p> {/* Updated to show NOK */}
+                </div>
+              </div>
+            ))}
+  
+            {/* Total price */}
+            <div className="minicart-total">
+              <p>Total: <span className="total-price">{totalPrice.toFixed(2)} NOK</span></p> {/* Updated to show NOK */}
+            </div>
+  
+            {/* "Go to Cart" button */}
+            {/* <button onClick={() => navigate('/cart')} className="goto-cart-button">
+              Go to Cart
+            </button> */}
+          </div>
+        ) : (
+          <div className="empty-cart">Your cart is empty</div>
+        )}
+      </div>
+    );
+  };
+  
+
 
   // const totalCartItems = cartItems.length + guestCartItems.length; // Combine user and guest cart items
 
@@ -172,6 +216,8 @@ const WebsiteHeader = () => {
       onClick={() => {
         navigate("/cart");
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {guestCartItems.length !== 0 || cartItems.length !== 0 ? (
         <BagAddedIcon />
@@ -179,6 +225,7 @@ const WebsiteHeader = () => {
         <BagIcon />
       )}
       <span className="count">{guestCartItems.length || cartItems.length}</span>
+      {isHovered && <MiniCart items={cartItems.length<=0 ? guestCartItems : cartItems} />} 
     </button>
   );
 
