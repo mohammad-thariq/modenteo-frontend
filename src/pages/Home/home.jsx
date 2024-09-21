@@ -111,7 +111,8 @@ const HomePage = () => {
       return data.map((item, key) => {
         const products = productsData[item.type + item.value] || [];
         console.log(`Products for ${item.type} ${item.value}:`, products);
-
+  
+        // Slice the products array to only show the first 8 items
         if (products.length > 0) {
           return (
             <div className="our-collections pt-5" key={key}>
@@ -121,19 +122,23 @@ const HomePage = () => {
                   <div className="col-lg-12">
                     <div className="products mb-3">
                       <div className="row justify-content-center">
-                        {products.map((data, key) => (
+                        {products.slice(0, 8).map((data, index) => (
                           <div
-                            key={key}
+                            key={index}
                             className="col-6 col-md-3 col-lg-3 col-xl-3"
                           >
-                            <ProductCard key={key} data={data} />
+                            <ProductCard key={index} data={data} />
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
                 </div>
-                {item.view_more && <Link className="view_more" to={item.view_more}>View More</Link>}
+                {item.view_more && (
+                  <Link className="view_more" to={item.view_more}>
+                    View More
+                  </Link>
+                )}
               </div>
             </div>
           );
@@ -145,6 +150,7 @@ const HomePage = () => {
       return null;
     }
   };
+  
   if (loading) {
     return <Loading />;
   }
