@@ -135,10 +135,10 @@ const WebsiteHeader = () => {
     };
   
     // Clear the search when the user deletes the input
-    const handleClearSearch = () => {
-      setSearchTerm("");
-      setSearchResults([]);
-    };
+    // const handleClearSearch = () => {
+    //   setSearchTerm("");
+    //   setSearchResults([]);
+    // };
 
   useEffect(() => {
     if (cartData?.data && Array.isArray(cartData?.data)) {
@@ -360,6 +360,7 @@ const WebsiteHeader = () => {
     };
   }, []);
   
+console.log(searchProduct, 'searchProduct');
 
   return (
     <header>
