@@ -10,5 +10,4 @@ export class ManageMenusApi {
         const res = await _axios("get", `/menu/new-collections`);
         return res;
     };
-
 }

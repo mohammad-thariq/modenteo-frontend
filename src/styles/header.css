@@ -78,6 +78,10 @@
     }
 }
 /* Mini Cart */
+.minicart-heading{
+  
+}
+
 .minicart {
     position: absolute;
     top: 100%;
@@ -165,3 +169,46 @@
     background-color: #E64A19;
   }
     
+  .search-bar-container{
+    position: relative;
+  }
+
+  .search-bar{
+    width: 350px;
+    padding: 10px 10px 10px 35px;
+  }
+
+  .search-icon{
+    position: absolute;
+    top: 12px;
+    left: 10px;
+  }
+
+  .search-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+  }
+  
+  .search-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+  
+  .search-item:hover {
+    background-color: #f7f7f7;
+  }
+  
+  .search-field {
+    position: relative;
+    padding: 8px;
+  }

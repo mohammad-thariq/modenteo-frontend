@@ -7,6 +7,7 @@ import {
   menuOutline,
   addOutline,
   removeOutline,
+  searchOutline,
 } from "ionicons/icons";
 import { useNavigate } from "react-router-dom";
 import { LocalStorageHelper } from "../../utils/localStorage";
@@ -22,6 +23,7 @@ import { HeartIcon } from "../illustration/heart";
 import { BagIcon } from "../illustration/bag";
 import "../../styles/header.css";
 import { BagAddedIcon } from "../illustration/bagAdded";
+import { SearchProductsAPI } from "../../service/search";
 
 const { getCart } = new ManageCartApi();
 const { getWishlist } = new ManageWishlistApi();
@@ -33,6 +35,9 @@ const WebsiteHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
   const [ismobileMenu, setIsMobileMenu] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -50,7 +55,28 @@ const WebsiteHeader = () => {
 
   const { productMenuCategory, productMenuNew, productMenuSeasons } =
     new ManageCategoriesApi();
+
+  const {getSearchProduct} = new SearchProductsAPI()  
   const { data } = useQuery("menu-categories", productMenuCategory);
+  
+  // Fetch search results using react-query
+  const { data: searchProduct, isFetching } = useQuery(
+    ["search-product", searchTerm],
+    () => getSearchProduct(searchTerm),
+    {
+      enabled: !!searchTerm, // Only enable if there's a searchTerm
+      onSuccess: (data) => {
+        // Update the searchResults with correct data mapping
+        if (data.success === 1 && data.results) {
+          setSearchResults(data.results);
+        } else {
+          setSearchResults([]);
+        }
+      },
+    }
+  );
+
+
   const { data: seasons } = useQuery("menu-seasons", productMenuSeasons);
   const { data: newCollections } = useQuery(
     "menu-new-collections",
@@ -94,10 +120,25 @@ const WebsiteHeader = () => {
     navigate("/");
   };
 
+  const  handleNavigatetoSearchResult = (slug) => {
+    navigate(`product/${slug}`);
+  }
+
   const handleHomeClick = (e) => {
     e.preventDefault();
     handleRemoveCategoryLocal();
   };
+
+    // Handle input change and update the searchTerm state
+    const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+    };
+  
+    // Clear the search when the user deletes the input
+    const handleClearSearch = () => {
+      setSearchTerm("");
+      setSearchResults([]);
+    };
 
   useEffect(() => {
     if (cartData?.data && Array.isArray(cartData?.data)) {
@@ -151,6 +192,7 @@ const WebsiteHeader = () => {
   
     return (
       <div className="minicart">
+        <p className="minicart-heading">Your Shopping Cart</p>
         {items.length > 0 ? (
           <div className="minicart-items">
             {items.map((item, index) => (
@@ -196,19 +238,89 @@ const WebsiteHeader = () => {
       <span className="count">{wishlistItems.length}</span>
     </button>
   );
-  // const searchBtn = (
-  //   <div className="header-search-container">
-  //     <input
-  //       type="search"
-  //       name="search"
-  //       className="search-field"
-  //       placeholder="Enter your product name..."
-  //     />
-  //     <button className="search-btn">
-  //       <IonIcon icon={searchOutline} />
-  //     </button>
-  //   </div>
-  // );
+  const searchBtn = (
+    <div className="header-user-actions">
+    <div className="header-search-container">
+      <input
+        type="search"
+        name="search"
+        className="search-field"
+        placeholder="Search Product Here..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+      <button className="search-btn">
+        <IonIcon icon={searchOutline} />
+      </button>
+      {searchTerm && (
+            <div className="search-dropdown">
+              {isFetching && <p>Loading...</p>}
+              {searchResults.length > 0 ? (
+                <ul>
+                  {searchResults.map((product, index) => (
+                    <li key={index} className="search-item" onClick={() => handleNavigatetoSearchResult(product?.slug)}>
+                      {/* Displaying image, short_name, and description */}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="search-result-image"
+                        width="50"
+                        height="50"
+                      />
+                      <span>{product.short_name}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                !isFetching && <p>No results found</p>
+              )}
+            </div>
+          )}
+    </div>
+    </div>
+  );
+
+  const searchBtnMobile = (
+    <div className="header-user-mobile-actions">
+    <div className="header-search-mobile-container">
+      <input
+        type="search"
+        name="search"
+        className="search-field"
+        placeholder="Search Product Here..."
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+      <button className="search-btn">
+        <IonIcon icon={searchOutline} />
+      </button>
+      {searchTerm && (
+            <div className="search-dropdown">
+              {isFetching && <p>Loading...</p>}
+              {searchResults.length > 0 ? (
+                <ul>
+                  {searchResults.map((product, index) => (
+                    <li key={index} className="search-item" onClick={() => handleNavigatetoSearchResult(product?.slug)}>
+                      {/* Displaying image, short_name, and description */}
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="search-result-image"
+                        width="50"
+                        height="50"
+                      />
+                      <span>{product.short_name}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                !isFetching && <p>No results found</p>
+              )}
+            </div>
+          )}
+    </div>
+    </div>
+  );
 
   const cartBtn = (
     <button
@@ -247,6 +359,7 @@ const WebsiteHeader = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
 
   return (
     <header>
@@ -285,7 +398,7 @@ const WebsiteHeader = () => {
             />
           </a>
           <div className="header-user-actions">
-            {/* {searchBtn} */}
+            {searchBtn}
             {personOutlineBtn}
             {wishlistBtn}
             {cartBtn}
@@ -293,7 +406,7 @@ const WebsiteHeader = () => {
         </div>
       </div>
       <nav id="myHeader" className="desktop-navigation-menu">
-        <div className="container">
+        <div className="container d-flex justify-content-between align-items-center mt-1">
           <ul className="desktop-menu-category-list">
             <li className="menu-category">
               <a href="/" className="menu-title" onClick={handleHomeClick}>
@@ -371,6 +484,12 @@ const WebsiteHeader = () => {
               )}
             </li>
           </ul>
+          {/* <div className="search-bar-container">
+          <input className="search-bar" type="text" placeholder="Search Products / Brands Here"/>
+          <div className="search-icon">
+          <IonIcon icon={searchOutline} size={20}/>
+          </div>
+        </div> */}
         </div>
       </nav>
 
@@ -394,29 +513,30 @@ const WebsiteHeader = () => {
       >
         <div className="menu-top">
           <h2 className="menu-title">Select By Category</h2>
+
           <button
             className="menu-close-btn"
             onClick={() => setIsMobileMenu(!ismobileMenu)}
-          >
+            >
             <IonIcon icon={closeOutline} />
           </button>
         </div>
+        {searchBtnMobile}
         <div className="mobile-header-button-wrapper">
           {categories?.map((cate, key) => (
             <p
-              className={
-                userSelectedCategory === cate?.categoryName
-                  ? "mobile-header-button-text-active"
-                  : "mobile-header-button-text"
-              }
-              key={key}
-              onClick={() => handleCategoryLocal(cate?.categoryName)}
+            className={
+              userSelectedCategory === cate?.categoryName
+              ? "mobile-header-button-text-active"
+              : "mobile-header-button-text"
+            }
+            key={key}
+            onClick={() => handleCategoryLocal(cate?.categoryName)}
             >
               {cate?.categoryName}
             </p>
           ))}
         </div>
-
         <ul className="mobile-menu-category-list">
           <li className="menu-category">
             <a href="/" className="menu-title" onClick={handleHomeClick}>
@@ -488,6 +608,7 @@ const WebsiteHeader = () => {
             </a>
           </li>
         </ul>
+        
         <div className="menu-bottom">
           <ul className="menu-social-container">
             <Social />
