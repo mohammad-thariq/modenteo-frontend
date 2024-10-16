@@ -122,6 +122,8 @@ const WebsiteHeader = () => {
 
   const  handleNavigatetoSearchResult = (slug) => {
     navigate(`product/${slug}`);
+      setSearchTerm("");
+      setSearchResults([]);
   }
 
   const handleHomeClick = (e) => {
